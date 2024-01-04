@@ -1,148 +1,161 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour
 {
-    public float moveSpeed;
-    private Vector2 moveDir;
     private Rigidbody2D myRb;
+    private float moveInputDirection;
+    private int amountOfJumpLeft;
 
-    [SerializeField] private LayerMask groundLayer;
+    private bool isFacingRight;
+    private bool isTouchingWall;
+    private bool isWalkiing;
+    private bool isGrounded;
+    private bool canJump;
+    private bool isWallSliding;
 
-    private bool isDashing = false;
-    private bool canDash = true;
-    private float dashPower = 40;
+    public int amountOfJump;
 
-    private int facing = 1;
+    public float moveSpeed;
+    public float jumpForce;
+    public float groundCheckRadius;
+    public float wallCheckDistance;
+    public float wallSlidingSpeed;
 
-    private int jumpCount = 0;
-
-    private bool canSlide = true;
-    // Start is called before the first frame update
+    public Transform groundCheck;
+    public Transform wallCheck;
+    public LayerMask whatIsGround;
+    
     void Start()
     {
         myRb = GetComponent<Rigidbody2D>();
-        moveDir = Vector2.zero;
+        moveSpeed = 10;
+        jumpForce = 16;
+        canJump = true;
+        isFacingRight = true;
+        amountOfJump = 1;
+        amountOfJumpLeft = amountOfJump;    
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.D) && !isDashing)
-        {
-            myRb.velocity = new Vector2(0, myRb.velocity.y);
-        }
-        if (Input.GetKey(KeyCode.D) && !isDashing)
-        {
-            if (IsWall() && facing == 1)
-            {
-                myRb.velocity = new Vector2(0, myRb.velocity.y);
-            }
-            else
-            {
-                facing = 1;
-                myRb.velocity = new Vector2(10, myRb.velocity.y);
-            }
-            //transform.position += new Vector3(7, 0, 0) * Time.deltaTime;
+        CheckInput();
+        CheckMoveDirection();
+        CheckIfCanJump();
+        CheckIfWallSliding();
+    }
 
-            //myRb.totalForce = new Vector2(50, myRb.totalForce.y);
-        }
+    private void FixedUpdate()
+    {
+        ApplyMove();
+        CheckSurroundings();
+    }
 
-        if (Input.GetKey(KeyCode.A) && !isDashing)
+    private void CheckMoveDirection()
+    {
+        if (isFacingRight && moveInputDirection < 0)
         {
-            if (IsWall() && facing == -1)
-            {
-                myRb.velocity = new Vector2(0, myRb.velocity.y);
-            }
-            else
-            {
-                facing = -1;
-                myRb.velocity = new Vector2(-10, myRb.velocity.y);
-
-            }
-            //transform.position -= new Vector3(7, 0, 0) * Time.deltaTime;
-            //myRb.totalForce = new Vector2(-50, myRb.totalForce.y);    
+            Flip();
         }
-        if (Input.GetKeyUp(KeyCode.A) && !isDashing)
+        else if (!isFacingRight && moveInputDirection > 0)
         {
-            myRb.velocity = new Vector2(0, myRb.velocity.y);
+            Flip();
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if(myRb.velocity.x != 0)
         {
-            if (IsGround())
-            {
-                jumpCount = 1;
-                myRb.velocity = new Vector2(myRb.velocity.x, 17);
-
-            }
-            else if (jumpCount < 2)
-            {
-                myRb.velocity = new Vector2(myRb.velocity.x, 17);
-                //myRb.AddForce(new Vector2(0, 550));
-                jumpCount++;
-            }
-            //canSlide = true;
+            isWalkiing = true;
         }
-
-        if (Input.GetKeyDown(KeyCode.E) && canDash)
+        else
         {
-            StartCoroutine(Dash());
-        }
-
-        if (IsWall() && canSlide && myRb.velocity.y < 0)
-        {
-            StartCoroutine(WallSlide());
+            isWalkiing = false; 
         }
     }
-    private bool IsGround()
+
+    private void CheckSurroundings()
     {
-        bool result = Physics2D.OverlapBox(new Vector2(transform.position.x, transform.position.y - 0.8f), new Vector2(0.375f, 0), 0, groundLayer);
-        //Physics2D.OverlapCircle(new Vector2(transform.position.x, this.transform.position.y - 0.8f), 0.01f, groundLayer)
-        if (result)
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+
+        isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, whatIsGround);
+    }
+    private void CheckIfWallSliding()
+    {
+        if (isTouchingWall && !isGrounded && myRb.velocity.y < 0)
         {
-            Debug.Log("Is ground");
-            canSlide = true;
+            isWallSliding = true;
         }
-        return result;
-    }
-    private bool IsWall()
-    {
-        bool result = Physics2D.OverlapBox(new Vector2(transform.position.x + facing * 0.375f, transform.position.y), new Vector2(0, 0.8f - 0.01f), 0, groundLayer);
-        //Physics2D.OverlapCircle(new Vector2(transform.position.x + facing * 0.375f, transform.position.y - 0.8f + 0.01f), 0.01f, groundLayer)
-
-        if (result)
+        else
         {
-            Debug.Log("Is wall");
-            jumpCount = 0;
+            isWallSliding = false;
         }
-        
-        return result;
     }
-    IEnumerator Dash()
+
+    private void CheckInput()
     {
-        canDash = false;
-        isDashing = true;
-        float originalGravity = myRb.gravityScale;
-        myRb.gravityScale = 0;
-        myRb.velocity = new Vector2(facing * dashPower, 0);
-        yield return new WaitForSeconds(0.1f);
-        isDashing = false;
-        myRb.gravityScale = originalGravity;
-        myRb.velocity = new Vector2(0, myRb.velocity.y);
-        yield return new WaitForSeconds(0.1f);
-        canDash = true;
+        moveInputDirection = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            Jump();
+        }
     }
-    IEnumerator WallSlide()
+
+    private void ApplyMove()
     {
-        canSlide = false;
-        myRb.gravityScale = 0;
-        myRb.velocity = new Vector2(0, -1);
+        myRb.velocity = new Vector2(moveSpeed * moveInputDirection, myRb.velocity.y);
 
-        yield return new WaitForSeconds(0.3f);
+        if (isWallSliding)
+        {
+            if(myRb.velocity.y < wallSlidingSpeed)
+            {
+                myRb.velocity = new Vector2(myRb.velocity.x, -wallSlidingSpeed);
+            }
+        }
+    }
 
-        myRb.gravityScale = 4;
-        myRb.velocity = Vector2.zero;
+    private void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        transform.Rotate(0, 180, 0);
+    }
+    private void Jump()
+    {
+        if (canJump)
+        {
+            myRb.velocity = new Vector2(myRb.velocity.x, jumpForce);
+            amountOfJumpLeft--;
+        }
+
+    }
+    
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y, wallCheck.position.z));
+    }
+    private void CheckIfCanJump()
+    {
+        if(isGrounded && myRb.velocity.y <= 0.1)
+        {
+            amountOfJumpLeft = amountOfJump;
+        }
+
+        if (amountOfJumpLeft < 0)
+        {
+            canJump = false;
+        }
+        else if (isTouchingWall)
+        {
+            canJump = true;
+            amountOfJumpLeft = amountOfJump;
+        }
+        else
+        {
+            canJump = true;
+        }
     }
 }

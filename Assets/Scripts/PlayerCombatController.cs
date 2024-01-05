@@ -72,6 +72,7 @@ public class PlayerCombatController : MonoBehaviour
                 // Perform attack 1
                 isAttacking1 = true;
                 anim.SetBool("isAttacking1", isAttacking1);
+                CheckAttackHitBox();
             }
             // is combating
             else
@@ -83,6 +84,7 @@ public class PlayerCombatController : MonoBehaviour
                     // Perform attack 1
                     isAttacking1 = true;
                     anim.SetBool("isAttacking1", isAttacking1);
+                    CheckAttackHitBox();
                 }
 
                 if (countAttack == 1 && !isAttacking2)
@@ -90,6 +92,7 @@ public class PlayerCombatController : MonoBehaviour
                     // Perform attack 2
                     isAttacking2 = true;
                     anim.SetBool("isAttacking2", isAttacking2);
+                    CheckAttackHitBox();
                 }
             }
         }
@@ -103,9 +106,11 @@ public class PlayerCombatController : MonoBehaviour
     private void CheckAttackHitBox()
     {
         Collider2D[] detectedObjects = Physics2D.OverlapCircleAll(attackHitBoxPos.position, attackRadius, WhatIsDamageable);
+        if (detectedObjects == null) return;
         foreach (Collider2D coll in detectedObjects)
         {
-            //coll.transform.parent.SendMessage("Damage", attackDamage);
+            Debug.Log("Attacking");
+            coll.transform.SendMessage("IsDamaged", attackDamage);
             // Instantiate hit particle
         }
     }
@@ -125,8 +130,8 @@ public class PlayerCombatController : MonoBehaviour
         anim.SetInteger("countAttack", countAttack);
 
     }
-    //private void OnDrawGizmos()
-    //{
-    //    Gizmos.DrawSphere(attackHitBoxPos.position, attackRadius);
-    //}
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawSphere(attackHitBoxPos.position, attackRadius);
+    }
 }

@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6405472847649121818}
   - component: {fileID: 907819698875239522}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_10_normal_SpriteSheet_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6051871058005082947}
   - component: {fileID: 5394957805860460125}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_05_normal_SpriteSheet_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -178,7 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1860347140577513462}
   - component: {fileID: 9002069766944675201}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_10_normal_SpriteSheet_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -261,7 +261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7043280436947752612}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -277,7 +277,7 @@ Transform:
   m_GameObject: {fileID: 1988340784847113683}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.25, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -298,7 +298,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7792780240650534159}
   - component: {fileID: 2154304462060461354}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_10_normal_SpriteSheet_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -382,7 +382,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4290450008460089858}
   - component: {fileID: 8130547127514344594}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_10_normal_SpriteSheet_5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -465,7 +465,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4848010718443117876}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: HItBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -481,7 +481,7 @@ Transform:
   m_GameObject: {fileID: 4222216855215765344}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 0.4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -497,7 +497,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1104967486743667011}
   - component: {fileID: 3156287703854161025}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_05_normal_SpriteSheet_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -580,7 +580,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8109437628410371330}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: WallCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -612,7 +612,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8970542536775714816}
   - component: {fileID: 369185057538677065}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_10_normal_SpriteSheet_3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -696,7 +696,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4502719251336290704}
   - component: {fileID: 2569778347338746770}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_05_normal_SpriteSheet_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -785,7 +785,7 @@ GameObject:
   - component: {fileID: 6593069240097298161}
   - component: {fileID: 8308411453025359672}
   - component: {fileID: 5828506900279108439}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -995,12 +995,12 @@ MonoBehaviour:
   combatEnable: 1
   inputTimer: 0.06
   combatTime: 0.5
-  attackRadius: 0.8
+  attackRadius: 1.5
   attackDamage: 10
   attackHitBoxPos: {fileID: 4848010718443117876}
   WhatIsDamageable:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 128
 --- !u!1 &6018387202594741855
 GameObject:
   m_ObjectHideFlags: 0
@@ -1010,7 +1010,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 178086394038572097}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: GroundCheck
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1042,7 +1042,7 @@ GameObject:
   m_Component:
   - component: {fileID: 851651382387978322}
   - component: {fileID: 2622916700961669411}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_05_normal_SpriteSheet_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1126,7 +1126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6160085821585752036}
   - component: {fileID: 8534167225533430625}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_10_normal_SpriteSheet_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1210,7 +1210,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6199210526645392681}
   - component: {fileID: 9176111128580217895}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash_05_normal_SpriteSheet_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1293,7 +1293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7171624811163645117}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Slash
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1309,7 +1309,7 @@ Transform:
   m_GameObject: {fileID: 8964459971232015939}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.25, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

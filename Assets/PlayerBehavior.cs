@@ -9,6 +9,7 @@ public class PlayerBehavior : MonoBehaviour
     private Rigidbody2D myRb;
     private float moveInputDirection;
     private int amountOfJumpLeft;
+    private float lastTimeSlideWall;
 
     private bool isFacingRight;
     private bool isTouchingWall;
@@ -16,6 +17,7 @@ public class PlayerBehavior : MonoBehaviour
     private bool isGrounded;
     private bool canJump;
     private bool isWallSliding;
+    private bool canSlidings;
 
     public int amountOfJump;
 
@@ -37,7 +39,9 @@ public class PlayerBehavior : MonoBehaviour
         canJump = true;
         isFacingRight = true;
         amountOfJump = 1;
-        amountOfJumpLeft = amountOfJump;    
+        amountOfJumpLeft = amountOfJump;
+        lastTimeSlideWall = 0;
+        canSlidings = true;
     }
 
     void Update()
@@ -87,6 +91,12 @@ public class PlayerBehavior : MonoBehaviour
         {
             isWallSliding = true;
         }
+        else if (isTouchingWall && !isGrounded && myRb.velocity.y > 0)
+        {
+            lastTimeSlideWall = 0;
+            canSlidings = true;
+            isWallSliding = false;
+        }
         else
         {
             isWallSliding = false;
@@ -107,11 +117,13 @@ public class PlayerBehavior : MonoBehaviour
     {
         myRb.velocity = new Vector2(moveSpeed * moveInputDirection, myRb.velocity.y);
 
-        if (isWallSliding)
+        if (isWallSliding && canSlidings)
         {
-            if(myRb.velocity.y < wallSlidingSpeed)
+            myRb.velocity = new Vector2(myRb.velocity.x, -wallSlidingSpeed);
+            lastTimeSlideWall += Time.deltaTime;
+            if(lastTimeSlideWall > 0.7f)
             {
-                myRb.velocity = new Vector2(myRb.velocity.x, -wallSlidingSpeed);
+                canSlidings = false;
             }
         }
     }

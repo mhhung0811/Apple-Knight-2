@@ -239,74 +239,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 13886259048763700, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 526489104492700382, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 851651382387978322, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1104967486743667011, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1610174477883983576, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 1988340784847113683, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 2159770864368518814, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3560432175014702067, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4222216855215765344, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4248812222792519960, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4502719251336290704, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4638486971771044193, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4848010718443117876, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5143170860180007747, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5400474260735287138, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 5828506900279108439, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: attackRadius
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5828506900279108439, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: WhatIsDamageable.m_Bits
-      value: 128
-      objectReference: {fileID: 0}
     - target: {fileID: 5905409601517390023, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.43
@@ -350,46 +282,6 @@ PrefabInstance:
     - target: {fileID: 5927351213695282161, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 5927351213695282161, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6018387202594741855, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 6051871058005082947, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6199210526645392681, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6394963973987731769, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 7043280436947752612, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7171624811163645117, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7987873897640611675, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8125601467356756498, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8964459971232015939, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
-      propertyPath: m_Layer
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -466,17 +358,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 40590887107950737, guid: 82be39b751a55c647b4a97c55753a463, type: 3}
-      propertyPath: MaxHP
-      value: 8.98
-      objectReference: {fileID: 0}
     - target: {fileID: 2293250767388416005, guid: 82be39b751a55c647b4a97c55753a463, type: 3}
       propertyPath: m_Name
       value: Enemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 2732303779331890444, guid: 82be39b751a55c647b4a97c55753a463, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6844152886152165887, guid: 82be39b751a55c647b4a97c55753a463, type: 3}
       propertyPath: m_LocalPosition.x

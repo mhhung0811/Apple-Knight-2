@@ -433,7 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatEnable: 1
-  inputTimer: 0.2
+  inputTimer: 0.05
   attackRadius: 0.8
   attackDamage: 10
   attackHitBoxPos: {fileID: 1076256631}

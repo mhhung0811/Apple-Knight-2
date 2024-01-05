@@ -30,7 +30,7 @@ public class EnemyBehavior : MonoBehaviour
         anim.SetBool("isDamaging", true);
 
         // Knockback
-        myRb.AddForce(new Vector2(200,100));
+        myRb.AddForce(new Vector2(50,100));
     }
     public void FinishDamaged()
     {

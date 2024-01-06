@@ -78,12 +78,10 @@ public class PlayerBehavior : MonoBehaviour
         if (isFacingRight && moveInputDirection < 0)
         {
             Flip();
-            facingDirection = -1;
         }
         else if (!isFacingRight && moveInputDirection > 0)
         {
             Flip();
-            facingDirection = 1;
         }
 
         if(myRb.velocity.x != 0)
@@ -131,7 +129,7 @@ public class PlayerBehavior : MonoBehaviour
                 myRb.velocity = new Vector2(dashSpeed * facingDirection, 0);
                 dashTimeLeft -= Time.deltaTime;
             }
-            if(dashTimeLeft < 0 || isTouchingWall)
+            if(dashTimeLeft < 0)
             {
                 isDashing = false;
                 canMove=true;
@@ -188,6 +186,14 @@ public class PlayerBehavior : MonoBehaviour
         {
             isFacingRight = !isFacingRight;
             transform.Rotate(0, 180, 0);
+            if (isFacingRight)
+            {
+                facingDirection = 1;
+            }
+            else
+            {
+                facingDirection = -1;
+            }
         }
     }
     private void Jump()
@@ -210,17 +216,19 @@ public class PlayerBehavior : MonoBehaviour
     {
         if(isGrounded && myRb.velocity.y <= 0.1)
         {
+            canJump = true;
+            amountOfJumpLeft = amountOfJump;
+        }
+
+        if (isTouchingWall)
+        {
+            canJump = true;
             amountOfJumpLeft = amountOfJump;
         }
 
         if (amountOfJumpLeft < 0)
         {
             canJump = false;
-        }
-        else if (isTouchingWall)
-        {
-            canJump = true;
-            amountOfJumpLeft = amountOfJump;
         }
         else
         {

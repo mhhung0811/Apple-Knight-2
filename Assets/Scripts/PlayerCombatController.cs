@@ -19,10 +19,17 @@ public class PlayerCombatController : MonoBehaviour
 
     private float lastInputTime;
 
+    private PlayerData playerData;
+
     private Animator anim;
+
+    private Rigidbody2D myRb;
 
     private void Start()
     {
+        myRb = GetComponent<Rigidbody2D>();
+        playerData = new PlayerData();
+
         lastInputTime = Mathf.NegativeInfinity;
         countAttack = 0;
         isCombat = false;
@@ -129,6 +136,25 @@ public class PlayerCombatController : MonoBehaviour
         countAttack = 0;
         anim.SetInteger("countAttack", countAttack);
 
+    }
+
+    private void TakeDamage(float damaged, GameObject enemy, float knockback)
+    {
+        playerData.HP -= damaged;
+        float temp = transform.position.y - enemy.transform.position.y;
+        if(temp >= 0) 
+        {
+            myRb.velocity = new Vector2(myRb.velocity.x, knockback);
+        }
+        else
+        {
+            myRb.velocity = new Vector2(myRb.velocity.x, -knockback);
+        }
+    }
+
+    public void Die()
+    {
+        Debug.Log("Die");
     }
     private void OnDrawGizmos()
     {

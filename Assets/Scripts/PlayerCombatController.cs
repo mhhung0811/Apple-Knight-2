@@ -12,7 +12,7 @@ public class PlayerCombatController : MonoBehaviour
     private Transform attackHitBoxPos;
     [SerializeField]
     private LayerMask WhatIsDamageable;
-    
+
     [SerializeField]
     private PlayerData playerData;
 
@@ -53,7 +53,7 @@ public class PlayerCombatController : MonoBehaviour
             {
                 // Atempt combat
                 gotInput = true;
-                lastInputTime = Time.time;   
+                lastInputTime = Time.time;
             }
         }
         // Last input time over combat time -> reset combat
@@ -120,7 +120,14 @@ public class PlayerCombatController : MonoBehaviour
         foreach (Collider2D coll in detectedObjects)
         {
             Debug.Log("Attacking");
-            coll.transform.SendMessage("IsDamaged", attackDamage);
+            // Enemy attack
+            //coll.transform.SendMessage("IsDamaged", attackDamage);
+            // Trigger interactable object
+            if (coll.gameObject.CompareTag("Interactable Object"))
+            {
+
+                coll.gameObject.GetComponent<IInteractable>().InteractOn();
+            }
             // Instantiate hit particle
         }
     }
@@ -141,11 +148,11 @@ public class PlayerCombatController : MonoBehaviour
 
     }
 
-    private void TakeDamage(float damaged, GameObject enemy, float knockback)
+    public void TakeDamage(float damaged, GameObject enemy, float knockback)
     {
         HP -= damaged;
         float temp = transform.position.y - enemy.transform.position.y;
-        if(temp >= 0) 
+        if (temp >= 0)
         {
             myRb.velocity = new Vector2(myRb.velocity.x, knockback);
         }

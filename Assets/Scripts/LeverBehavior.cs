@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LeverBehavior : MonoBehaviour
+public class LeverBehavior : MonoBehaviour, IInteractable
 {
     private bool isActive;
     [SerializeField]
@@ -36,5 +36,13 @@ public class LeverBehavior : MonoBehaviour
             transform.rotation.eulerAngles.Set(0, 180, 0);
             interactor.InteractOn();
         }
+    }
+    public void InteractOn()
+    {
+        Switch();
+    }
+    public void InteractOff()
+    {
+        // Do nothing
     }
 }

@@ -28,14 +28,14 @@ public class SpikeBehavior : MonoBehaviour
             // Character to immortal state
         }
     }
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            currentCharacter = collision.gameObject;
-            Debug.Log("Damnn!");
-            // Deal damage
-            // Character to immortal state
-        }
-    }
+    //private void OnTriggerStay2D(Collider2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Player"))
+    //    {
+    //        currentCharacter = collision.gameObject;
+    //        Debug.Log("Damnn!");
+    //        // Deal damage
+    //        // Character to immortal state
+    //    }
+    //}
 }

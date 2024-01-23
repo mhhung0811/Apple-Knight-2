@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorBehavior : MonoBehaviour
+public class DoorBehavior : MonoBehaviour, IInteractable
 {
     private bool isOpen;
     private Animator anim;
-    // Start is called before the first frame update
+
     void Start()
     {
+        // Close is Default
         isOpen = false;
         anim = GetComponent<Animator>();
         anim.SetBool("isOpen", isOpen);
@@ -19,14 +20,14 @@ public class DoorBehavior : MonoBehaviour
     {
         
     }
-    public void Open()
+    private void Open()
     {
         if (isOpen) return;
         isOpen = true;
         anim.SetBool("isOpen", isOpen);
         anim.SetBool("isActive", true);
     }
-    public void Close()
+    private void Close()
     {
         if (!isOpen) return;
         isOpen = false;
@@ -36,5 +37,13 @@ public class DoorBehavior : MonoBehaviour
     public void endActive()
     {
         anim.SetBool("isActive", false);
+    }
+    public void InteractOn()
+    {
+        Open();
+    }
+    public void InteractOff()
+    {
+        Close();
     }
 }

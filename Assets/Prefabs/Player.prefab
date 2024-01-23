@@ -787,7 +787,7 @@ GameObject:
   - component: {fileID: 5828506900279108439}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -882,6 +882,9 @@ MonoBehaviour:
   groundCheckRadius: 0.5
   wallCheckDistance: 0.7
   wallSlidingSpeed: 2
+  dashTime: 0
+  dashSpeed: 0
+  dashCoolDown: 0
   groundCheck: {fileID: 178086394038572097}
   wallCheck: {fileID: 8109437628410371330}
   whatIsGround:

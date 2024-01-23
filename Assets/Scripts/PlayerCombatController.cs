@@ -12,6 +12,9 @@ public class PlayerCombatController : MonoBehaviour
     private Transform attackHitBoxPos;
     [SerializeField]
     private LayerMask WhatIsDamageable;
+    
+    [SerializeField]
+    private PlayerData playerData;
 
     private bool gotInput, isCombat, isAttacking1, isAttacking2;
 
@@ -19,16 +22,15 @@ public class PlayerCombatController : MonoBehaviour
 
     private float lastInputTime;
 
-    private PlayerData playerData;
-
     private Animator anim;
 
     private Rigidbody2D myRb;
 
+    private float HP;
+
     private void Start()
     {
         myRb = GetComponent<Rigidbody2D>();
-        playerData = new PlayerData();
 
         lastInputTime = Mathf.NegativeInfinity;
         countAttack = 0;
@@ -36,6 +38,7 @@ public class PlayerCombatController : MonoBehaviour
 
         anim = GetComponent<Animator>();
         anim.SetBool("canAttack", combatEnable);
+        HP = playerData.maxHP;
     }
     private void Update()
     {
@@ -140,7 +143,7 @@ public class PlayerCombatController : MonoBehaviour
 
     private void TakeDamage(float damaged, GameObject enemy, float knockback)
     {
-        playerData.HP -= damaged;
+        HP -= damaged;
         float temp = transform.position.y - enemy.transform.position.y;
         if(temp >= 0) 
         {

@@ -258,9 +258,17 @@ PrefabInstance:
       value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 5683790400130199146, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
+      propertyPath: playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: f7a57ec812b426f4f97fd308e853c43d, type: 2}
+    - target: {fileID: 5683790400130199146, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
       propertyPath: dashCoolDown
       value: 0.25
       objectReference: {fileID: 0}
+    - target: {fileID: 5828506900279108439, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
+      propertyPath: playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: f7a57ec812b426f4f97fd308e853c43d, type: 2}
     - target: {fileID: 5905409601517390023, guid: 85f45292700eff44d94c9d6b37c31c57, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.43

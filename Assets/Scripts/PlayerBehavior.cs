@@ -18,7 +18,6 @@ public class PlayerBehavior : MonoBehaviour
 
     private bool isFacingRight;
     private bool isTouchingWall;
-    private bool isWalkiing;
     private bool isGrounded;
     private bool isWallSliding;
     private bool isDashing;
@@ -27,16 +26,10 @@ public class PlayerBehavior : MonoBehaviour
     private bool canMove;
     private bool canFlip;
 
-    public int amountOfJump = 1;
+    //public int amountOfJump = 1;
 
-    public float moveSpeed = 10f;
-    public float jumpForce = 16f;
-    public float groundCheckRadius;
-    public float wallCheckDistance;
-    public float wallSlidingSpeed;
-    public float dashTime;
-    public float dashSpeed;
-    public float dashCoolDown;
+    [SerializeField]
+    private PlayerData playerData;
 
     public Transform groundCheck;
     public Transform wallCheck;
@@ -45,12 +38,9 @@ public class PlayerBehavior : MonoBehaviour
     void Start()
     {
         myRb = GetComponent<Rigidbody2D>();
-        moveSpeed = 10;
-        jumpForce = 16;
         canJump = true;
         isFacingRight = true;
-        amountOfJump = 1;
-        amountOfJumpLeft = amountOfJump;
+        amountOfJumpLeft = playerData.amountOfJump;
         lastTimeSlideWall = 0;
         canSlidings = true;
         canMove = true;
@@ -83,22 +73,13 @@ public class PlayerBehavior : MonoBehaviour
         {
             Flip();
         }
-
-        if(myRb.velocity.x != 0)
-        {
-            isWalkiing = true;
-        }
-        else
-        {
-            isWalkiing = false; 
-        }
     }
 
     private void CheckSurroundings()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, whatIsGround);
 
-        isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, wallCheckDistance, whatIsGround);
+        isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, playerData.wallCheckDistance, whatIsGround);
     }
     private void CheckIfWallSliding()
     {
@@ -126,7 +107,7 @@ public class PlayerBehavior : MonoBehaviour
                 canMove = false;
                 canJump = false;
                 canFlip = false;
-                myRb.velocity = new Vector2(dashSpeed * facingDirection, 0);
+                myRb.velocity = new Vector2(playerData.dashSpeed * facingDirection, 0);
                 dashTimeLeft -= Time.deltaTime;
             }
             if(dashTimeLeft < 0)
@@ -150,7 +131,7 @@ public class PlayerBehavior : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (Time.time >= lastDash + dashCoolDown)
+            if (Time.time >= lastDash + playerData.dashCoolDown)
             {
                 AttemptToDash();
             }
@@ -159,19 +140,19 @@ public class PlayerBehavior : MonoBehaviour
     private void AttemptToDash()
     {
         isDashing = true;
-        dashTimeLeft = dashTime;
+        dashTimeLeft = playerData.dashTime;
         lastDash = Time.time;
     }
     private void ApplyMove()
     {
         if (canMove)
         {
-            myRb.velocity = new Vector2(moveSpeed * moveInputDirection, myRb.velocity.y);
+            myRb.velocity = new Vector2(playerData.moveSpeed * moveInputDirection, myRb.velocity.y);
         }
 
         if (isWallSliding && canSlidings)
         {
-            myRb.velocity = new Vector2(myRb.velocity.x, -wallSlidingSpeed);
+            myRb.velocity = new Vector2(myRb.velocity.x, -playerData.wallSlidingSpeed);
             lastTimeSlideWall += Time.deltaTime;
             if(lastTimeSlideWall > 0.7f)
             {
@@ -200,7 +181,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (canJump)
         {
-            myRb.velocity = new Vector2(myRb.velocity.x, jumpForce);
+            myRb.velocity = new Vector2(myRb.velocity.x, playerData.jumpForce);
             amountOfJumpLeft--;
         }
 
@@ -208,22 +189,22 @@ public class PlayerBehavior : MonoBehaviour
     
     private void OnDrawGizmos()
     {
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireSphere(groundCheck.position, playerData.groundCheckRadius);
 
-        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistance, wallCheck.position.y, wallCheck.position.z));
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + playerData.wallCheckDistance, wallCheck.position.y, wallCheck.position.z));
     }
     private void CheckIfCanJump()
     {
         if(isGrounded && myRb.velocity.y <= 0.1)
         {
             canJump = true;
-            amountOfJumpLeft = amountOfJump;
+            amountOfJumpLeft = playerData.amountOfJump;
         }
 
         if (isTouchingWall)
         {
             canJump = true;
-            amountOfJumpLeft = amountOfJump;
+            amountOfJumpLeft = playerData.amountOfJump;
         }
 
         if (amountOfJumpLeft < 0)

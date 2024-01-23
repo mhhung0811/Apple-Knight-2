@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Enemy1: BaseEnemy
 {
+    [SerializeField]
+    private EnemyData enemyData;
+
     protected Animator anim;
     protected Rigidbody2D myRb;
     protected bool isDetectPlayerLeft;
@@ -12,7 +15,8 @@ public class Enemy1: BaseEnemy
     protected bool isFacingRight;
 
     private float attackCoolDown;
-    private float attackTime;
+    private float attackTimeLeft;
+    private float HP;
 
     public Transform detectPlayer; 
     public LayerMask whatIsPlayer;
@@ -24,17 +28,14 @@ public class Enemy1: BaseEnemy
     public override void InitializedEnemy()
     {
         enemyData = new EnemyData();
-        enemyData.maxHP = 100;
-        enemyData.damage = 10;
-        enemyData.HP = enemyData.maxHP;
-        enemyData.speed = 3;
-        enemyData.detectionRange = 10;
+
+        HP = enemyData.maxHP;
         anim = GetComponent<Animator>();
         myRb = GetComponent<Rigidbody2D>();
         isDetectPlayerLeft = isDetectPleyerRight = false;
         canMove = true;
         attackCoolDown = 1f;
-        attackTime = 1f;
+        attackTimeLeft = 1f;
     }
     void Update()
     {
@@ -52,9 +53,9 @@ public class Enemy1: BaseEnemy
         isDetectInHitBox = Physics2D.Raycast(this.transform.position, transform.right, 1.5f, whatIsPlayer);
         if (isDetectInHitBox)
         {
-            if(attackTime > 0)
+            if(attackTimeLeft > 0)
             {
-                attackTime -= Time.deltaTime;
+                attackTimeLeft -= Time.deltaTime;
                 canMove = false;
             }
             else
@@ -64,7 +65,7 @@ public class Enemy1: BaseEnemy
         }
         else
         {
-            attackTime = attackCoolDown;
+            attackTimeLeft = attackCoolDown;
             canMove = true; 
         }
     }
@@ -72,7 +73,7 @@ public class Enemy1: BaseEnemy
     {
         anim.SetBool("isAttack", false);
         canMove = true;
-        attackTime = attackCoolDown;
+        attackTimeLeft = attackCoolDown;
     }
     public void CheckMoveDirection()
     {
@@ -115,14 +116,14 @@ public class Enemy1: BaseEnemy
     }
     public override void IsDamaged(float damage)
     {
-        enemyData.HP -= damage;
+        HP -= damage;
         anim.SetBool("isDamaging", true);
         myRb.AddForce(new Vector2(50, 100));
     }
     public override void FinishDamaged()
     {
         anim.SetBool("isDamaging", false);
-        if (enemyData.HP <= 0)
+        if (HP <= 0)
         {
             Destroy(this.gameObject);
         }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BaseEnemy : MonoBehaviour
 {
-    protected EnemyData enemyData;
+    //protected EnemyData enemyData;
     protected bool isFacingLeft;
     protected bool canMove;// Di chuyen
     protected bool isDetectInHitBox;
@@ -20,12 +20,6 @@ public class BaseEnemy : MonoBehaviour
     }
     public virtual void InitializedEnemy() 
     {
-        enemyData = new EnemyData();
-        enemyData.maxHP = 100;
-        enemyData.damage = 10;
-        enemyData.HP = enemyData.maxHP;
-        enemyData.speed = 5;
-        enemyData.detectionRange = 10;
         canMove = false;
     }
     public virtual void Move() { }

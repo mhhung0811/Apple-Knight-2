@@ -49,6 +49,7 @@ public class PlayerCombatController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
+            AudioManager.Instance.PlaySound("Attack");
             if (combatEnable)
             {
                 // Atempt combat

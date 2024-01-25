@@ -19,6 +19,7 @@ public class PlayerBehavior : MonoBehaviour
     private bool isFacingRight;
     private bool isTouchingWall;
     private bool isGrounded;
+    private bool isFlying;
     private bool isWallSliding;
     private bool isDashing;
     private bool canJump;
@@ -77,9 +78,17 @@ public class PlayerBehavior : MonoBehaviour
 
     private void CheckSurroundings()
     {
-        isGrounded = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, whatIsGround);
-
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, playerData.wallCheckDistance, whatIsGround);
+
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, whatIsGround);
+        //audio landing
+        if (!isGrounded)
+            isFlying = true;
+        if(isFlying && isGrounded)
+        {
+            AudioManager.Instance.PlaySound("Landing1");
+            isFlying = false;
+        }
     }
     private void CheckIfWallSliding()
     {
@@ -139,6 +148,7 @@ public class PlayerBehavior : MonoBehaviour
     }
     private void AttemptToDash()
     {
+        AudioManager.Instance.PlaySound("Jump");
         isDashing = true;
         dashTimeLeft = playerData.dashTime;
         lastDash = Time.time;
@@ -181,6 +191,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (canJump)
         {
+            AudioManager.Instance.PlaySound("Jump");
             myRb.velocity = new Vector2(myRb.velocity.x, playerData.jumpForce);
             amountOfJumpLeft--;
         }

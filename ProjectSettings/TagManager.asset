@@ -6,6 +6,7 @@ TagManager:
   tags:
   - OneWayPlatform
   - Interactable Object
+  - Collectable Object
   layers:
   - Default
   - TransparentFX

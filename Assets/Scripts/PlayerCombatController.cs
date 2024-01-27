@@ -122,7 +122,7 @@ public class PlayerCombatController : MonoBehaviour
         {
             Debug.Log("Attacking");
             // Enemy attack
-            //coll.transform.SendMessage("IsDamaged", attackDamage);
+            coll.transform.SendMessage("IsDamaged", attackDamage);
             // Trigger interactable object
             if (coll.gameObject.CompareTag("Interactable Object"))
             {
@@ -161,11 +161,19 @@ public class PlayerCombatController : MonoBehaviour
         {
             myRb.velocity = new Vector2(myRb.velocity.x, -knockback);
         }
+        Debug.Log(HP);
+        GameManager.Instance.HP_Silder.value = HP;
+        GameManager.Instance.HP_Text.text = HP.ToString() + "/100";
+        Die();
     }
 
     public void Die()
     {
-        Debug.Log("Die");
+        if(HP <= 0)
+        {
+            Destroy(this.gameObject);
+            GameManager.Instance.GameOver();
+        }
     }
     private void OnDrawGizmos()
     {

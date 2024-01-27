@@ -16,9 +16,12 @@ public class Enemy1: BaseEnemy
 
     private float attackCoolDown;
     private float attackTimeLeft;
+    private float attackRadius;
     private float HP;
+    private bool isAttack;
 
-    public Transform detectPlayer; 
+    public Transform detectPlayer;
+    public Transform attackHitBoxPos;
     public LayerMask whatIsPlayer;
 
     void Start()
@@ -36,6 +39,7 @@ public class Enemy1: BaseEnemy
         canMove = true;
         attackCoolDown = 1f;
         attackTimeLeft = 1f;
+        attackRadius = 1.5f;
     }
     void Update()
     {
@@ -51,7 +55,11 @@ public class Enemy1: BaseEnemy
     public override void DealDamage()
     {
         isDetectInHitBox = Physics2D.Raycast(this.transform.position, transform.right, 1.5f, whatIsPlayer);
-        if (isDetectInHitBox)
+        if(isDetectInHitBox)
+        {
+            isAttack = true;
+        }
+        if (isAttack)
         {
             if(attackTimeLeft > 0)
             {
@@ -61,6 +69,9 @@ public class Enemy1: BaseEnemy
             else
             {
                 anim.SetBool("isAttack", true);
+                CheckAttackHitBox();
+                attackTimeLeft = attackCoolDown;
+                isAttack = false;
             }
         }
         else
@@ -69,6 +80,16 @@ public class Enemy1: BaseEnemy
             canMove = true; 
         }
     }
+    public void CheckAttackHitBox()
+    {
+        Collider2D coll = Physics2D.OverlapCircle(attackHitBoxPos.position, attackRadius, whatIsPlayer);
+        if (coll != null)
+        {
+            GameObject player = coll.gameObject;
+            player.GetComponent<PlayerCombatController>().TakeDamage(enemyData.damage, this.gameObject, 0);
+        }
+    }
+
     public void FinishAttack1()
     {
         anim.SetBool("isAttack", false);

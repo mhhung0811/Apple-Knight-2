@@ -44,4 +44,12 @@ public class PlayerOneWayPlatform : MonoBehaviour
         yield return new WaitForSeconds(0.25f);
         Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
     }
+    //UI Button
+    public void ButtonDownMoveTrigger()
+    {
+        if (currentOneWayPlatform != null)
+        {
+            StartCoroutine(DisableCollision());
+        }
+    }
 }

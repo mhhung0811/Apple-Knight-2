@@ -131,7 +131,7 @@ public class PlayerBehavior : MonoBehaviour
 
     private void CheckInput()
     {
-        moveInputDirection = Input.GetAxisRaw("Horizontal");
+        //moveInputDirection = Input.GetAxisRaw("Horizontal");
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -187,6 +187,7 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
     }
+    
     private void Jump()
     {
         if (canJump)
@@ -226,5 +227,27 @@ public class PlayerBehavior : MonoBehaviour
         {
             canJump = true;
         }
+    }
+
+    //UI button Move
+    public void ButtonLeftMoveEnter()
+    {
+        moveInputDirection = -1;
+    }
+    public void ButtonRightMoveEnter()
+    {
+        moveInputDirection = 1;
+    }
+    public void ButtonMoveUp() {  moveInputDirection = 0; }
+    public void ButtonDash()
+    {
+        if (Time.time >= lastDash + playerData.dashCoolDown)
+        {
+            AttemptToDash();
+        }
+    }
+    public void ButtonJump()
+    {
+        Jump();
     }
 }

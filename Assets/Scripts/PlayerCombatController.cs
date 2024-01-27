@@ -171,4 +171,15 @@ public class PlayerCombatController : MonoBehaviour
     {
         Gizmos.DrawSphere(attackHitBoxPos.position, attackRadius);
     }
+    //UI button
+    public void ButtonAttack()
+    {
+        AudioManager.Instance.PlaySound("Attack");
+        if (combatEnable)
+        {
+            // Atempt combat
+            gotInput = true;
+            lastInputTime = Time.time;
+        }
+    }
 }

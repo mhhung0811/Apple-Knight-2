@@ -44,7 +44,6 @@ public class AudioManager : MonoBehaviour
         _soundPrepare = 10;
         _activeSound = new Queue<GameObject>();
         Prepare();
-        AudioManager.Instance.PlayMusic("MusicInGame");
     }
 
     public void PlaySound(string soundKey)

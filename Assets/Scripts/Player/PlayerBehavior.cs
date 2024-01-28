@@ -229,7 +229,7 @@ public class PlayerBehavior : MonoBehaviour
         }
     }
 
-    //UI button Move
+    #region UI Button Move
     public void ButtonLeftMoveEnter()
     {
         moveInputDirection = -1;
@@ -250,4 +250,5 @@ public class PlayerBehavior : MonoBehaviour
     {
         Jump();
     }
+    #endregion
 }

@@ -876,15 +876,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8b340d87742c3f48ac8452c75a4f8c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountOfJump: 0
-  moveSpeed: 0
-  jumpForce: 0
-  groundCheckRadius: 0.5
-  wallCheckDistance: 0.7
-  wallSlidingSpeed: 2
-  dashTime: 0
-  dashSpeed: 0
-  dashCoolDown: 0
+  playerData: {fileID: 11400000, guid: f7a57ec812b426f4f97fd308e853c43d, type: 2}
   groundCheck: {fileID: 178086394038572097}
   wallCheck: {fileID: 8109437628410371330}
   whatIsGround:
@@ -1004,6 +996,7 @@ MonoBehaviour:
   WhatIsDamageable:
     serializedVersion: 2
     m_Bits: 128
+  playerData: {fileID: 0}
 --- !u!1 &6018387202594741855
 GameObject:
   m_ObjectHideFlags: 0

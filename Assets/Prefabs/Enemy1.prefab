@@ -193,7 +193,7 @@ Transform:
   m_GameObject: {fileID: 2904624908395493327}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -799,7 +799,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d706bf79cbcdbd4991d01fb81cb72b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 6420b0a0ce1ad3648b0f43b115f43d1b, type: 2}
   detectPlayer: {fileID: 6036722989179383616}
+  attackHitBoxPos: {fileID: 1798684124703132511}
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 256

@@ -785,6 +785,7 @@ GameObject:
   - component: {fileID: 6593069240097298161}
   - component: {fileID: 8308411453025359672}
   - component: {fileID: 5828506900279108439}
+  - component: {fileID: 20489557105295484}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -996,7 +997,19 @@ MonoBehaviour:
   WhatIsDamageable:
     serializedVersion: 2
     m_Bits: 128
-  playerData: {fileID: 0}
+  playerData: {fileID: 11400000, guid: f7a57ec812b426f4f97fd308e853c43d, type: 2}
+--- !u!114 &20489557105295484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5927351213695282161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4907dd99528d6a45a479bdad403efc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6018387202594741855
 GameObject:
   m_ObjectHideFlags: 0

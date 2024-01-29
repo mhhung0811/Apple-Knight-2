@@ -7,6 +7,8 @@ public class PlayerCombatController : MonoBehaviour
     [SerializeField]
     private bool combatEnable;
     [SerializeField]
+    private bool hitBoxAppearance;
+    [SerializeField]
     private float inputTimer, combatTime, attackRadius, attackDamage;
     [SerializeField]
     private Transform attackHitBoxPos;
@@ -177,7 +179,10 @@ public class PlayerCombatController : MonoBehaviour
     }
     private void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(attackHitBoxPos.position, attackRadius);
+        if(hitBoxAppearance)
+        {
+            Gizmos.DrawSphere(attackHitBoxPos.position, attackRadius);
+        }
     }
     //UI button
     public void ButtonAttack()

@@ -131,8 +131,8 @@ public class PlayerBehavior : MonoBehaviour
 
     private void CheckInput()
     {
-        //moveInputDirection = Input.GetAxisRaw("Horizontal");
-        
+        moveInputDirection = Input.GetAxisRaw("Horizontal");
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();

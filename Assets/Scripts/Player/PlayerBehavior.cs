@@ -26,6 +26,8 @@ public class PlayerBehavior : MonoBehaviour
     private bool canSlidings;
     private bool canMove;
     private bool canFlip;
+    private bool canJumpStomp;
+    private bool canCheckHitBoxJumpSomp;
 
     //public int amountOfJump = 1;
 
@@ -34,7 +36,11 @@ public class PlayerBehavior : MonoBehaviour
 
     public Transform groundCheck;
     public Transform wallCheck;
+    public Transform hitBoxJumpForce;
     public LayerMask whatIsGround;
+    public LayerMask whatIsEnemy;
+
+    public GameObject fireBall;
     
     void Start()
     {
@@ -81,6 +87,12 @@ public class PlayerBehavior : MonoBehaviour
         isTouchingWall = Physics2D.Raycast(wallCheck.position, transform.right, playerData.wallCheckDistance, whatIsGround);
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, whatIsGround);
+
+        //Kiểm tra khi chạm dất bằng dậm nhảy
+        if(isGrounded && canCheckHitBoxJumpSomp) 
+        {
+             CheckAttackHitBoxJumpForce();
+        }
         //audio landing
         if (!isGrounded)
             isFlying = true;
@@ -135,7 +147,21 @@ public class PlayerBehavior : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Jump();
+            if (Input.GetKey(KeyCode.S))
+            {
+                canJumpStomp = true;
+                JumpStomp();
+            }
+            else
+            {
+                Jump();
+            }
+            
+        }
+
+        if(Input.GetKeyUp(KeyCode.S))
+        {
+            canJumpStomp= false;
         }
 
         if (Input.GetKeyDown(KeyCode.E))
@@ -190,7 +216,7 @@ public class PlayerBehavior : MonoBehaviour
     
     private void Jump()
     {
-        if (canJump)
+        if (canJump && !canJumpStomp)
         {
             AudioManager.Instance.PlaySound("Jump");
             myRb.velocity = new Vector2(myRb.velocity.x, playerData.jumpForce);
@@ -199,9 +225,20 @@ public class PlayerBehavior : MonoBehaviour
 
     }
     
+    private void JumpStomp()
+    {
+        if (canJumpStomp && isFlying)
+        {
+            myRb.velocity = new Vector2(0, -playerData.jumpStompForce);
+            Debug.Log("JumpStomp");
+            canCheckHitBoxJumpSomp = true;
+        }
+    }
     private void OnDrawGizmos()
     {
         Gizmos.DrawWireSphere(groundCheck.position, playerData.groundCheckRadius);
+
+        Gizmos.DrawWireSphere(hitBoxJumpForce.position, playerData.HitBoxJumpForce);
 
         Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + playerData.wallCheckDistance, wallCheck.position.y, wallCheck.position.z));
     }
@@ -229,16 +266,39 @@ public class PlayerBehavior : MonoBehaviour
         }
     }
 
+    private void CheckAttackHitBoxJumpForce()
+    {
+        Collider2D[] detectObject = Physics2D.OverlapCircleAll(hitBoxJumpForce.position, playerData.HitBoxJumpForce, whatIsEnemy);
+        if(detectObject == null)
+        {
+            return;
+        }
+        foreach(Collider2D collider in detectObject)
+        {
+            collider.transform.SendMessage("IsDamaged", 10f);
+
+            if (collider.gameObject.CompareTag("Interactable Object"))
+            {
+
+                collider.gameObject.GetComponent<IInteractable>().InteractOn();
+            }
+        }
+        canCheckHitBoxJumpSomp = false;
+    }
+
     #region UI Button Move
-    public void ButtonLeftMoveEnter()
+    public void ButtonMoveLeftEnter()
     {
         moveInputDirection = -1;
     }
-    public void ButtonRightMoveEnter()
+    public void ButtonMoveRightEnter()
     {
         moveInputDirection = 1;
     }
-    public void ButtonMoveUp() {  moveInputDirection = 0; }
+    public void ButtonMoveUp() {  
+        moveInputDirection = 0; 
+        canJumpStomp = false;
+    }
     public void ButtonDash()
     {
         if (Time.time >= lastDash + playerData.dashCoolDown)
@@ -249,6 +309,21 @@ public class PlayerBehavior : MonoBehaviour
     public void ButtonJump()
     {
         Jump();
+    }
+    public void ButtonJumpStomp()
+    {
+        JumpStomp();
+    }
+    public void ButtonMoveDownEnter()
+    {
+        canJumpStomp = true;
+    }
+    public void ButonFireBall()
+    {
+        GameObject b = Instantiate(fireBall);
+        b.transform.position = this.transform.position;
+        Darts fire = b.GetComponent<Darts>();
+        fire.SetUp(facingDirection);
     }
     #endregion
 }

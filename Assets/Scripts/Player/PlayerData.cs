@@ -15,5 +15,8 @@ public class PlayerData : ScriptableObject
     public float dashTime = 0.2f;
     public float dashSpeed = 35f;
     public float dashCoolDown = 0.25f;
+    public float jumpStompForce = 50f;
+    public float HitBoxAttack = 1.5f;
+    public float HitBoxJumpForce = 2f;
     public int amountOfJump = 1;
 }

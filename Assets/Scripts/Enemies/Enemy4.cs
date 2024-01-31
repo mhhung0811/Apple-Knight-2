@@ -1,28 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Tilemaps;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class Enemy1: BaseEnemy
+public class Enemy4 : BaseEnemy
 {
     [SerializeField]
     private EnemyData enemyData;
 
-    protected Animator anim;
-    protected Rigidbody2D myRb;
-    protected bool isDetectPlayerLeft;
-    protected bool isDetectPleyerRight;
-    protected bool isFacingRight;
+    private Animator anim;
+    private Rigidbody2D myRb;
+    private bool isDetectPlayerLeft;
+    private bool isDetectPleyerRight;
 
     private float attackCoolDown;
     private float attackTimeLeft;
     private float attackRadius;
     private float HP;
+    private float checkGroundDistance = 0.5f;
+    private float checkWallDistance = 0.5f;
+    private float groundCheckRadius = 0.4f;
+
     private bool isAttack;
+    private bool isGroundedFlip;
+    private bool isWallFlip;
+    private bool isGround;
 
     public Transform detectPlayer;
     public Transform attackHitBoxPos;
+    public Transform groundCheckFlip;
+    public Transform wallCheckFlip;
+    public Transform groundCheck;
     public LayerMask whatIsPlayer;
+    public LayerMask whatIsGround;
 
     void Start()
     {
@@ -40,28 +50,37 @@ public class Enemy1: BaseEnemy
         attackCoolDown = 1f;
         attackTimeLeft = 1f;
         attackRadius = 1.5f;
+        facingDirection = 1;
     }
     void Update()
     {
         DetectPlayer();
         CheckMoveDirection();
+        CheckGroundOrWall();
         DealDamage();
     }
     private void FixedUpdate()
     {
         Move();
+        MoveAuto();
     }
 
+    private void CheckGroundOrWall()
+    {
+        isGroundedFlip = Physics2D.Raycast(groundCheckFlip.transform.position, -transform.up, checkGroundDistance, whatIsGround);
+        isWallFlip = Physics2D.Raycast(wallCheckFlip.transform.position, transform.right, checkWallDistance, whatIsGround);
+        isGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, whatIsGround);
+    }
     public override void DealDamage()
     {
         isDetectInHitBox = Physics2D.Raycast(this.transform.position, transform.right, 1.5f, whatIsPlayer);
-        if(isDetectInHitBox)
+        if (isDetectInHitBox)
         {
             isAttack = true;
         }
         if (isAttack)
         {
-            if(attackTimeLeft > 0)
+            if (attackTimeLeft > 0)
             {
                 attackTimeLeft -= Time.deltaTime;
                 canMove = false;
@@ -77,7 +96,7 @@ public class Enemy1: BaseEnemy
         else
         {
             attackTimeLeft = attackCoolDown;
-            canMove = true; 
+            canMove = true;
         }
     }
     public void CheckAttackHitBox()
@@ -98,9 +117,17 @@ public class Enemy1: BaseEnemy
     }
     public void CheckMoveDirection()
     {
-        if(isDetectPlayerLeft || isDetectPleyerRight) 
+        if (isDetectPlayerLeft)
         {
             Flip();
+        }
+
+        if (!isDetectPleyerRight && !isDetectPlayerLeft)
+        {
+            if((isWallFlip || !isGroundedFlip) && isGround)
+            {
+                FlipAuto();
+            }
         }
     }
     public void Flip()
@@ -108,7 +135,7 @@ public class Enemy1: BaseEnemy
         if (isDetectPlayerLeft)
         {
             transform.Rotate(0, 180, 0);
-            if (isFacingRight)
+            if (isFacingLeft)
             {
                 facingDirection = -1;
             }
@@ -118,11 +145,23 @@ public class Enemy1: BaseEnemy
             }
         }
     }
+    private void MoveAuto()
+    {
+        if (!isDetectPleyerRight && isGround)
+        {
+            myRb.velocity = new Vector2(enemyData.speed*facingDirection, 0);
+        }
+    }
+    private void FlipAuto()
+    {
+        transform.Rotate(0, 180, 0);
+        facingDirection = -facingDirection;
+    }
     public override void Move()
     {
         if (isDetectPleyerRight && canMove)
         {
-            myRb.velocity = new Vector2(enemyData.speed*facingDirection,myRb.velocity.y);
+            myRb.velocity = new Vector2((enemyData.speed+2) * facingDirection, myRb.velocity.y);
         }
         else
         {
@@ -133,7 +172,7 @@ public class Enemy1: BaseEnemy
     {
         isDetectPlayerLeft = Physics2D.Raycast(detectPlayer.position + transform.right.normalized * -1, transform.right * -1, enemyData.detectionRange - 1, whatIsPlayer);
         isDetectPleyerRight = Physics2D.Raycast(detectPlayer.position, transform.right, enemyData.detectionRange, whatIsPlayer);
-        isFacingRight = Physics2D.Raycast(new Vector2(detectPlayer.position.x-enemyData.detectionRange,detectPlayer.position.y), transform.right, enemyData.detectionRange, whatIsPlayer);
+        isFacingLeft = Physics2D.Raycast(new Vector2(detectPlayer.position.x - enemyData.detectionRange, detectPlayer.position.y), transform.right, enemyData.detectionRange, whatIsPlayer);
     }
     public override void IsDamaged(float damage)
     {
@@ -148,5 +187,11 @@ public class Enemy1: BaseEnemy
         {
             Destroy(this.gameObject);
         }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(groundCheckFlip.position, new Vector2(groundCheckFlip.transform.position.x, groundCheckFlip.transform.position.y - checkGroundDistance));
+        Gizmos.DrawLine(wallCheckFlip.position, new Vector2(wallCheckFlip.transform.position.x + checkWallDistance,wallCheckFlip.transform.position.y));
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
     }
 }

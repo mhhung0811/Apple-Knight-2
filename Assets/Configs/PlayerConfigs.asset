@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: PlayerConfigs
   m_EditorClassIdentifier: 
   maxHP: 100
-  HP: 100
   damage: 10
   moveSpeed: 10
   jumpForce: 16
@@ -23,3 +22,7 @@ MonoBehaviour:
   dashTime: 0.2
   dashSpeed: 35
   dashCoolDown: 0.25
+  jumpStompForce: 60
+  HitBoxAttack: 1.5
+  HitBoxJumpForce: 1
+  amountOfJump: 1

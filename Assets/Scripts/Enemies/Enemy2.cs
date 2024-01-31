@@ -3,26 +3,27 @@ using System.Collections.Generic;
 using UnityEditor.Tilemaps;
 using UnityEngine;
 
-public class Enemy1: BaseEnemy
+public class Enemy2 : BaseEnemy
 {
     [SerializeField]
     private EnemyData enemyData;
 
-    protected Animator anim;
-    protected Rigidbody2D myRb;
-    protected bool isDetectPlayerLeft;
-    protected bool isDetectPleyerRight;
-    protected bool isFacingRight;
+    private Animator anim;
+    private Rigidbody2D myRb;
+    private bool isDetectPlayerLeft;
+    private bool isDetectPleyerRight;
 
     private float attackCoolDown;
     private float attackTimeLeft;
     private float attackRadius;
     private float HP;
     private bool isAttack;
+    private bool isFire;
 
     public Transform detectPlayer;
     public Transform attackHitBoxPos;
     public LayerMask whatIsPlayer;
+    public GameObject fireBall;
 
     void Start()
     {
@@ -37,7 +38,7 @@ public class Enemy1: BaseEnemy
         myRb = GetComponent<Rigidbody2D>();
         isDetectPlayerLeft = isDetectPleyerRight = false;
         canMove = true;
-        attackCoolDown = 1f;
+        attackCoolDown = 1.5f;
         attackTimeLeft = 1f;
         attackRadius = 1.5f;
     }
@@ -55,13 +56,14 @@ public class Enemy1: BaseEnemy
     public override void DealDamage()
     {
         isDetectInHitBox = Physics2D.Raycast(this.transform.position, transform.right, 1.5f, whatIsPlayer);
-        if(isDetectInHitBox)
+        if (isDetectInHitBox)
         {
             isAttack = true;
         }
+
         if (isAttack)
         {
-            if(attackTimeLeft > 0)
+            if (attackTimeLeft > 0)
             {
                 attackTimeLeft -= Time.deltaTime;
                 canMove = false;
@@ -74,10 +76,23 @@ public class Enemy1: BaseEnemy
                 isAttack = false;
             }
         }
-        else
+
+        if (isFire && !isAttack)
         {
-            attackTimeLeft = attackCoolDown;
-            canMove = true; 
+            if (attackTimeLeft > 0)
+            {
+                attackTimeLeft -= Time.deltaTime;
+                canMove = false;
+            }
+            else
+            {
+                GameObject b = Instantiate(fireBall);
+                b.transform.position = this.transform.position;
+                FireBall fire = b.GetComponent<FireBall>();
+                fire.SetUp(facingDirection);
+                isFire = false;
+                attackTimeLeft = attackCoolDown;
+            }
         }
     }
     public void CheckAttackHitBox()
@@ -98,42 +113,37 @@ public class Enemy1: BaseEnemy
     }
     public void CheckMoveDirection()
     {
-        if(isDetectPlayerLeft || isDetectPleyerRight) 
+        if (isDetectPlayerLeft)
         {
             Flip();
         }
     }
     public void Flip()
     {
-        if (isDetectPlayerLeft)
+        transform.Rotate(0, 180, 0);
+        if (isFacingLeft)
         {
-            transform.Rotate(0, 180, 0);
-            if (isFacingRight)
-            {
-                facingDirection = -1;
-            }
-            else
-            {
-                facingDirection = 1;
-            }
+            facingDirection = -1;
+        }
+        else
+        {
+            facingDirection = 1;
         }
     }
     public override void Move()
     {
-        if (isDetectPleyerRight && canMove)
-        {
-            myRb.velocity = new Vector2(enemyData.speed*facingDirection,myRb.velocity.y);
-        }
-        else
-        {
-            myRb.velocity = new Vector2(enemyData.speed * 0, myRb.velocity.y);
-        }
+        myRb.velocity = new Vector2(enemyData.speed * 0, myRb.velocity.y);
     }
     public override void DetectPlayer()
     {
-        isDetectPlayerLeft = Physics2D.Raycast(detectPlayer.position + transform.right.normalized * -1, transform.right * -1, enemyData.detectionRange - 1, whatIsPlayer);
+        isDetectPlayerLeft = Physics2D.Raycast(detectPlayer.position + transform.right.normalized*-1, transform.right * -1, enemyData.detectionRange -1, whatIsPlayer);
         isDetectPleyerRight = Physics2D.Raycast(detectPlayer.position, transform.right, enemyData.detectionRange, whatIsPlayer);
-        isFacingRight = Physics2D.Raycast(new Vector2(detectPlayer.position.x-enemyData.detectionRange,detectPlayer.position.y), transform.right, enemyData.detectionRange, whatIsPlayer);
+        isFacingLeft = Physics2D.Raycast(new Vector2(detectPlayer.position.x - enemyData.detectionRange, detectPlayer.position.y), transform.right, enemyData.detectionRange, whatIsPlayer);
+
+        if (isDetectPleyerRight)
+        {
+            isFire = true;
+        }
     }
     public override void IsDamaged(float damage)
     {
@@ -148,5 +158,10 @@ public class Enemy1: BaseEnemy
         {
             Destroy(this.gameObject);
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(detectPlayer.position - new Vector3(enemyData.detectionRange, 0, 0), detectPlayer.position + new Vector3(enemyData.detectionRange, 0, 0));
     }
 }

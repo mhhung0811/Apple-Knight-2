@@ -7,6 +7,8 @@ TagManager:
   - OneWayPlatform
   - Interactable Object
   - Collectable Object
+  - Ground
+  - Enemy
   layers:
   - Default
   - TransparentFX

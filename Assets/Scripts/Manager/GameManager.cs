@@ -18,8 +18,11 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
+    private int Coin;
+
     public Slider HP_Silder;
     public TextMeshProUGUI HP_Text;
+    public TextMeshProUGUI Coin_Text;
     private void Awake()
     {
         if (_instance == null)
@@ -30,6 +33,9 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         Debug.Log("GameManager");
+        // Set up Coin
+        Coin = 0;
+        Coin_Text.text = Coin.ToString();
     }
 
     // Update is called once per frame
@@ -41,5 +47,11 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("gameover");
+    }
+
+    public void CollectCoin()
+    {
+        Coin++;
+        Coin_Text.text = Coin.ToString();
     }
 }

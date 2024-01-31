@@ -786,6 +786,7 @@ GameObject:
   - component: {fileID: 8308411453025359672}
   - component: {fileID: 5828506900279108439}
   - component: {fileID: 20489557105295484}
+  - component: {fileID: 221464747647210711}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -811,6 +812,7 @@ Transform:
   - {fileID: 4848010718443117876}
   - {fileID: 7171624811163645117}
   - {fileID: 7043280436947752612}
+  - {fileID: 7575174297878471484}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5500357131455499763
@@ -880,9 +882,14 @@ MonoBehaviour:
   playerData: {fileID: 11400000, guid: f7a57ec812b426f4f97fd308e853c43d, type: 2}
   groundCheck: {fileID: 178086394038572097}
   wallCheck: {fileID: 8109437628410371330}
+  hitBoxJumpForce: {fileID: 7575174297878471484}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  whatIsEnemy:
+    serializedVersion: 2
+    m_Bits: 128
+  fireBall: {fileID: 6756544395484281692, guid: e7e8b18a48bb4ee419efcb6388a7214a, type: 3}
 --- !u!50 &2644905564867151977
 Rigidbody2D:
   serializedVersion: 4
@@ -989,6 +996,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combatEnable: 1
+  hitBoxAppearance: 0
   inputTimer: 0.06
   combatTime: 0.5
   attackRadius: 1.5
@@ -1008,6 +1016,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4907dd99528d6a45a479bdad403efc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &221464747647210711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5927351213695282161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e6e3290bc489af4b8fe2b649ac6bf59, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &6018387202594741855
@@ -1293,6 +1313,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &8767314544387148988
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7575174297878471484}
+  m_Layer: 8
+  m_Name: HitBoxJumpForce
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7575174297878471484
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8767314544387148988}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5905409601517390023}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8964459971232015939
 GameObject:
   m_ObjectHideFlags: 0

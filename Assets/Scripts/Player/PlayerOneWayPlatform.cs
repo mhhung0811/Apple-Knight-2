@@ -14,6 +14,10 @@ public class PlayerOneWayPlatform : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
         if (Input.GetKeyDown(KeyCode.S) || Input.GetAxisRaw("Vertical") == -1)
         {
             if (currentOneWayPlatform != null)

@@ -19,6 +19,10 @@ public class FireBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
         Move();
     }
 
@@ -47,11 +51,11 @@ public class FireBall : MonoBehaviour
         {
             GameObject player = collision.gameObject;
             player.GetComponent<PlayerCombatController>().TakeDamage(damage, gameObject, 0);
-            Destroy(gameObject);
+            BulletManager.Instance.ReturnFireBall(this.gameObject);
         }
         if (collision.gameObject.CompareTag("Ground"))
         {
-            Destroy(gameObject);
+            BulletManager.Instance.ReturnFireBall(this.gameObject);
         }
     }
 }

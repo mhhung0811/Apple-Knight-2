@@ -12,6 +12,10 @@ public class KillSound : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
         if (!audioSource.isPlaying)
         {
             AudioManager.Instance.Return(this.gameObject);

@@ -24,8 +24,7 @@ public class Enemy3 : BaseEnemy
     public Transform detectPlayer;
     public Transform attackHitBoxPos;
     public LayerMask whatIsPlayer;
-    public GameObject bomb;
-
+    
     void Start()
     {
         InitializedEnemy();
@@ -90,7 +89,7 @@ public class Enemy3 : BaseEnemy
             {
                 if(player != null)
                 {
-                    GameObject b = Instantiate(bomb);
+                    GameObject b = BulletManager.Instance.TakeBomb();
                     b.transform.position = this.transform.position;
                     Bomb bom = b.GetComponent<Bomb>();
                     float H, L;

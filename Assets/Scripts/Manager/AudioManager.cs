@@ -18,8 +18,6 @@ public class AudioManager : MonoBehaviour
     }
 
     [SerializeField]
-    private GameObject _audioSource;
-    [SerializeField]
     private SoundConfigs _soundConfigs;
 
     [SerializeField]

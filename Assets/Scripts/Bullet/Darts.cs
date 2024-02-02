@@ -19,6 +19,11 @@ public class Darts : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
+
         Move();
     }
 
@@ -46,11 +51,11 @@ public class Darts : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             collision.transform.SendMessage("IsDamaged", damage);
-            Destroy(gameObject);
+            BulletManager.Instance.ReturnDarts(this.gameObject);
         }
         if (collision.gameObject.CompareTag("Ground"))
         {
-            Destroy(gameObject);
+            BulletManager.Instance.ReturnDarts(this.gameObject);
         }
     }
 }

@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!74 &7400000
+AnimationClip:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DustJump
+  serializedVersion: 7
+  m_Legacy: 0
+  m_Compressed: 0
+  m_UseHighQualityCurve: 1
+  m_RotationCurves: []
+  m_CompressedRotationCurves: []
+  m_EulerCurves: []
+  m_PositionCurves: []
+  m_ScaleCurves: []
+  m_FloatCurves: []
+  m_PPtrCurves:
+  - serializedVersion: 2
+    curve:
+    - time: 0
+      value: {fileID: 21300000, guid: 95d2110dc54462746b0b6b7ee0f81a05, type: 3}
+    - time: 0.05
+      value: {fileID: 21300000, guid: ec315fd2c76ac294bb4f05bd608f7846, type: 3}
+    - time: 0.1
+      value: {fileID: 21300000, guid: 244d0b13e6c06b14db821c42950179c3, type: 3}
+    - time: 0.16666667
+      value: {fileID: 21300000, guid: 24ef61dd8c5fba641a2638270600fa57, type: 3}
+    - time: 0.2
+      value: {fileID: 21300000, guid: b8269228bf79aff468e066c9ac7b6156, type: 3}
+    - time: 0.25
+      value: {fileID: 21300000, guid: d96a8afd978a0344eaf0c0ce49459e91, type: 3}
+    - time: 0.3
+      value: {fileID: 21300000, guid: 5f201b0961ed1f9418c2405048609ffd, type: 3}
+    - time: 0.36666667
+      value: {fileID: 21300000, guid: 480470b133deb7341890f1f3000d20ec, type: 3}
+    - time: 0.41666666
+      value: {fileID: 21300000, guid: 4d0d6a87642592746877de63faa6d5dd, type: 3}
+    - time: 0.46666667
+      value: {fileID: 21300000, guid: b82a61aed30193741b18e081e93c8d45, type: 3}
+    - time: 0.5
+      value: {fileID: 21300000, guid: b593a24dfbc64a1428d5f63472c5286d, type: 3}
+    - time: 0.56666666
+      value: {fileID: 21300000, guid: 895c3bd5f44321e4492764f63a428713, type: 3}
+    - time: 0.6166667
+      value: {fileID: 21300000, guid: 50a4186922007cd42b4a45e046cff6f0, type: 3}
+    - time: 0.6666667
+      value: {fileID: 21300000, guid: 59efb2e76c6a7a445858130f09d0aa82, type: 3}
+    attribute: m_Sprite
+    path: 
+    classID: 212
+    script: {fileID: 0}
+    flags: 2
+  m_SampleRate: 60
+  m_WrapMode: 0
+  m_Bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0, y: 0, z: 0}
+  m_ClipBindingConstant:
+    genericBindings:
+    - serializedVersion: 2
+      path: 0
+      attribute: 0
+      script: {fileID: 0}
+      typeID: 212
+      customType: 23
+      isPPtrCurve: 1
+      isIntCurve: 0
+      isSerializeReferenceCurve: 0
+    pptrCurveMapping:
+    - {fileID: 21300000, guid: 95d2110dc54462746b0b6b7ee0f81a05, type: 3}
+    - {fileID: 21300000, guid: ec315fd2c76ac294bb4f05bd608f7846, type: 3}
+    - {fileID: 21300000, guid: 244d0b13e6c06b14db821c42950179c3, type: 3}
+    - {fileID: 21300000, guid: 24ef61dd8c5fba641a2638270600fa57, type: 3}
+    - {fileID: 21300000, guid: b8269228bf79aff468e066c9ac7b6156, type: 3}
+    - {fileID: 21300000, guid: d96a8afd978a0344eaf0c0ce49459e91, type: 3}
+    - {fileID: 21300000, guid: 5f201b0961ed1f9418c2405048609ffd, type: 3}
+    - {fileID: 21300000, guid: 480470b133deb7341890f1f3000d20ec, type: 3}
+    - {fileID: 21300000, guid: 4d0d6a87642592746877de63faa6d5dd, type: 3}
+    - {fileID: 21300000, guid: b82a61aed30193741b18e081e93c8d45, type: 3}
+    - {fileID: 21300000, guid: b593a24dfbc64a1428d5f63472c5286d, type: 3}
+    - {fileID: 21300000, guid: 895c3bd5f44321e4492764f63a428713, type: 3}
+    - {fileID: 21300000, guid: 50a4186922007cd42b4a45e046cff6f0, type: 3}
+    - {fileID: 21300000, guid: 59efb2e76c6a7a445858130f09d0aa82, type: 3}
+  m_AnimationClipSettings:
+    serializedVersion: 2
+    m_AdditiveReferencePoseClip: {fileID: 0}
+    m_AdditiveReferencePoseTime: 0
+    m_StartTime: 0
+    m_StopTime: 0.68333334
+    m_OrientationOffsetY: 0
+    m_Level: 0
+    m_CycleOffset: 0
+    m_HasAdditiveReferencePose: 0
+    m_LoopTime: 0
+    m_LoopBlend: 0
+    m_LoopBlendOrientation: 0
+    m_LoopBlendPositionY: 0
+    m_LoopBlendPositionXZ: 0
+    m_KeepOriginalOrientation: 0
+    m_KeepOriginalPositionY: 1
+    m_KeepOriginalPositionXZ: 0
+    m_HeightFromFeet: 0
+    m_Mirror: 0
+  m_EditorCurves: []
+  m_EulerEditorCurves: []
+  m_HasGenericRootTransform: 0
+  m_HasMotionFloatCurves: 0
+  m_Events:
+  - time: 0.6666667
+    functionName: FinishAnimJump
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

@@ -44,6 +44,10 @@ public class PlayerCombatController : MonoBehaviour
     }
     private void Update()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
         CheckCombarInput();
         CheckAttack();
     }

@@ -889,7 +889,6 @@ MonoBehaviour:
   whatIsEnemy:
     serializedVersion: 2
     m_Bits: 128
-  fireBall: {fileID: 6756544395484281692, guid: e7e8b18a48bb4ee419efcb6388a7214a, type: 3}
 --- !u!50 &2644905564867151977
 Rigidbody2D:
   serializedVersion: 4

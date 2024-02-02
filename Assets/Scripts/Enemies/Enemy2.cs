@@ -23,7 +23,6 @@ public class Enemy2 : BaseEnemy
     public Transform detectPlayer;
     public Transform attackHitBoxPos;
     public LayerMask whatIsPlayer;
-    public GameObject fireBall;
 
     void Start()
     {
@@ -86,7 +85,7 @@ public class Enemy2 : BaseEnemy
             }
             else
             {
-                GameObject b = Instantiate(fireBall);
+                GameObject b = BulletManager.Instance.TakeFireBall();
                 b.transform.position = this.transform.position;
                 FireBall fire = b.GetComponent<FireBall>();
                 fire.SetUp(facingDirection);

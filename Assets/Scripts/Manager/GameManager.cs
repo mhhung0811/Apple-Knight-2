@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,7 +19,9 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
+
     private int Coin;
+    private bool _isPauseGame;
 
     public Slider HP_Silder;
     public TextMeshProUGUI HP_Text;
@@ -36,6 +39,7 @@ public class GameManager : MonoBehaviour
         // Set up Coin
         Coin = 0;
         Coin_Text.text = Coin.ToString();
+        _isPauseGame = false;
     }
 
     // Update is called once per frame
@@ -53,5 +57,32 @@ public class GameManager : MonoBehaviour
     {
         Coin++;
         Coin_Text.text = Coin.ToString();
+    }
+    public bool PauseGame()
+    {
+        if (_isPauseGame)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public void ButtonPause()
+    {
+        _isPauseGame = true;
+        Time.timeScale = 0;
+    }
+    public void ButtonResume()
+    {
+        _isPauseGame = false;
+        Time.timeScale = 1;
+    }
+    public void ReStartGame()
+    {
+        _isPauseGame = true;
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

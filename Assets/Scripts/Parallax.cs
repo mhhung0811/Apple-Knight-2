@@ -26,6 +26,10 @@ public class Parallax : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
         float tempX = (cam.transform.position.x * (1 - parallaxEffectX));
         float tempY = (cam.transform.position.y * (1 - parallaxEffectY));
         float distX = (cam.transform.position.x * parallaxEffectX);

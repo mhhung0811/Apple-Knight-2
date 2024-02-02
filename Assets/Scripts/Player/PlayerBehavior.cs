@@ -28,6 +28,7 @@ public class PlayerBehavior : MonoBehaviour
     private bool canFlip;
     private bool canJumpStomp;
     private bool canCheckHitBoxJumpSomp;
+    private float DistanceDownAnimDust;
 
     //public int amountOfJump = 1;
 
@@ -40,8 +41,6 @@ public class PlayerBehavior : MonoBehaviour
     public LayerMask whatIsGround;
     public LayerMask whatIsEnemy;
 
-    public GameObject fireBall;
-    
     void Start()
     {
         myRb = GetComponent<Rigidbody2D>();
@@ -53,10 +52,15 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         facingDirection = 1;
         canFlip = true;
+        DistanceDownAnimDust = 0.5f;
     }
 
     void Update()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
         CheckInput();
         CheckMoveDirection();
         CheckIfCanJump();
@@ -66,6 +70,10 @@ public class PlayerBehavior : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
         ApplyMove();
         CheckSurroundings();
     }
@@ -96,10 +104,16 @@ public class PlayerBehavior : MonoBehaviour
         //audio landing
         if (!isGrounded)
             isFlying = true;
+        //Kiểm tra vừa rơi xuống đất
         if(isFlying && isGrounded)
         {
             AudioManager.Instance.PlaySound("Landing1");
             isFlying = false;
+            //Animation Effect Dust
+            GameObject dust = EffectManager.Instance.Take();
+            dust.transform.position = new Vector2(transform.position.x, transform.position.y - DistanceDownAnimDust);
+            Dust d = dust.GetComponent<Dust>();
+            d.StartAnimDustLand();
         }
     }
     private void CheckIfWallSliding()
@@ -130,6 +144,7 @@ public class PlayerBehavior : MonoBehaviour
                 canFlip = false;
                 myRb.velocity = new Vector2(playerData.dashSpeed * facingDirection, 0);
                 dashTimeLeft -= Time.deltaTime;
+                
             }
             if(dashTimeLeft < 0)
             {
@@ -178,6 +193,13 @@ public class PlayerBehavior : MonoBehaviour
         isDashing = true;
         dashTimeLeft = playerData.dashTime;
         lastDash = Time.time;
+        //Animation Dash
+        GameObject dust = EffectManager.Instance.Take();
+        dust.transform.position = new Vector2(transform.position.x, transform.position.y - DistanceDownAnimDust);
+        Dust d = dust.GetComponent<Dust>();
+        d.StartAnimDash();
+
+
     }
     private void ApplyMove()
     {
@@ -218,6 +240,14 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (canJump && !canJumpStomp)
         {
+            if (isGrounded)
+            {
+                GameObject dust = EffectManager.Instance.Take();
+                dust.transform.position = new Vector2(transform.position.x, transform.position.y - DistanceDownAnimDust);
+                Dust d = dust.GetComponent<Dust>();
+                d.StartAnimJump();
+            }
+
             AudioManager.Instance.PlaySound("Jump");
             myRb.velocity = new Vector2(myRb.velocity.x, playerData.jumpForce);
             amountOfJumpLeft--;
@@ -320,7 +350,7 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void ButonFireBall()
     {
-        GameObject b = Instantiate(fireBall);
+        GameObject b = BulletManager.Instance.TakeDarts();
         b.transform.position = this.transform.position;
         Darts fire = b.GetComponent<Darts>();
         fire.SetUp(facingDirection);

@@ -168,7 +168,7 @@ GameObject:
   - component: {fileID: 8806809979493576477}
   m_Layer: 7
   m_Name: Enemy2
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -354,7 +354,6 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 256
-  fireBall: {fileID: 7961506316014672974, guid: 9cbe1c33584e1224caef5f64457e1666, type: 3}
 --- !u!1 &3709873847679017115
 GameObject:
   m_ObjectHideFlags: 0

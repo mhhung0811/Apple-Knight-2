@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerConfigs
   m_EditorClassIdentifier: 
   maxHP: 100
-  damage: 10
+  damage: 50
   moveSpeed: 10
   jumpForce: 16
   groundCheckRadius: 0.5

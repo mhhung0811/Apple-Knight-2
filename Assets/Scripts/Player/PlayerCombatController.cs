@@ -154,10 +154,19 @@ public class PlayerCombatController : MonoBehaviour
         anim.SetInteger("countAttack", countAttack);
 
     }
+    private void FinishDamaged()
+    {
+        anim.SetBool("isDamaged", false);
+    }
 
     public void TakeDamage(float damaged, GameObject enemy, float knockback)
     {
-        HP -= damaged;
+        if (damaged > 0)
+        {
+            HP -= damaged;
+            anim.SetBool("isDamaged", true);
+        }
+
         float temp = transform.position.y - enemy.transform.position.y;
         if (temp >= 0)
         {

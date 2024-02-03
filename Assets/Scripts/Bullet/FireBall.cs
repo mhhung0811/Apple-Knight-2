@@ -8,6 +8,7 @@ public class FireBall : MonoBehaviour
     private float damage;
     private float facingDirection;
     Rigidbody2D myRb;
+    public LayerMask whatIsGround;
 
     void Start()
     {
@@ -53,7 +54,7 @@ public class FireBall : MonoBehaviour
             player.GetComponent<PlayerCombatController>().TakeDamage(damage, gameObject, 0);
             BulletManager.Instance.ReturnFireBall(this.gameObject);
         }
-        if (collision.gameObject.CompareTag("Ground"))
+        if (whatIsGround == (whatIsGround | 1 << collision.gameObject.layer))
         {
             BulletManager.Instance.ReturnFireBall(this.gameObject);
         }

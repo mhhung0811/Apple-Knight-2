@@ -9,7 +9,7 @@ public class PlayerCombatController : MonoBehaviour
     [SerializeField]
     private bool hitBoxAppearance;
     [SerializeField]
-    private float inputTimer, combatTime, attackRadius, attackDamage;
+    private float inputTimer, combatTime, attackRadius;
     [SerializeField]
     private Transform attackHitBoxPos;
     [SerializeField]
@@ -128,7 +128,7 @@ public class PlayerCombatController : MonoBehaviour
         {
             Debug.Log("Attacking");
             // Enemy attack
-            coll.transform.SendMessage("IsDamaged", attackDamage);
+            coll.transform.SendMessage("IsDamaged", playerData.damage);
             // Trigger interactable object
             if (coll.gameObject.CompareTag("Interactable Object"))
             {

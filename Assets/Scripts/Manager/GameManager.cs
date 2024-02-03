@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
     public void GameOver()
     {
         Debug.Log("gameover");
+        UIManager.Instance.GameOver(); 
     }
 
     public void CollectCoin()
@@ -84,5 +85,10 @@ public class GameManager : MonoBehaviour
         _isPauseGame = true;
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+    public void Victory()
+    {
+        ButtonPause();
+        UIManager.Instance.Victory();
     }
 }

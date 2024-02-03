@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,7 +18,19 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public GameObject MenuGameOver;
+    public RawImage MenuGameOver;
+    public Image MenuImage;
+    private void Awake()
+    {
+        if(_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
     void Start()
     {
         
@@ -30,6 +43,10 @@ public class UIManager : MonoBehaviour
 
     public void GameOver()
     {
-
+        MenuGameOver.gameObject.SetActive(true);
+    }
+    public void Victory()
+    {
+        MenuImage.gameObject.SetActive(true);
     }
 }

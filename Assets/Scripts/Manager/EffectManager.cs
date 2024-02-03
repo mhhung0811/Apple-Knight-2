@@ -22,6 +22,17 @@ public class EffectManager : MonoBehaviour
     [SerializeField]
     private GameObject effectDustPrefabs;
     private int effectDustPrepare;
+    private void Awake()
+    {
+        if(_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
     void Start()
     {
         activeEffectDust = new Queue<GameObject>();

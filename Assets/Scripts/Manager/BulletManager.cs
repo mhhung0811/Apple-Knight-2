@@ -33,6 +33,17 @@ public class BulletManager : MonoBehaviour
     private GameObject FireBall;
     private int FireBallPrepare;
 
+    private void Awake()
+    {
+        if (_instance == null)
+        {
+            _instance = this;
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+    }
     void Start()
     {
         FireBallPrepare = DartsPrepare = BombPrepare = 3;

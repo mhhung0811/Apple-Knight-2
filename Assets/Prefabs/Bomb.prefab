@@ -102,6 +102,9 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 256
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!50 &5440009377101744109
 Rigidbody2D:
   serializedVersion: 4

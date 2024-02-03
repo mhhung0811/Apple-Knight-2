@@ -10,6 +10,7 @@ public class Bomb : MonoBehaviour
     private float explodeRadius;
 
     public LayerMask whatIsPlayer;
+    public LayerMask whatIsGround;
     void Start()
     {
         damage = 10;
@@ -33,8 +34,6 @@ public class Bomb : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //GameObject player = collision.gameObject;
-            //player.GetComponent<PlayerCombatController>().TakeDamage(damage, gameObject, 0);
             AudioManager.Instance.PlaySound("Explosion");
             //Animation Effect Explode
             GameObject effectExplode = EffectManager.Instance.Take();
@@ -44,7 +43,7 @@ public class Bomb : MonoBehaviour
             CheckHitBoxExplode();
             BulletManager.Instance.ReturnBomb(this.gameObject);
         }
-        if (collision.gameObject.CompareTag("Ground"))
+        if (whatIsGround == (whatIsGround | (1 << collision.gameObject.layer)))
         {
             AudioManager.Instance.PlaySound("Explosion");
             //Animation Effect Explode

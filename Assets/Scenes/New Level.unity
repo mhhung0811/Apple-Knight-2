@@ -1297,6 +1297,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3880215285116228848, guid: db0dffa2d8d742e488f821bfa5795e88, type: 3}
+      propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6192016633333242734, guid: db0dffa2d8d742e488f821bfa5795e88, type: 3}
       propertyPath: m_Name
       value: Test Level

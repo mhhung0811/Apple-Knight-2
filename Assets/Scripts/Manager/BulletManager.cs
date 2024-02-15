@@ -33,6 +33,16 @@ public class BulletManager : MonoBehaviour
     private GameObject FireBall;
     private int FireBallPrepare;
 
+    private Queue<GameObject> _activeFireBallBoss;
+    [SerializeField]
+    private GameObject FireBallBoss;
+    private int FireBallPrepareBoss;
+
+    private Queue<GameObject> _activeBombBoss;
+    [SerializeField]
+    private GameObject BombBoss;
+    private int BombPrepareBoss;
+
     private void Awake()
     {
         if (_instance == null)
@@ -47,9 +57,12 @@ public class BulletManager : MonoBehaviour
     void Start()
     {
         FireBallPrepare = DartsPrepare = BombPrepare = 3;
+        BombPrepareBoss = FireBallPrepareBoss = 5;
         _activeBomb = new Queue<GameObject>();
         _activeDarts = new Queue<GameObject>();
         _activeFireBall = new Queue<GameObject>();
+        _activeBombBoss = new Queue<GameObject>();
+        _activeFireBallBoss = new Queue<GameObject>();
     }
     void Update()
     {
@@ -129,5 +142,57 @@ public class BulletManager : MonoBehaviour
     {
         this._activeFireBall.Enqueue(fireball);
         fireball.SetActive(false);
+    }
+
+    public void PrepareFireBallBoss()
+    {
+        for (int i = 0; i < FireBallPrepareBoss; i++)
+        {
+            GameObject fireballBoss = Instantiate(FireBallBoss, transform);
+            fireballBoss.gameObject.SetActive(false);
+            this._activeFireBallBoss.Enqueue(fireballBoss);
+        }
+    }
+    public GameObject TakeFireBallBoss()
+    {
+        if (_activeFireBallBoss.Count <= 0)
+        {
+            PrepareFireBallBoss();
+        }
+        GameObject fireballBoss = this._activeFireBallBoss.Dequeue();
+        fireballBoss.gameObject.SetActive(true);
+        return fireballBoss;
+    }
+    public void ReturnFireBallBoss(GameObject fireballBoss)
+    {
+        this._activeFireBallBoss.Enqueue(fireballBoss);
+        fireballBoss.SetActive(false);
+    }
+
+    public void PrepareBombBoss()
+    {
+        for (int i = 0; i < BombPrepareBoss; i++)
+        {
+            GameObject bombBoss = Instantiate(BombBoss, transform);
+            bombBoss.gameObject.SetActive(false);
+            _activeBombBoss.Enqueue(bombBoss);
+        }
+    }
+    public GameObject TakeBombBoss()
+    {
+        if (_activeBombBoss.Count <= 0)
+        {
+            PrepareBombBoss();
+        }
+        GameObject bombBoss = this._activeBombBoss.Dequeue();
+        bombBoss.gameObject.SetActive(true);
+        return bombBoss;
+    }
+    public void ReturnBombBoss(GameObject bombBoss)
+    {
+        BombBoss b = bombBoss.GetComponent<BombBoss>();
+        b.timeExplode = 1f;
+        this._activeBombBoss.Enqueue(bombBoss);
+        bombBoss.SetActive(false);
     }
 }

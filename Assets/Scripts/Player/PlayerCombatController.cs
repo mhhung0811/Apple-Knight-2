@@ -176,7 +176,6 @@ public class PlayerCombatController : MonoBehaviour
         {
             myRb.velocity = new Vector2(myRb.velocity.x, -knockback);
         }
-        Debug.Log(HP);
         GameManager.Instance.HP_Silder.value = HP;
         GameManager.Instance.HP_Text.text = HP.ToString() + "/100";
         Die();

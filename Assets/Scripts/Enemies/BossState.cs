@@ -69,6 +69,11 @@ public class BossState : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
+
         CheckPosPleyerAndAutoFlip();
         CheckDodgeAttack();
 

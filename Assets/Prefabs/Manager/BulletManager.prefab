@@ -47,3 +47,8 @@ MonoBehaviour:
   Bomb: {fileID: 3315145205351445334, guid: bc8ddb6b00615e545bb5c87623d27567, type: 3}
   Darts: {fileID: 6756544395484281692, guid: e7e8b18a48bb4ee419efcb6388a7214a, type: 3}
   FireBall: {fileID: 7961506316014672974, guid: 9cbe1c33584e1224caef5f64457e1666, type: 3}
+  FireBallBoss: {fileID: 2112413863222295386, guid: 86e7769ecbc16e445b1e22f841f87e8d, type: 3}
+  BombBoss: {fileID: 4522289236878059146, guid: f4234ba2ba7b4434eb4fbc9947ff9fea, type: 3}
+  Sentoryu1: {fileID: 8188488003278612681, guid: 54c62f564ec5e9d4ab70c1d204aa4659, type: 3}
+  Sentoryu2: {fileID: 4062707463819622347, guid: 98a30d066594ab74da7a89739e9676a9, type: 3}
+  Sentoryu3: {fileID: 3803265377072910119, guid: d13d739880220da4896e9bea629c4964, type: 3}

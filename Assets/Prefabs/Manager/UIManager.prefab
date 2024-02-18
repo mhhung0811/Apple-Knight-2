@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MenuGameOver: {fileID: 0}
+  MenuImage: {fileID: 0}

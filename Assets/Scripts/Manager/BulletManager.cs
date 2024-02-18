@@ -43,6 +43,26 @@ public class BulletManager : MonoBehaviour
     private GameObject BombBoss;
     private int BombPrepareBoss;
 
+    private Queue<GameObject> _activeSentoryu1;
+    [SerializeField]
+    private GameObject Sentoryu1;
+    private int Sentoryu1Prepare;
+
+    private Queue<GameObject> _activeSentoryu2;
+    [SerializeField]
+    private GameObject Sentoryu2;
+    private int Sentoryu2Prepare;
+
+    private Queue<GameObject> _activeSentoryu3;
+    [SerializeField]
+    private GameObject Sentoryu3;
+    private int Sentoryu3Prepare;
+
+    private Queue<GameObject> _activeHoaDon;
+    [SerializeField]
+    private GameObject HoaDon;
+    private int HoaDonPrepare;
+
     private void Awake()
     {
         if (_instance == null)
@@ -58,11 +78,17 @@ public class BulletManager : MonoBehaviour
     {
         FireBallPrepare = DartsPrepare = BombPrepare = 3;
         BombPrepareBoss = FireBallPrepareBoss = 5;
+        Sentoryu1Prepare = Sentoryu2Prepare = Sentoryu3Prepare = 1;
+        HoaDonPrepare = 1;
         _activeBomb = new Queue<GameObject>();
         _activeDarts = new Queue<GameObject>();
         _activeFireBall = new Queue<GameObject>();
         _activeBombBoss = new Queue<GameObject>();
         _activeFireBallBoss = new Queue<GameObject>();
+        _activeSentoryu1 = new Queue<GameObject>();
+        _activeSentoryu2 = new Queue<GameObject>();
+        _activeSentoryu3 = new Queue<GameObject>();
+        _activeHoaDon = new Queue<GameObject>();
     }
     void Update()
     {
@@ -194,5 +220,113 @@ public class BulletManager : MonoBehaviour
         b.timeExplode = 1f;
         this._activeBombBoss.Enqueue(bombBoss);
         bombBoss.SetActive(false);
+    }
+
+    public void PrepareSentoryu1()
+    {
+        for(int i = 0; i< Sentoryu1Prepare; i++)
+        {
+            GameObject str1 = Instantiate(Sentoryu1, transform);
+            str1.gameObject.SetActive(false);
+            _activeSentoryu1.Enqueue(str1);
+        }
+    }
+
+    public GameObject TakeSentoryu1()
+    {
+        if(_activeSentoryu1.Count <= 0)
+        {
+            PrepareSentoryu1();
+        }
+        GameObject str1 = this._activeSentoryu1.Dequeue();
+        str1.gameObject.SetActive(true);
+        return str1;
+    }
+
+    public void ReturnSentoryu1(GameObject str1)
+    {
+        this._activeSentoryu1.Enqueue(str1);
+        str1.gameObject.SetActive(false);
+    }
+
+    public void PrepareSentoryu2()
+    {
+        for (int i = 0; i < Sentoryu2Prepare; i++)
+        {
+            GameObject str2 = Instantiate(Sentoryu2, transform);
+            str2.gameObject.SetActive(false);
+            _activeSentoryu2.Enqueue(str2);
+        }
+    }
+
+    public GameObject TakeSentoryu2()
+    {
+        if (_activeSentoryu2.Count <= 0)
+        {
+            PrepareSentoryu2();
+        }
+        GameObject str2 = this._activeSentoryu2.Dequeue();
+        str2.gameObject.SetActive(true);
+        return str2;
+    }
+
+    public void ReturnSentoryu2(GameObject str2)
+    {
+        this._activeSentoryu2.Enqueue(str2);
+        str2.gameObject.SetActive(false);
+    }
+
+    public void PrepareSentoryu3()
+    {
+        for (int i = 0; i < Sentoryu3Prepare; i++)
+        {
+            GameObject str3 = Instantiate(Sentoryu3, transform);
+            str3.gameObject.SetActive(false);
+            _activeSentoryu3.Enqueue(str3);
+        }
+    }
+
+    public GameObject TakeSentoryu3()
+    {
+        if (_activeSentoryu3.Count <= 0)
+        {
+            PrepareSentoryu3();
+        }
+        GameObject str3 = this._activeSentoryu3.Dequeue();
+        str3.gameObject.SetActive(true);
+        return str3;
+    }
+
+    public void ReturnSentoryu3(GameObject str3)
+    {
+        this._activeSentoryu3.Enqueue(str3);
+        str3.gameObject.SetActive(false);
+    }
+
+    public void PrepareHoaDon()
+    {
+        for(int i = 0;i < HoaDonPrepare; i++)
+        {
+            GameObject hoadon = Instantiate(HoaDon, transform);
+            hoadon.gameObject.SetActive(false);
+            _activeHoaDon.Enqueue(hoadon);
+        }
+    }
+
+    public GameObject TakeHoaDon()
+    {
+        if(_activeHoaDon.Count <= 0)
+        {
+            PrepareHoaDon();
+        }
+        GameObject hoadon = _activeHoaDon.Dequeue();
+        hoadon.gameObject.SetActive(true);
+        return hoadon;
+    }
+
+    public void ReturnHoaDon(GameObject hoadon)
+    {
+        this._activeHoaDon.Enqueue(hoadon);
+        hoadon.gameObject.SetActive(false);
     }
 }

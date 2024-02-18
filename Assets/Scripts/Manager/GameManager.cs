@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour
 
     public Slider HP_Silder;
     public TextMeshProUGUI HP_Text;
-    public TextMeshProUGUI Coin_Text;
     private void Awake()
     {
         if (_instance == null)
@@ -38,7 +37,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("GameManager");
         // Set up Coin
         Coin = 0;
-        Coin_Text.text = Coin.ToString();
         _isPauseGame = false;
     }
 
@@ -57,7 +55,6 @@ public class GameManager : MonoBehaviour
     public void CollectCoin()
     {
         Coin++;
-        Coin_Text.text = Coin.ToString();
     }
     public bool PauseGame()
     {

@@ -183,7 +183,7 @@ public class PlayerCombatController : MonoBehaviour
         if (damaged > 0)
         {
             HP -= damaged;
-            //anim.SetBool("isDamaged", true);
+            animCtrl.StartDamaged();
         }
 
         float temp = transform.position.y - enemy.transform.position.y;

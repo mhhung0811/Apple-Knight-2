@@ -23,18 +23,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         anim.SetInteger("countAttack", num);
     }
-    public void FinishAttack()
-    {
-        anim.SetInteger("countAttack", -1);
-    }
-    private void StartDamaged()
-    {
-        
-    }
-    private void FinishDamaged()
-    {
 
-    }
     public void StartRun()
     {
         anim.SetBool("isRunning", true);
@@ -51,7 +40,15 @@ public class PlayerAnimation : MonoBehaviour
     {
         anim.SetBool("isWallSliding", true);
     }
+    public void StartDamaged()
+    {
+        anim.SetBool("isDamaged", true);
+    }
 
+    public void FinishAttack()
+    {
+        anim.SetInteger("countAttack", -1);
+    }
     public void FinishRun()
     {
         anim.SetBool("isRunning", false);
@@ -67,5 +64,9 @@ public class PlayerAnimation : MonoBehaviour
     public void FinishWallSlide()
     {
         anim.SetBool("isWallSliding", false);
+    }
+    public void FinishDamaged()
+    {
+        anim.SetBool("isDamaged", false);
     }
 }

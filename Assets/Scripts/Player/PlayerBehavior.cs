@@ -41,6 +41,9 @@ public class PlayerBehavior : MonoBehaviour
     public LayerMask whatIsGround;
     public LayerMask whatIsEnemy;
 
+    [SerializeField]
+    private PlayerAnimation animCtrl;
+
     void Start()
     {
         myRb = GetComponent<Rigidbody2D>();
@@ -96,6 +99,16 @@ public class PlayerBehavior : MonoBehaviour
 
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, playerData.groundCheckRadius, whatIsGround);
 
+        // Jump animation
+        if (!isGrounded)
+        {
+            animCtrl.StartJump();
+        }
+        else
+        {
+            animCtrl.FinishJump();
+        }
+
         //Kiểm tra khi chạm dất bằng dậm nhảy
         if(isGrounded && canCheckHitBoxJumpSomp) 
         {
@@ -131,6 +144,9 @@ public class PlayerBehavior : MonoBehaviour
         else
         {
             isWallSliding = false;
+
+            // Animation Wall Slide
+            animCtrl.FinishWallSlide();
         }
     }
     private void CheckDash()
@@ -144,7 +160,9 @@ public class PlayerBehavior : MonoBehaviour
                 canFlip = false;
                 myRb.velocity = new Vector2(playerData.dashSpeed * facingDirection, 0);
                 dashTimeLeft -= Time.deltaTime;
-                
+
+                // Animation Dash
+                animCtrl.StartDash();
             }
             if(dashTimeLeft < 0)
             {
@@ -152,12 +170,24 @@ public class PlayerBehavior : MonoBehaviour
                 canMove=true;
                 canJump = true;
                 canFlip = true;
+
+                // Animation Dash
+                animCtrl.FinishDash();
             }
         }
     }
 
     private void CheckInput()
     {
+        // Run animation
+        if (Input.GetAxisRaw("Horizontal") != 0 && isGrounded)
+        {
+            animCtrl.StartRun();
+        }
+        else
+        {
+            animCtrl.FinishRun();
+        }
         moveInputDirection = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space))
@@ -198,8 +228,6 @@ public class PlayerBehavior : MonoBehaviour
         dust.transform.position = new Vector2(transform.position.x, transform.position.y - DistanceDownAnimDust);
         Dust d = dust.GetComponent<Dust>();
         d.StartAnimDash();
-
-
     }
     private void ApplyMove()
     {
@@ -210,11 +238,17 @@ public class PlayerBehavior : MonoBehaviour
 
         if (isWallSliding && canSlidings)
         {
+            // Animation Wall Sliding
+            animCtrl.StartWallSlide();
+
             myRb.velocity = new Vector2(myRb.velocity.x, -playerData.wallSlidingSpeed);
             lastTimeSlideWall += Time.deltaTime;
             if(lastTimeSlideWall > 0.7f)
             {
                 canSlidings = false;
+
+                // Animation Wall Sliding
+                animCtrl.FinishWallSlide();
             }
         }
     }

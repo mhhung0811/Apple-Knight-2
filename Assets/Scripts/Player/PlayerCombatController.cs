@@ -24,7 +24,9 @@ public class PlayerCombatController : MonoBehaviour
 
     private float lastInputTime;
 
-    private Animator anim;
+    [SerializeField]
+    //private Animator anim;
+    private PlayerAnimation animCtrl;
 
     private Rigidbody2D myRb;
 
@@ -37,9 +39,7 @@ public class PlayerCombatController : MonoBehaviour
         lastInputTime = Mathf.NegativeInfinity;
         countAttack = 0;
         isCombat = false;
-
-        anim = GetComponent<Animator>();
-        anim.SetBool("canAttack", combatEnable);
+        
         HP = playerData.maxHP;
     }
     private void Update()
@@ -60,60 +60,83 @@ public class PlayerCombatController : MonoBehaviour
             {
                 // Atempt combat
                 gotInput = true;
-                lastInputTime = Time.time;
+                //lastInputTime = Time.time;
             }
         }
         // Last input time over combat time -> reset combat
         if (Time.time > lastInputTime + combatTime)
         {
             countAttack = 0;
-            anim.SetInteger("countAttack", countAttack);
-            isCombat = false;
-            anim.SetBool("isCombat", isCombat);
+            animCtrl.StartAttack(-1);
+            //anim.SetInteger("countAttack", countAttack);
+            //isCombat = false;
+            //anim.SetBool("isCombat", isCombat);
+            //animCtrl.ToIdle();
         }
     }
     private void CheckAttack()
     {
         if (gotInput)
         {
-            // Start attack
-            if (!isCombat)
+            // Apply input
+            gotInput = false;
+            lastInputTime = Time.time;
+            animCtrl.StartAttack(countAttack);
+            CheckAttackHitBox();
+            if (countAttack == 0)
             {
-                // Apply input
-                gotInput = false;
-
-                // Start combat
-                isCombat = true;
-                anim.SetBool("isCombat", isCombat);
-
-                // Perform attack 1
-                isAttacking1 = true;
-                anim.SetBool("isAttacking1", isAttacking1);
-                CheckAttackHitBox();
+                countAttack++;
             }
-            // is combating
             else
             {
-                // Apply input
-                gotInput = false;
-                if (countAttack == 0 && !isAttacking1)
-                {
-                    // Perform attack 1
-                    isAttacking1 = true;
-                    anim.SetBool("isAttacking1", isAttacking1);
-                    CheckAttackHitBox();
-                }
-
-                if (countAttack == 1 && !isAttacking2)
-                {
-                    // Perform attack 2
-                    isAttacking2 = true;
-                    anim.SetBool("isAttacking2", isAttacking2);
-                    CheckAttackHitBox();
-                }
+                countAttack = 0;
             }
+            //// Start attack
+            //if (!isCombat)
+            //{
+            //    // Apply input
+            //    gotInput = false;
+            //    animCtrl.setCountAttack(countAttack);
+
+            //    // Start combat
+            //    isCombat = true;
+
+            //    // Perform attack 1
+            //    //animCtrl.ToIdle();
+            //    animCtrl.StartAttack1();
+
+            //    countAttack = 1;
+            //    CheckAttackHitBox();
+            //}
+            //// is combating
+            //else
+            //{
+            //    // Apply input
+            //    gotInput = false;
+            //    animCtrl.setCountAttack(countAttack);
+
+            //    if (countAttack == 0)
+            //    {
+            //        // Perform attack 1
+            //        //animCtrl.ToIdle();
+            //        animCtrl.StartAttack1();
+
+            //        countAttack = 1;
+            //        CheckAttackHitBox();
+            //    }
+
+            //    if (countAttack == 1)
+            //    {
+            //        // Perform attack 2
+            //        //animCtrl.ToIdle();
+            //        animCtrl.StartAttack2();
+
+            //        countAttack = 0;
+            //        CheckAttackHitBox();
+            //    }
+            //}
         }
-        if (Time.time > lastInputTime + inputTimer)
+        if (Time.time < lastInputTime + inputTimer)
         {
             // Wait for new input
             gotInput = false;
@@ -138,33 +161,29 @@ public class PlayerCombatController : MonoBehaviour
             // Instantiate hit particle
         }
     }
-    private void FinishAttack1()
-    {
-        isAttacking1 = false;
-        anim.SetBool("isAttacking1", isAttacking1);
-        countAttack = 1;
-        anim.SetInteger("countAttack", countAttack);
-    }
-    private void FinishAttack2()
-    {
-        isAttacking2 = false;
-        anim.SetBool("isAttacking2", isAttacking2);
-        // Last attack
-        countAttack = 0;
-        anim.SetInteger("countAttack", countAttack);
+    //private void FinishAttack1()
+    //{
+    //    isAttacking1 = false;
+    //    anim.SetBool("isAttacking1", isAttacking1);
+    //    countAttack = 1;
+    //    anim.SetInteger("countAttack", countAttack);
+    //}
+    //private void FinishAttack2()
+    //{
+    //    isAttacking2 = false;
+    //    anim.SetBool("isAttacking2", isAttacking2);
+    //    // Last attack
+    //    countAttack = 0;
+    //    anim.SetInteger("countAttack", countAttack);
 
-    }
-    private void FinishDamaged()
-    {
-        anim.SetBool("isDamaged", false);
-    }
+    //}
 
     public void TakeDamage(float damaged, GameObject enemy, float knockback)
     {
         if (damaged > 0)
         {
             HP -= damaged;
-            anim.SetBool("isDamaged", true);
+            //anim.SetBool("isDamaged", true);
         }
 
         float temp = transform.position.y - enemy.transform.position.y;
@@ -204,7 +223,7 @@ public class PlayerCombatController : MonoBehaviour
         {
             // Atempt combat
             gotInput = true;
-            lastInputTime = Time.time;
+            //lastInputTime = Time.time;
         }
     }
 }

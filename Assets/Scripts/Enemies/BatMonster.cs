@@ -33,6 +33,11 @@ public class BatMonster : BaseEnemy
     }
     void Update()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
+
         DetectPlayer();
         DealDamage();
     }

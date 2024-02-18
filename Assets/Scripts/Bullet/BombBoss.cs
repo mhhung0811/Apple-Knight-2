@@ -20,6 +20,11 @@ public class BombBoss : MonoBehaviour
 
     void Update()
     {
+        if (GameManager.Instance.PauseGame())
+        {
+            return;
+        }
+
         Explode();
     }
 

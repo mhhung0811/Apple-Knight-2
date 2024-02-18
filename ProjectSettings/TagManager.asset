@@ -9,6 +9,7 @@ TagManager:
   - Collectable Object
   - Ground
   - Enemy
+  - Boss
   layers:
   - Default
   - TransparentFX

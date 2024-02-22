@@ -43,12 +43,20 @@ public class Enemy2 : BaseEnemy
     }
     void Update()
     {
+        if (InGameManager.Instance.PauseGame())
+        {
+            return;
+        }
         DetectPlayer();
         CheckMoveDirection();
         DealDamage();
     }
     private void FixedUpdate()
     {
+        if (InGameManager.Instance.PauseGame())
+        {
+            return;
+        }
         Move();
     }
 

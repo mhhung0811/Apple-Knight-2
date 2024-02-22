@@ -15,13 +15,12 @@ public class HoaDon : MonoBehaviour
         myRb = GetComponent<Rigidbody2D>();
         speed = 10;
         damage = 90;
-        facingDirection = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame())
         {
             return;
         }

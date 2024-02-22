@@ -28,6 +28,9 @@ public class PlayerCombatController : MonoBehaviour
     //private Animator anim;
     private PlayerAnimation animCtrl;
 
+    [SerializeField]
+    private PlayerEffect animeffect;
+
     private Rigidbody2D myRb;
 
     private float HP;
@@ -44,7 +47,7 @@ public class PlayerCombatController : MonoBehaviour
     }
     private void Update()
     {
-        if (GameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame())
         {
             return;
         }
@@ -68,6 +71,7 @@ public class PlayerCombatController : MonoBehaviour
         {
             countAttack = 0;
             animCtrl.StartAttack(-1);
+            //animeffect.StartAttack1();
             //anim.SetInteger("countAttack", countAttack);
             //isCombat = false;
             //anim.SetBool("isCombat", isCombat);
@@ -149,13 +153,14 @@ public class PlayerCombatController : MonoBehaviour
         if (detectedObjects == null) return;
         foreach (Collider2D coll in detectedObjects)
         {
-            Debug.Log("Attacking");
             // Enemy attack
-            coll.transform.SendMessage("IsDamaged", playerData.damage);
+            if(coll.gameObject.CompareTag("Enemy") || coll.gameObject.CompareTag("Boss"))
+            {
+                coll.transform.SendMessage("IsDamaged", playerData.damage);
+            }
             // Trigger interactable object
             if (coll.gameObject.CompareTag("Interactable Object"))
             {
-
                 coll.gameObject.GetComponent<IInteractable>().InteractOn();
             }
             // Instantiate hit particle
@@ -195,8 +200,7 @@ public class PlayerCombatController : MonoBehaviour
         {
             myRb.velocity = new Vector2(myRb.velocity.x, -knockback);
         }
-        GameManager.Instance.HP_Silder.value = HP;
-        GameManager.Instance.HP_Text.text = HP.ToString() + "/100";
+        UIManager.Instance.SetHPUi(HP);
         Die();
     }
 
@@ -205,7 +209,7 @@ public class PlayerCombatController : MonoBehaviour
         if(HP <= 0)
         {
             Destroy(this.gameObject);
-            GameManager.Instance.GameOver();
+            InGameManager.Instance.GameOver();
         }
     }
     private void OnDrawGizmos()

@@ -11,6 +11,7 @@ public class PlayerBehavior : MonoBehaviour
     private float dashTimeLeft;
     private float lastTimeSlideWall = 0;
     private float lastDash = -100;
+    private float ManaSkill = 100;
 
     private int amountOfJumpLeft;
     private int facingDirection;
@@ -22,6 +23,7 @@ public class PlayerBehavior : MonoBehaviour
     private bool isFlying;
     private bool isWallSliding;
     private bool isDashing;
+    private bool isSkilling;
     private bool canJump;
     private bool canSlidings;
     private bool canMove;
@@ -43,9 +45,12 @@ public class PlayerBehavior : MonoBehaviour
 
     [SerializeField]
     private PlayerAnimation animCtrl;
+    [SerializeField]
+    private PlayerEffect animEffect;
 
     void Start()
     {
+        InvokeRepeating("IncreaseMana", 1f,1f);
         myRb = GetComponent<Rigidbody2D>();
         canJump = true;
         isFacingRight = true;
@@ -55,12 +60,12 @@ public class PlayerBehavior : MonoBehaviour
         canMove = true;
         facingDirection = 1;
         canFlip = true;
-        DistanceDownAnimDust = 0.5f;
+        DistanceDownAnimDust = -0.5f;
     }
 
     void Update()
     {
-        if (GameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame())
         {
             return;
         }
@@ -69,16 +74,41 @@ public class PlayerBehavior : MonoBehaviour
         CheckIfCanJump();
         CheckIfWallSliding();
         CheckDash();
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            SkillSentoryu();
+        }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            SkillHoaDon();
+        }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            SkillDivineDepature();
+        }
     }
 
     private void FixedUpdate()
     {
-        if (GameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame())
         {
             return;
         }
         ApplyMove();
         CheckSurroundings();
+    }
+
+    private void IncreaseMana()
+    {
+        if(ManaSkill < 100)
+        {
+            ManaSkill += 3;
+            if(ManaSkill > 100)
+            {
+                ManaSkill = 100;
+            }
+            UIManager.Instance.SetManaUi(ManaSkill);
+        }
     }
 
     private void CheckMoveDirection()
@@ -124,7 +154,7 @@ public class PlayerBehavior : MonoBehaviour
             isFlying = false;
             //Animation Effect Dust
             GameObject dust = EffectManager.Instance.Take();
-            dust.transform.position = new Vector2(transform.position.x, transform.position.y - DistanceDownAnimDust);
+            dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
             Dust d = dust.GetComponent<Dust>();
             d.StartAnimDustLand();
         }
@@ -151,7 +181,7 @@ public class PlayerBehavior : MonoBehaviour
     }
     private void CheckDash()
     {
-        if(isDashing)
+        if(isDashing && !isSkilling)
         {
             if(dashTimeLeft > 0)
             {
@@ -182,7 +212,7 @@ public class PlayerBehavior : MonoBehaviour
         // Run animation
         if (Input.GetAxisRaw("Horizontal") != 0 && isGrounded)
         {
-            animCtrl.StartRun();
+            //animCtrl.StartRun();
         }
         else
         {
@@ -225,14 +255,15 @@ public class PlayerBehavior : MonoBehaviour
         lastDash = Time.time;
         //Animation Dash
         GameObject dust = EffectManager.Instance.Take();
-        dust.transform.position = new Vector2(transform.position.x, transform.position.y - DistanceDownAnimDust);
+        dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
         Dust d = dust.GetComponent<Dust>();
         d.StartAnimDash();
     }
     private void ApplyMove()
     {
-        if (canMove)
+        if (canMove && !isSkilling)
         {
+            animCtrl.StartRun();
             myRb.velocity = new Vector2(playerData.moveSpeed * moveInputDirection, myRb.velocity.y);
         }
 
@@ -255,7 +286,7 @@ public class PlayerBehavior : MonoBehaviour
 
     private void Flip()
     {
-        if(canFlip)
+        if(canFlip && !isSkilling)
         {
             isFacingRight = !isFacingRight;
             transform.Rotate(0, 180, 0);
@@ -272,12 +303,12 @@ public class PlayerBehavior : MonoBehaviour
     
     private void Jump()
     {
-        if (canJump && !canJumpStomp)
+        if (canJump && !canJumpStomp && !isSkilling)
         {
             if (isGrounded)
             {
                 GameObject dust = EffectManager.Instance.Take();
-                dust.transform.position = new Vector2(transform.position.x, transform.position.y - DistanceDownAnimDust);
+                dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
                 Dust d = dust.GetComponent<Dust>();
                 d.StartAnimJump();
             }
@@ -291,7 +322,7 @@ public class PlayerBehavior : MonoBehaviour
     
     private void JumpStomp()
     {
-        if (canJumpStomp && isFlying)
+        if (canJumpStomp && isFlying && !isSkilling)
         {
             myRb.velocity = new Vector2(0, -playerData.jumpStompForce);
             Debug.Log("JumpStomp");
@@ -348,6 +379,127 @@ public class PlayerBehavior : MonoBehaviour
             }
         }
         canCheckHitBoxJumpSomp = false;
+    }
+
+    private void SkillSentoryu()
+    {
+        if (isSkilling)
+        {
+            return;
+        }
+        else if (ManaSkill <= 80)
+        {
+            UIManager.Instance.NotEnoughMana();
+            return;
+        }
+        ManaSkill -= 80;
+        UIManager.Instance.SetManaUi(ManaSkill);
+        myRb.gravityScale = 0f;
+        isSkilling = true;
+        StartCoroutine(SpawnSentoryu());
+    }
+    private IEnumerator SpawnSentoryu()
+    {
+        myRb.gravityScale = 0f;
+        for (int i = 1; i <= 3; i++)
+        {
+            myRb.velocity = Vector3.zero;
+
+            if (i == 1)
+            {
+                GameObject str1 = BulletManager.Instance.TakeSentoryu1();
+                str1.transform.position = this.transform.position;
+                Sentoryu s = str1.GetComponent<Sentoryu>();
+                s.SetUp(facingDirection, 1);
+            }
+
+            if (i == 2)
+            {
+                GameObject str2 = BulletManager.Instance.TakeSentoryu2();
+                str2.transform.position = this.transform.position;
+                Sentoryu s = str2.GetComponent<Sentoryu>();
+                s.SetUp(facingDirection, 2);
+            }
+
+            if (i == 3)
+            {
+                GameObject str3 = BulletManager.Instance.TakeSentoryu3();
+                str3.transform.position = this.transform.position;
+                Sentoryu s = str3.GetComponent<Sentoryu>();
+                s.SetUp(facingDirection, 3);
+            }
+
+            if (i < 2)
+            {
+                yield return new WaitForSeconds(0.2f);
+            }
+            else if (i == 2)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+            else
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
+        }
+        isSkilling = false;
+        myRb.gravityScale = 4f;
+    }
+
+    private void SkillHoaDon()
+    {
+        if (isSkilling)
+        {
+            return;
+        }
+        else if (ManaSkill <= 80)
+        {
+            UIManager.Instance.NotEnoughMana();
+            return;
+        }
+        ManaSkill -= 80;
+        UIManager.Instance.SetManaUi(ManaSkill);
+        myRb.gravityScale = 0f;
+        isSkilling = true;
+        StartCoroutine(SpawnHoaCau());
+    }
+
+    private IEnumerator SpawnHoaCau()
+    {
+        myRb.velocity = Vector3.zero;
+        yield return new WaitForSeconds(0.5f);
+        GameObject hoadon = BulletManager.Instance.TakeHoaDon();
+        hoadon.transform.position = this.transform.position;
+        HoaDon hd = hoadon.GetComponent<HoaDon>();
+        hd.SetUp(facingDirection);
+        yield return new WaitForSeconds(0.2f);
+        myRb.gravityScale = 4f;
+        isSkilling = false;
+    }
+    private void SkillDivineDepature()
+    {
+        if (isSkilling)
+        {
+            return;
+        }
+        else if (ManaSkill <= 80)
+        {
+            UIManager.Instance.NotEnoughMana();
+            return;
+        }
+        ManaSkill -= 80;
+        UIManager.Instance.SetManaUi(ManaSkill);
+        isSkilling = true;
+        StartCoroutine(SpawnDivine());
+    }
+    private IEnumerator SpawnDivine()
+    {
+        animEffect.StartQ3();
+        myRb.velocity = new Vector2(0, 18f);
+        yield return new WaitForSeconds(0.5f);
+        myRb.velocity = new Vector2(0, -60f);
+        yield return new WaitForSeconds(0.55f);
+        isSkilling = false;
     }
 
     #region UI Button Move

@@ -13,13 +13,13 @@ public class Sentoryu: MonoBehaviour
     void Start()
     {
         myRb = GetComponent<Rigidbody2D>();
-        speed = 30;
+        speed = 35;
         damage = 30;
     }
 
     void Update()
     {
-        if (GameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame())
         {
             return;
         }

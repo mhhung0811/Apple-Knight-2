@@ -69,7 +69,7 @@ public class BossState : MonoBehaviour
 
     void Update()
     {
-        if (GameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame())
         {
             return;
         }
@@ -372,16 +372,16 @@ public class BossState : MonoBehaviour
             }
 
             GameObject b1 = BulletManager.Instance.TakeFireBallBoss();
-            b1.transform.position = new Vector2(player.transform.position.x - 2.25f, 12);
+            b1.transform.position = new Vector2(player.transform.position.x - 2.25f, 6);
 
             GameObject b2 = BulletManager.Instance.TakeFireBallBoss();
-            b2.transform.position = new Vector2(player.transform.position.x - 0.75f, 12);
+            b2.transform.position = new Vector2(player.transform.position.x - 0.75f, 6);
 
             GameObject b3 = BulletManager.Instance.TakeFireBallBoss();
-            b3.transform.position = new Vector2(player.transform.position.x + 0.75f, 12);
+            b3.transform.position = new Vector2(player.transform.position.x + 0.75f, 6);
 
             GameObject b4 = BulletManager.Instance.TakeFireBallBoss();
-            b4.transform.position = new Vector2(player.transform.position.x + 2.25f, 12);
+            b4.transform.position = new Vector2(player.transform.position.x + 2.25f, 6);
 
             yield return new WaitForSeconds(0.5f);
         }
@@ -460,6 +460,7 @@ public class BossState : MonoBehaviour
         if (HP <= 0)
         {
             Destroy(this.gameObject);
+            InGameManager.Instance.EndLevelBoss();
         }
     }
 }

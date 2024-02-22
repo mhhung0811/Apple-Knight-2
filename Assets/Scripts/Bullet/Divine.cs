@@ -4,18 +4,27 @@ using UnityEngine;
 
 public class Divine : MonoBehaviour
 {
-    private Animator anim;
+    [SerializeField]
+    private GameObject player;
+    private float damage;
     void Start()
     {
-        anim = GetComponent<Animator>();
+        damage = 50;
     }
 
     void Update()
     {
-        
+        if (InGameManager.Instance.PauseGame())
+        {
+            return;
+        }
+        this.transform.position = player.transform.position;
     }
-    public void Beng()
+    public void OnTriggerEnter2D(Collider2D collision)
     {
-        anim.SetBool("IsBeng", true);
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Boss"))
+        {
+            collision.transform.SendMessage("IsDamaged", damage);
+        }
     }
 }

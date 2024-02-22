@@ -54,7 +54,7 @@ public class Enemy4 : BaseEnemy
     }
     void Update()
     {
-        if (GameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame())
         {
             return;
         }
@@ -65,7 +65,7 @@ public class Enemy4 : BaseEnemy
     }
     private void FixedUpdate()
     {
-        if (GameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame())
         {
             return;
         }

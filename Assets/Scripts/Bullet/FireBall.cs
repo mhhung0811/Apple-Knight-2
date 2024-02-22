@@ -20,7 +20,7 @@ public class FireBall : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame())
         {
             return;
         }

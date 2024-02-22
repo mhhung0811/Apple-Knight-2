@@ -33,7 +33,7 @@ public class BatMonster : BaseEnemy
     }
     void Update()
     {
-        if (GameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame())
         {
             return;
         }
@@ -43,6 +43,10 @@ public class BatMonster : BaseEnemy
     }
     private void FixedUpdate()
     {
+        if (InGameManager.Instance.PauseGame())
+        {
+            return;
+        }
         Move();
     }
 

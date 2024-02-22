@@ -24,6 +24,8 @@ public class PlayerCombatController : MonoBehaviour
 
     private float lastInputTime;
 
+    public float PercentDamage;
+
     [SerializeField]
     //private Animator anim;
     private PlayerAnimation animCtrl;
@@ -34,6 +36,8 @@ public class PlayerCombatController : MonoBehaviour
     private Rigidbody2D myRb;
 
     private float HP;
+    private float MaxHP;
+    private float HPEachSecond;
 
     private void Start()
     {
@@ -43,7 +47,9 @@ public class PlayerCombatController : MonoBehaviour
         countAttack = 0;
         isCombat = false;
         
-        HP = playerData.maxHP;
+        MaxHP = HP = playerData.maxHP;
+        HPEachSecond = 0;
+        PercentDamage = 1;
     }
     private void Update()
     {
@@ -53,6 +59,31 @@ public class PlayerCombatController : MonoBehaviour
         }
         CheckCombarInput();
         CheckAttack();
+    }
+    public void HoiHP(float hPEachSecond)
+    {
+        HPEachSecond = hPEachSecond;
+        InvokeRepeating("IncreaseHP", 1f, 1f);
+    }
+    private void IncreaseHP()
+    {
+        HP+= HPEachSecond;
+
+        if(HP > MaxHP)
+        {
+            HP = MaxHP;
+        }
+        UIManager.Instance.SetHPUi(HP, MaxHP);
+    }
+    public void TangHP(float maxHp)
+    {
+        MaxHP = maxHp;
+        HP += 50;
+        if(HP > MaxHP)
+        {
+            HP = MaxHP;
+        }
+        UIManager.Instance.SetHPUi(HP, MaxHP);
     }
     private void CheckCombarInput()
     {
@@ -156,7 +187,7 @@ public class PlayerCombatController : MonoBehaviour
             // Enemy attack
             if(coll.gameObject.CompareTag("Enemy") || coll.gameObject.CompareTag("Boss"))
             {
-                coll.transform.SendMessage("IsDamaged", playerData.damage);
+                coll.transform.SendMessage("IsDamaged", playerData.damage*PercentDamage);
             }
             // Trigger interactable object
             if (coll.gameObject.CompareTag("Interactable Object"))
@@ -200,7 +231,7 @@ public class PlayerCombatController : MonoBehaviour
         {
             myRb.velocity = new Vector2(myRb.velocity.x, -knockback);
         }
-        UIManager.Instance.SetHPUi(HP);
+        UIManager.Instance.SetHPUi(HP,MaxHP);
         Die();
     }
 

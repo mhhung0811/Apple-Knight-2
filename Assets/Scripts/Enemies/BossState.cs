@@ -69,7 +69,7 @@ public class BossState : MonoBehaviour
 
     void Update()
     {
-        if (InGameManager.Instance.PauseGame())
+        if (InGameManager.Instance.PauseGame() || InGameManager.Instance.isStartLvBoss == true)
         {
             return;
         }

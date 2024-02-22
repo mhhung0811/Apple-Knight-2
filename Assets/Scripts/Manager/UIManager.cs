@@ -56,15 +56,17 @@ public class UIManager : MonoBehaviour
     {
         MenuImage.gameObject.SetActive(true);
     }
-    public void SetHPUi(float value)
+    public void SetHPUi(float value,float valuemax)
     {
+        HP_Slider.maxValue = valuemax;
         HP_Slider.value = value;
-        HP_Text.text = value.ToString()+"/100";
+        HP_Text.text = value.ToString() + "/" + valuemax.ToString();
     }
-    public void SetManaUi(float value) 
+    public void SetManaUi(float value,float valuemax)
     {
+        Mana_Slider.maxValue = valuemax;
         Mana_Slider.value = value;
-        Mana_Text.text = value.ToString() + "/100";
+        Mana_Text.text = value.ToString() + "/" + valuemax.ToString();
     }
     public void NotEnoughMana()
     {

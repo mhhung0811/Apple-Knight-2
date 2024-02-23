@@ -230,7 +230,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             //animCtrl.FinishRun();
         }
-        //moveInputDirection = Input.GetAxisRaw("Horizontal");
+        moveInputDirection = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

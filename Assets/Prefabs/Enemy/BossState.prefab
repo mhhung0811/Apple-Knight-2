@@ -140,7 +140,7 @@ GameObject:
   - component: {fileID: 5132300244680828995}
   m_Layer: 7
   m_Name: BossState
-  m_TagString: Enemy
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

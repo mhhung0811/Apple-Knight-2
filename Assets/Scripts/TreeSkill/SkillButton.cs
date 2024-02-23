@@ -20,6 +20,7 @@ public class SkillButton : MonoBehaviour
             skillIamge.sprite = SkillManager.Instance.skills[9].skillSprite;
             skillNameText.text = SkillManager.Instance.skills[9].skillName;
             skillDesText.text = SkillManager.Instance.skills[9].skillDes;
+            SkillManager.Instance.UpdateAbilityButton();
         }
     }
     public void PressSkillButton()

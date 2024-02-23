@@ -44,16 +44,12 @@ public class InGameManager : MonoBehaviour
 
     void Update()
     {
-        
+        Debug.Log(expPlayer);
     }
     public void IncreaseExp(int exp)
     {
         expPlayer += exp;
-        if(expPlayer%100 == 0 && expPlayer > 0) 
-        {
-            SkillManager.Instance.Point++;
-            SkillManager.Instance.DisPlayTextPoint();
-        }
+        SkillManager.Instance.CanIncreasePoint(expPlayer);
         UIManager.Instance.SetExpUi(expPlayer);
     }
     public void GameOver()

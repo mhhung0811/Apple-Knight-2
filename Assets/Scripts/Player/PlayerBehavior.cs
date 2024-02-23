@@ -228,9 +228,9 @@ public class PlayerBehavior : MonoBehaviour
         }
         else
         {
-            animCtrl.FinishRun();
+            //animCtrl.FinishRun();
         }
-        moveInputDirection = Input.GetAxisRaw("Horizontal");
+        //moveInputDirection = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -275,7 +275,7 @@ public class PlayerBehavior : MonoBehaviour
     {
         if (canMove && !isSkilling)
         {
-            animCtrl.StartRun();
+            //animCtrl.StartRun();
             myRb.velocity = new Vector2(playerData.moveSpeed * moveInputDirection*PercentSpeed, myRb.velocity.y);
         }
 
@@ -524,14 +524,17 @@ public class PlayerBehavior : MonoBehaviour
     public void ButtonMoveLeftEnter()
     {
         moveInputDirection = -1;
+        animCtrl.StartRun();
     }
     public void ButtonMoveRightEnter()
     {
         moveInputDirection = 1;
+        animCtrl.StartRun();
     }
     public void ButtonMoveUp() {  
         moveInputDirection = 0; 
         canJumpStomp = false;
+        animCtrl.FinishRun();
     }
     public void ButtonDash()
     {

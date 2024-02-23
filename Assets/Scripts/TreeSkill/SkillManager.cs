@@ -11,6 +11,7 @@ public class SkillManager : MonoBehaviour
     public SkillUp[] skills;
     public SkillButton[] skillButtons;
     public int Point;
+    private int level;
 
     public TextMeshProUGUI pointText;
     public TextMeshProUGUI upgradeText;
@@ -66,8 +67,17 @@ public class SkillManager : MonoBehaviour
         DisPlayTextPoint();
         UpdateAbilityButton();
     }
+    public void CanIncreasePoint(int exp)
+    {
+        if(exp/100 > level)
+        {
+            level = exp / (int)100;
+            Point++;
+        }
+        DisPlayTextPoint();
+    }
 
-    private void UpdateAbilityButton()
+    public void UpdateAbilityButton()
     {
         for(int i = 0; i < 10; i++)
         {

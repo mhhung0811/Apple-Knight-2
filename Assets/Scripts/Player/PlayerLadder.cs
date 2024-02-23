@@ -14,6 +14,8 @@ public class PlayerLadder : MonoBehaviour
 
     private Collider2D currentCollider;
     private Collider2D playerCollider;
+    [SerializeField]
+    private PlayerAnimation animCtrl;
 
     private Rigidbody2D myRb;
     private float moveDirection;
@@ -37,7 +39,7 @@ public class PlayerLadder : MonoBehaviour
         }
 
         isFounded = false;
-        moveDirection = Input.GetAxisRaw("Vertical");
+        //moveDirection = Input.GetAxisRaw("Vertical");
 
         Collider2D[] colls = Physics2D.OverlapBoxAll(ground.position, new Vector2(1, 0.2f), 0);
         foreach (Collider2D coll in colls)
@@ -83,5 +85,20 @@ public class PlayerLadder : MonoBehaviour
             myRb.gravityScale = 0;
             Physics2D.IgnoreCollision(playerCollider, temp, false);
         }
+    }
+    public void ButtonUpEnter()
+    {
+        moveDirection = 1;
+        animCtrl.StartRun();
+    }
+    public void ButtonDownEnter()
+    {
+        moveDirection = -1;
+        animCtrl.StartRun();
+    }
+    public void ButtonMoveUp()
+    {
+        moveDirection = 0;
+        animCtrl.FinishRun();
     }
 }

@@ -40,8 +40,6 @@ public class Enemy4 : BaseEnemy
     }
     public override void InitializedEnemy()
     {
-        enemyData = new EnemyData();
-
         HP = enemyData.maxHP;
         anim = GetComponent<Animator>();
         myRb = GetComponent<Rigidbody2D>();
@@ -193,6 +191,7 @@ public class Enemy4 : BaseEnemy
         anim.SetBool("isDamaging", false);
         if (HP <= 0)
         {
+            InGameManager.Instance.IncreaseExp(enemyData.exp);
             Destroy(this.gameObject);
         }
     }

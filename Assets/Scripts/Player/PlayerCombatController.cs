@@ -18,7 +18,7 @@ public class PlayerCombatController : MonoBehaviour
     [SerializeField]
     private PlayerData playerData;
 
-    private bool gotInput, isCombat, isAttacking1, isAttacking2;
+    private bool gotInput;
 
     private int countAttack;
 
@@ -27,11 +27,9 @@ public class PlayerCombatController : MonoBehaviour
     public float PercentDamage;
 
     [SerializeField]
-    //private Animator anim;
     private PlayerAnimation animCtrl;
-
     [SerializeField]
-    private PlayerEffect animeffect;
+    private PlayerEffect effCtrl;
 
     private Rigidbody2D myRb;
 
@@ -45,7 +43,6 @@ public class PlayerCombatController : MonoBehaviour
 
         lastInputTime = Mathf.NegativeInfinity;
         countAttack = 0;
-        isCombat = false;
         
         MaxHP = HP = playerData.maxHP;
         HPEachSecond = 0;
@@ -89,7 +86,7 @@ public class PlayerCombatController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Q))
         {
-            AudioManager.Instance.PlaySound("Attack");
+            //AudioManager.Instance.PlaySound("Attack");
             if (combatEnable)
             {
                 // Atempt combat
@@ -98,25 +95,27 @@ public class PlayerCombatController : MonoBehaviour
             }
         }
         // Last input time over combat time -> reset combat
-        if (Time.time > lastInputTime + combatTime)
+        if (lastInputTime > Time.time + combatTime)
         {
             countAttack = 0;
             animCtrl.StartAttack(-1);
-            //animeffect.StartAttack1();
-            //anim.SetInteger("countAttack", countAttack);
-            //isCombat = false;
-            //anim.SetBool("isCombat", isCombat);
-            //animCtrl.ToIdle();
+            effCtrl.StartAttack(-1);
         }
     }
     private void CheckAttack()
     {
+        if (Time.time < lastInputTime + inputTimer)
+        {
+            // Wait for new input
+            gotInput = false;
+        }
         if (gotInput)
         {
             // Apply input
             gotInput = false;
             lastInputTime = Time.time;
             animCtrl.StartAttack(countAttack);
+            effCtrl.StartAttack(countAttack);
             CheckAttackHitBox();
             if (countAttack == 0)
             {
@@ -126,56 +125,8 @@ public class PlayerCombatController : MonoBehaviour
             {
                 countAttack = 0;
             }
-            //// Start attack
-            //if (!isCombat)
-            //{
-            //    // Apply input
-            //    gotInput = false;
-            //    animCtrl.setCountAttack(countAttack);
-
-            //    // Start combat
-            //    isCombat = true;
-
-            //    // Perform attack 1
-            //    //animCtrl.ToIdle();
-            //    animCtrl.StartAttack1();
-
-            //    countAttack = 1;
-            //    CheckAttackHitBox();
-            //}
-            //// is combating
-            //else
-            //{
-            //    // Apply input
-            //    gotInput = false;
-            //    animCtrl.setCountAttack(countAttack);
-
-            //    if (countAttack == 0)
-            //    {
-            //        // Perform attack 1
-            //        //animCtrl.ToIdle();
-            //        animCtrl.StartAttack1();
-
-            //        countAttack = 1;
-            //        CheckAttackHitBox();
-            //    }
-
-            //    if (countAttack == 1)
-            //    {
-            //        // Perform attack 2
-            //        //animCtrl.ToIdle();
-            //        animCtrl.StartAttack2();
-
-            //        countAttack = 0;
-            //        CheckAttackHitBox();
-            //    }
-            //}
         }
-        if (Time.time < lastInputTime + inputTimer)
-        {
-            // Wait for new input
-            gotInput = false;
-        }
+        
     }
 
     private void CheckAttackHitBox()
@@ -197,22 +148,6 @@ public class PlayerCombatController : MonoBehaviour
             // Instantiate hit particle
         }
     }
-    //private void FinishAttack1()
-    //{
-    //    isAttacking1 = false;
-    //    anim.SetBool("isAttacking1", isAttacking1);
-    //    countAttack = 1;
-    //    anim.SetInteger("countAttack", countAttack);
-    //}
-    //private void FinishAttack2()
-    //{
-    //    isAttacking2 = false;
-    //    anim.SetBool("isAttacking2", isAttacking2);
-    //    // Last attack
-    //    countAttack = 0;
-    //    anim.SetInteger("countAttack", countAttack);
-
-    //}
 
     public void TakeDamage(float damaged, GameObject enemy, float knockback)
     {

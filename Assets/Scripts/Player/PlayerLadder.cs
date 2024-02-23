@@ -39,7 +39,7 @@ public class PlayerLadder : MonoBehaviour
         }
 
         isFounded = false;
-        //moveDirection = Input.GetAxisRaw("Vertical");
+        moveDirection = Input.GetAxisRaw("Vertical");
 
         Collider2D[] colls = Physics2D.OverlapBoxAll(ground.position, new Vector2(1, 0.2f), 0);
         foreach (Collider2D coll in colls)

@@ -25,23 +25,13 @@ public class PlayerEffect : MonoBehaviour
         anim.SetBool("IsBeng", false);
     }
 
-    public void StartAttack1()
+    public void StartAttack(int num)
     {
-        anim.SetBool("Attack1", true);
+        anim.SetInteger("CountAttack", num);
     }
 
-    public void FinishAttack1()
+    public void FinishAttack()
     {
-        anim.SetBool("Attack1", false);
-    }
-
-    public void StartAttack2()
-    {
-        anim.SetBool("Attack2", true);
-    }
-
-    public void FinishAttack2()
-    {
-        anim.SetBool("Attack2", false);
+        anim.SetInteger("CountAttack", -1);
     }
 }

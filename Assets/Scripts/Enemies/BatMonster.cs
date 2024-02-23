@@ -103,6 +103,7 @@ public class BatMonster : BaseEnemy
         anim.SetBool("isDamaging", false);
         if (HP <= 0)
         {
+            InGameManager.Instance.IncreaseExp(enemyData.exp);
             Destroy(this.gameObject);
         }
     }

@@ -9,4 +9,5 @@ public class EnemyData : ScriptableObject
     public float speed = 3f;
     public float damage = 10f;
     public float detectionRange = 10f;
+    public int exp = 5;
 }

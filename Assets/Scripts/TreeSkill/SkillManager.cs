@@ -42,13 +42,13 @@ public class SkillManager : MonoBehaviour
 
     private void Start()
     {
-        Point = 5;
+        Point = 0;
         DisPlayTextPoint();
         UpdateAbilityButton();
     }
-    private void DisPlayTextPoint()
+    public void DisPlayTextPoint()
     {
-        pointText.text = Point + "/5";
+        pointText.text = "Điểm kỹ năng: " + Point.ToString();
     }
 
     public void PressUpgradeButton()
@@ -69,7 +69,7 @@ public class SkillManager : MonoBehaviour
 
     private void UpdateAbilityButton()
     {
-        for(int i = 0; i < 9; i++)
+        for(int i = 0; i < 10; i++)
         {
             if (skills[i].isUpgrade)
             {
@@ -89,6 +89,14 @@ public class SkillManager : MonoBehaviour
     private void CanUpgradeSkill()
     {
         int id = activeSkill.gameObject.GetComponent<SkillButton>().skillButtonId;
+        bool isUpgrade = activeSkill.gameObject.GetComponent<SkillUp>().isUpgrade;
+        if(isUpgrade == true)
+        {
+            upgradeText.gameObject.SetActive(true);
+            upgradeText.text = "Skill này đã được học!";
+            StartCoroutine(VisibilityTextUpgrade());
+            return;
+        }
 
         if(id == 1|| id == 4 || id == 7)
         {

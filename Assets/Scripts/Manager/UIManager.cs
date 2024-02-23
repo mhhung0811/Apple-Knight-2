@@ -26,6 +26,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI HP_Text;
     public Slider Mana_Slider;
     public TextMeshProUGUI Mana_Text;
+    public Slider Exp_Slider;
+    public TextMeshProUGUI Exp_Text;
     public TextMeshProUGUI NotEnoughMana_Text;
     private void Awake()
     {
@@ -67,6 +69,11 @@ public class UIManager : MonoBehaviour
         Mana_Slider.maxValue = valuemax;
         Mana_Slider.value = value;
         Mana_Text.text = value.ToString() + "/" + valuemax.ToString();
+    }
+    public void SetExpUi(int exp)
+    {
+        Exp_Slider.value = exp % 100;
+        Exp_Text.text = "Lv." + (exp / (int)100).ToString();
     }
     public void NotEnoughMana()
     {

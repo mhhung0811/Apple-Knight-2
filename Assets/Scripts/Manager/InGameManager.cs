@@ -29,6 +29,7 @@ public class InGameManager : MonoBehaviour
     }
 
     private bool _isPauseGame;
+    private int expPlayer;
     public bool isStartLvBoss;
 
     [SerializeField]
@@ -38,13 +39,23 @@ public class InGameManager : MonoBehaviour
     void Start()
     {
         isStartLvBoss = true;
+        expPlayer = 0;
     }
 
     void Update()
     {
         
     }
-
+    public void IncreaseExp(int exp)
+    {
+        expPlayer += exp;
+        if(expPlayer%100 == 0 && expPlayer > 0) 
+        {
+            SkillManager.Instance.Point++;
+            SkillManager.Instance.DisPlayTextPoint();
+        }
+        UIManager.Instance.SetExpUi(expPlayer);
+    }
     public void GameOver()
     {
         Debug.Log("gameover");

@@ -11,7 +11,7 @@ public class PlayerCollector : MonoBehaviour
             //Audio Collect coin
             AudioManager.Instance.PlaySound("CollectCoin");
             // Collect coin
-            GameManager.Instance.CollectCoin();
+            //GameManager.Instance.CollectCoin();
             // Destroy Coin
             Destroy(collision.gameObject);
             // Add coin ...

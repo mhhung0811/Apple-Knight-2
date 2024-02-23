@@ -46,7 +46,7 @@ public class BossState : MonoBehaviour
         myRb = GetComponent<Rigidbody2D>();
         posInit = this.transform.position;
 
-        HP = 200;
+        HP = 600;
         facingDirection = 1;
         playerDetectionRange = 20;
         numberOfFireballs = 4;
@@ -452,6 +452,7 @@ public class BossState : MonoBehaviour
     public void IsDamaged(float damage)
     {
         HP -= damage;
+        UIManager.Instance.SetHPBossUI(HP);
         anim.SetBool("isDamaging", true);
     }
     public void FinishDamaged()

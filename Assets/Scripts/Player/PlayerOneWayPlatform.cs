@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PlayerOneWayPlatform : MonoBehaviour
 {
-    [SerializeField]
-    private float dropTime;
-
     private GameObject currentOneWayPlatform;
 
     private BoxCollider2D playerCollider;
@@ -48,7 +45,7 @@ public class PlayerOneWayPlatform : MonoBehaviour
         BoxCollider2D platformCollider = currentOneWayPlatform.GetComponent<BoxCollider2D>();
 
         Physics2D.IgnoreCollision(playerCollider, platformCollider);
-        yield return new WaitForSeconds(dropTime);
+        yield return new WaitForSeconds(0.5f);
         Physics2D.IgnoreCollision(playerCollider, platformCollider, false);
     }
     //UI Button

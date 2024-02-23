@@ -53,6 +53,8 @@ public class PlayerBehavior : MonoBehaviour
     [SerializeField]
     private PlayerEffect animEffect;
 
+    private PlayerLadder playerLadder;
+
     void Start()
     {
         InvokeRepeating("IncreaseMana", 1f,1f);
@@ -69,6 +71,8 @@ public class PlayerBehavior : MonoBehaviour
         ManaEachSecond = 3;
         HPEachSecond = 0;
         PercentSpeed = 1;
+
+        playerLadder = GetComponent<PlayerLadder>();
     }
 
     void Update()
@@ -279,7 +283,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             // Animation Wall Sliding
             animCtrl.StartWallSlide();
-
+            
             myRb.velocity = new Vector2(myRb.velocity.x, -playerData.wallSlidingSpeed);
             lastTimeSlideWall += Time.deltaTime;
             if(lastTimeSlideWall > 0.7f)
@@ -315,6 +319,12 @@ public class PlayerBehavior : MonoBehaviour
         {
             if (isGrounded)
             {
+                // Ignore the ladder
+                if (playerLadder != null)
+                {
+                    StartCoroutine(playerLadder.DisableCollision());
+                }
+
                 GameObject dust = EffectManager.Instance.Take();
                 dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
                 Dust d = dust.GetComponent<Dust>();

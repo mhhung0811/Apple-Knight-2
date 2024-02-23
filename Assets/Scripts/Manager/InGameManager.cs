@@ -44,7 +44,6 @@ public class InGameManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(expPlayer);
     }
     public void IncreaseExp(int exp)
     {

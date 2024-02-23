@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class FireBall : MonoBehaviour
     private float speed;
     private float damage;
     private float facingDirection;
+    private bool isMoveSpecific;
+    private float angle;
     Rigidbody2D myRb;
     public LayerMask whatIsGround;
 
@@ -24,6 +27,10 @@ public class FireBall : MonoBehaviour
         {
             return;
         }
+        if(isMoveSpecific)
+        {
+            return;
+        }
         Move();
     }
 
@@ -34,6 +41,7 @@ public class FireBall : MonoBehaviour
 
     public void SetUp(float facing)
     {
+        isMoveSpecific = false;
         if(facing == 1)
         {
             facingDirection = 1;
@@ -44,6 +52,18 @@ public class FireBall : MonoBehaviour
             facingDirection = -1;
             this.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
+    }
+
+    public void SetUpSpecific(float angle)
+    {
+        isMoveSpecific = true;
+        this.angle = angle;
+        float angleRadian = Mathf.Deg2Rad * angle;
+
+        Vector2 direction = new Vector2(Mathf.Cos(angleRadian), Mathf.Sin(angleRadian));
+        myRb = GetComponent<Rigidbody2D>();
+        speed = 20;
+        myRb.velocity = direction * speed;
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

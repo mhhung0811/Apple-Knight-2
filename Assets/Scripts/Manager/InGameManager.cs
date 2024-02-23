@@ -95,11 +95,18 @@ public class InGameManager : MonoBehaviour
             isStartLvBoss = false;
             IInteractable interactable = doorStartlvBoss.gameObject.GetComponent<IInteractable>();
             interactable.InteractOff();
+            UIManager.Instance.HPBoss_Slider.gameObject.SetActive(true);
         }
     }
     public void EndLevelBoss()
     {
         IInteractable interactable = doorEndlvBoss.gameObject.GetComponent<IInteractable>();
         interactable.InteractOn();
+    }
+
+    private IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        UIManager.Instance.HPBoss_Slider.gameObject.SetActive(false);
     }
 }

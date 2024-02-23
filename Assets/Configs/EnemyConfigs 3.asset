@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 639592124bcc45649808096f1b270003, type: 3}
-  m_Name: BatMonster
+  m_Name: EnemyConfigs 3
   m_EditorClassIdentifier: 
-  maxHP: 10
-  speed: 6
-  damage: 20
-  detectionRange: 20
-  exp: 5
+  maxHP: 100
+  speed: 3
+  damage: 10
+  detectionRange: 10
+  exp: 30

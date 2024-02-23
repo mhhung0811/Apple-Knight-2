@@ -13,7 +13,7 @@ public class Bomb : MonoBehaviour
     public LayerMask whatIsGround;
     void Start()
     {
-        damage = 10;
+        damage = 30;
         myRb=GetComponent<Rigidbody2D>();
         explodeRadius = 2f;
     }

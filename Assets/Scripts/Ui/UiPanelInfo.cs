@@ -13,7 +13,7 @@ public class UiPanelInfo : MonoBehaviour
 
         float sizePanel = minScreenDimension * 0.2f;
 
-        squarePanel.sizeDelta = new Vector2 (sizePanel*2, sizePanel);
+        squarePanel.sizeDelta = new Vector2 (sizePanel*2, sizePanel*1.3f);
 
         squarePanel.anchorMin = new Vector2(0, 1);
         squarePanel.anchorMax = new Vector2(0, 1);

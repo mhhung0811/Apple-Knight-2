@@ -11,7 +11,17 @@ public class SkillButton : MonoBehaviour
     public TextMeshProUGUI skillDesText;
 
     public int skillButtonId;
-    
+    private void Start()
+    {
+        if(skillButtonId == 10)
+        {
+            SkillManager.Instance.activeSkill = this.transform.GetComponent<SkillUp>();
+            this.gameObject.GetComponent<SkillUp>().isUpgrade = true;
+            skillIamge.sprite = SkillManager.Instance.skills[9].skillSprite;
+            skillNameText.text = SkillManager.Instance.skills[9].skillName;
+            skillDesText.text = SkillManager.Instance.skills[9].skillDes;
+        }
+    }
     public void PressSkillButton()
     {
         SkillManager.Instance.activeSkill = this.transform.GetComponent<SkillUp>();

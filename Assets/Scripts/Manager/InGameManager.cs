@@ -29,7 +29,7 @@ public class InGameManager : MonoBehaviour
     }
 
     private bool _isPauseGame;
-    private bool isStartLvBoss;
+    public bool isStartLvBoss;
 
     [SerializeField]
     private GameObject doorStartlvBoss;

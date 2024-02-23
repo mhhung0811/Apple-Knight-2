@@ -12,9 +12,14 @@ public class PlayerBehavior : MonoBehaviour
     private float lastTimeSlideWall = 0;
     private float lastDash = -100;
     private float ManaSkill = 100;
+    private float maxManaSkill = 100;
+    private float ManaEachSecond;
+    private float HPEachSecond;
+    private float PercentSpeed;
 
     private int amountOfJumpLeft;
     private int facingDirection;
+    private int idSkillUntil;
 
 
     private bool isFacingRight;
@@ -61,6 +66,9 @@ public class PlayerBehavior : MonoBehaviour
         facingDirection = 1;
         canFlip = true;
         DistanceDownAnimDust = -0.5f;
+        ManaEachSecond = 3;
+        HPEachSecond = 0;
+        PercentSpeed = 1;
     }
 
     void Update()
@@ -100,14 +108,14 @@ public class PlayerBehavior : MonoBehaviour
 
     private void IncreaseMana()
     {
-        if(ManaSkill < 100)
+        if(ManaSkill < maxManaSkill)
         {
-            ManaSkill += 3;
-            if(ManaSkill > 100)
+            ManaSkill += ManaEachSecond;
+            if(ManaSkill > maxManaSkill)
             {
-                ManaSkill = 100;
+                ManaSkill = maxManaSkill;
             }
-            UIManager.Instance.SetManaUi(ManaSkill);
+            UIManager.Instance.SetManaUi(ManaSkill,maxManaSkill);
         }
     }
 
@@ -264,7 +272,7 @@ public class PlayerBehavior : MonoBehaviour
         if (canMove && !isSkilling)
         {
             animCtrl.StartRun();
-            myRb.velocity = new Vector2(playerData.moveSpeed * moveInputDirection, myRb.velocity.y);
+            myRb.velocity = new Vector2(playerData.moveSpeed * moveInputDirection*PercentSpeed, myRb.velocity.y);
         }
 
         if (isWallSliding && canSlidings)
@@ -393,7 +401,7 @@ public class PlayerBehavior : MonoBehaviour
             return;
         }
         ManaSkill -= 80;
-        UIManager.Instance.SetManaUi(ManaSkill);
+        UIManager.Instance.SetManaUi(ManaSkill,maxManaSkill);
         myRb.gravityScale = 0f;
         isSkilling = true;
         StartCoroutine(SpawnSentoryu());
@@ -458,7 +466,7 @@ public class PlayerBehavior : MonoBehaviour
             return;
         }
         ManaSkill -= 80;
-        UIManager.Instance.SetManaUi(ManaSkill);
+        UIManager.Instance.SetManaUi(ManaSkill, maxManaSkill);
         myRb.gravityScale = 0f;
         isSkilling = true;
         StartCoroutine(SpawnHoaCau());
@@ -488,7 +496,7 @@ public class PlayerBehavior : MonoBehaviour
             return;
         }
         ManaSkill -= 80;
-        UIManager.Instance.SetManaUi(ManaSkill);
+        UIManager.Instance.SetManaUi(ManaSkill, maxManaSkill);
         isSkilling = true;
         StartCoroutine(SpawnDivine());
     }
@@ -536,10 +544,78 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void ButonFireBall()
     {
-        GameObject b = BulletManager.Instance.TakeDarts();
-        b.transform.position = this.transform.position;
-        Darts fire = b.GetComponent<Darts>();
-        fire.SetUp(facingDirection);
+        switch (idSkillUntil)
+        {
+            case 1:
+                SkillHoaDon();
+                break;
+            case 2:
+                SkillSentoryu();
+                break;
+            case 3:
+                SkillDivineDepature();
+                break;
+        }
     }
     #endregion
+    //Skill tree
+    public void UpgradeSkill(int idSkill)
+    {
+        switch(idSkill)
+        {
+            case 1: Skill1(); break;
+            case 2: Skill2(); break;
+            case 3: Skill3(); break;
+            case 4: Skill4(); break;
+            case 5: Skill5(); break;
+            case 6: Skill6(); break;
+            case 7: Skill7(); break;
+            case 8: Skill8(); break;
+            case 9: Skill9(); break;
+        }
+    }
+    private void Skill1()
+    {
+        HPEachSecond = 2;
+        this.gameObject.GetComponent<PlayerCombatController>().HoiHP(HPEachSecond);
+    }
+    private void Skill2()
+    {
+        this.gameObject.GetComponent<PlayerCombatController>().TangHP(150);
+    }
+    private void Skill3()
+    {
+        idSkillUntil = 1;
+    }
+    private void Skill4()
+    {
+        ManaEachSecond = 5;
+    }
+    private void Skill5()
+    {
+        ManaSkill += 50;
+        maxManaSkill = 150;
+        if (ManaSkill > 150)
+        {
+            ManaSkill = 150;
+        }
+        UIManager.Instance.SetManaUi(ManaSkill,maxManaSkill);
+    }
+    private void Skill6()
+    {
+        idSkillUntil = 2;
+    }
+    private void Skill7()
+    {
+        PercentSpeed = 1.25f;
+    }
+    private void Skill8()
+    {
+        this.gameObject.GetComponent<PlayerCombatController>().PercentDamage = 1.25f;
+    }
+    private void Skill9()
+    {
+        idSkillUntil = 3;
+    }
+    //
 }

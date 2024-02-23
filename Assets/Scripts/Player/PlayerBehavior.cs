@@ -1,7 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Tilemaps;
 using UnityEngine;
 
 public class PlayerBehavior : MonoBehaviour
@@ -230,7 +227,7 @@ public class PlayerBehavior : MonoBehaviour
         {
             //animCtrl.FinishRun();
         }
-        moveInputDirection = Input.GetAxisRaw("Horizontal");
+        //moveInputDirection = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

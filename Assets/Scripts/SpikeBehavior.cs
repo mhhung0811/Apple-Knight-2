@@ -25,7 +25,7 @@ public class SpikeBehavior : MonoBehaviour
             currentCharacter = collision.gameObject;
             Debug.Log("Damnn!");
             // Deal damage
-            currentCharacter.GetComponent<PlayerCombatController>().TakeDamage(1, this.gameObject, 16);
+            currentCharacter.GetComponent<PlayerCombatController>().TakeDamage(10, this.gameObject, 16);
             // Character to immortal state
         }
     }

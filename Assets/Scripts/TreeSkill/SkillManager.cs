@@ -43,7 +43,7 @@ public class SkillManager : MonoBehaviour
 
     private void Start()
     {
-        Point = 5;
+        Point = 0;
         DisPlayTextPoint();
         UpdateAbilityButton();
     }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerCombatController : MonoBehaviour
+public class PlayerCombatController : MonoBehaviour, ISaveable
 {
     [SerializeField]
     private bool combatEnable;
@@ -47,6 +47,11 @@ public class PlayerCombatController : MonoBehaviour
         MaxHP = HP = playerData.maxHP;
         HPEachSecond = 0;
         PercentDamage = 1;
+
+        // Save
+        GameManager.Instance.SaveData += Save;
+        // Load
+        GameManager.Instance.LoadData += Load;
     }
     private void Update()
     {
@@ -196,4 +201,15 @@ public class PlayerCombatController : MonoBehaviour
             //lastInputTime = Time.time;
         }
     }
+
+    #region ISaveable
+    public void Save()
+    {
+        GameManager.Instance.GameData.Hp = HP;
+    }
+    public void Load()
+    {
+        HP = GameManager.Instance.GameData.Hp;
+    }
+    #endregion
 }

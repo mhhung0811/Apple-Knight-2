@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
@@ -20,7 +21,10 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool _isPauseGame;
+    public PlayerGameData GameData;
+
+    public UnityAction SaveData;
+    public UnityAction LoadData;
 
     private void Awake()
     {
@@ -31,7 +35,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        
+        SaveSystem.LoadData();
     }
 
     // Update is called once per frame
@@ -43,5 +47,13 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadScene("Level 1");
+    }
+    public void SaveGame()
+    {
+        SaveData?.Invoke();
+    }
+    public void LoadGame()
+    {
+        LoadData?.Invoke();
     }
 }

@@ -60,6 +60,7 @@ public class UIManager : MonoBehaviour, ISaveable
     public void Victory()
     {
         MenuImage.gameObject.SetActive(true);
+        InGameManager.Instance.ButtonPause();
     }
     public void SetHPUi(float value,float valuemax)
     {

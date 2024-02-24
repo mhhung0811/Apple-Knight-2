@@ -102,7 +102,6 @@ public class PlayerCombatController : MonoBehaviour, ISaveable
         // Last input time over combat time -> reset combat
         if (lastInputTime < Time.time - combatTime)
         {
-            Debug.Log("Reset");
             countAttack = 0;
             animCtrl.StartAttack(-1);
             effCtrl.StartAttack(-1);

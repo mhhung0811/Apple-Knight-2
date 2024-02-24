@@ -54,6 +54,14 @@ public class GameManager : MonoBehaviour
     //{
     //    SaveSystem.LoadData();
     //}
+    // public void SaveGame()
+    // {
+    //     SaveData?.Invoke();
+    // }
+    // public void LoadGame()
+    // {
+    //     LoadData?.Invoke();
+    // }
     public void ButtonQuitGame()
     {
         SceneManager.LoadScene("Start Game");

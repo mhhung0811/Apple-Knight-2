@@ -25,6 +25,7 @@ public class Enemy4 : BaseEnemy
     private bool isGroundedFlip;
     private bool isWallFlip;
     private bool isGround;
+    private bool isStun;
 
     public Transform detectPlayer;
     public Transform attackHitBoxPos;
@@ -49,6 +50,7 @@ public class Enemy4 : BaseEnemy
         attackTimeLeft = 1f;
         attackRadius = 1.5f;
         facingDirection = 1;
+        isStun = true;
     }
     void Update()
     {
@@ -185,6 +187,7 @@ public class Enemy4 : BaseEnemy
         HP -= damage;
         anim.SetBool("isDamaging", true);
         myRb.AddForce(new Vector2(50, 100));
+        StartCoroutine(CanStun());
     }
     public override void FinishDamaged()
     {
@@ -193,6 +196,20 @@ public class Enemy4 : BaseEnemy
         {
             InGameManager.Instance.IncreaseExp(enemyData.exp);
             Destroy(this.gameObject);
+        }
+    }
+    private IEnumerator CanStun()
+    {
+        if (isStun)
+        {
+            attackTimeLeft = attackCoolDown;
+            isStun = false;
+            yield return new WaitForSeconds(2f);
+            isStun = true;
+        }
+        else
+        {
+            yield return new WaitForSeconds(0f);
         }
     }
     private void OnDrawGizmos()

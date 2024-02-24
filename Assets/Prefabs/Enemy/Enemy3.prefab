@@ -280,13 +280,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 979842e24d76dfc49a894a11864bbd24, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 6420b0a0ce1ad3648b0f43b115f43d1b, type: 2}
+  enemyData: {fileID: 11400000, guid: 9d20b58075db13441a90fedf1c471e39, type: 2}
   detectPlayer: {fileID: 249504492861115709}
   attackHitBoxPos: {fileID: 8384129751694893573}
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 256
-  bomb: {fileID: 3315145205351445334, guid: bc8ddb6b00615e545bb5c87623d27567, type: 3}
 --- !u!1 &4273114143254731707
 GameObject:
   m_ObjectHideFlags: 0

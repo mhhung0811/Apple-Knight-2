@@ -348,7 +348,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2452feda1a202148aed1bd62751653b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyData: {fileID: 11400000, guid: 6420b0a0ce1ad3648b0f43b115f43d1b, type: 2}
+  enemyData: {fileID: 11400000, guid: bf771cfaa0a63a746bca26ec638117e1, type: 2}
   detectPlayer: {fileID: 3991012509933699533}
   attackHitBoxPos: {fileID: 4517226769709773986}
   whatIsPlayer:

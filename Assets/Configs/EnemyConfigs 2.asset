@@ -16,4 +16,4 @@ MonoBehaviour:
   speed: 3
   damage: 15
   detectionRange: 10
-  exp: 5
+  exp: 6

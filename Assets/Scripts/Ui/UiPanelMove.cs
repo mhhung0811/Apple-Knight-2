@@ -19,7 +19,7 @@ public class UiPanelMove: MonoBehaviour
         squarePanel.sizeDelta = new Vector2(panelSize, panelSize);
 
         // Thiết lập anchor của panel
-        squarePanel.anchorMin = Vector2.zero - new Vector2(0,panelSize/Screen.height)*0.1f; // Anchor min ở góc dưới bên trái
+        squarePanel.anchorMin = Vector2.zero - new Vector2(-0.5f,panelSize*0/Screen.height)*0.1f; // Anchor min ở góc dưới bên trái
         squarePanel.anchorMax = squarePanel.pivot = squarePanel.anchorMin; // Anchor max cũng ở góc dưới bên trái
     }
 }

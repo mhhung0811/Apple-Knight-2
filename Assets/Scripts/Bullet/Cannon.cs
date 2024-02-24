@@ -21,8 +21,6 @@ public class Cannon : MonoBehaviour
 
     public void Fire()
     {
-        Debug.Log("hêlo");
-
         GameObject fireBall = BulletManager.Instance.TakeFireBall();
         FireBall fb = fireBall.GetComponent<FireBall>();
         fb.transform.position = this.transform.position;

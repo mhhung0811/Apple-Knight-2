@@ -22,8 +22,8 @@ public class UIManager : MonoBehaviour
     public RawImage MenuGameOver;
     public Image MenuImage;
 
+    public Button buttonUntil;
     public Slider HPBoss_Slider;
-
     public Slider HP_Slider;
     public TextMeshProUGUI HP_Text;
     public Slider Mana_Slider;
@@ -84,6 +84,10 @@ public class UIManager : MonoBehaviour
     public void NotEnoughMana()
     {
         StartCoroutine(VisibleTextManaNotEnough());
+    }
+    public void OpenButtonUntil()
+    {
+        buttonUntil.gameObject.SetActive(true);
     }
     private IEnumerator VisibleTextManaNotEnough()
     {

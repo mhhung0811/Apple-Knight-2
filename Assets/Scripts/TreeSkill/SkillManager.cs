@@ -43,7 +43,7 @@ public class SkillManager : MonoBehaviour
 
     private void Start()
     {
-        Point = 0;
+        Point = 5;
         DisPlayTextPoint();
         UpdateAbilityButton();
     }
@@ -129,6 +129,10 @@ public class SkillManager : MonoBehaviour
                 activeSkill.gameObject.GetComponent<SkillUp>().isUpgrade = true;
                 Point--;
                 player.gameObject.GetComponent<PlayerBehavior>().UpgradeSkill(id);
+                if(id == 3|| id == 6|| id == 9)
+                {
+                    UIManager.Instance.OpenButtonUntil();
+                }
             }
         }
     }

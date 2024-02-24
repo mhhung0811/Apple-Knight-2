@@ -6,15 +6,12 @@ using UnityEngine;
 public class PlayerGameData
 {
     public float Hp;
+    public float MaxHp;
     public int Mana;
     public int Exp;
     public Vector3 PlayerPosition;
     public PlayerGameData()
     {
-        Hp = 100;
-        Mana = 100;
-        Exp = 0;
-        PlayerPosition = Vector3.zero;
-
+        
     }
 }

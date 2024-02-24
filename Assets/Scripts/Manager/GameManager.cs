@@ -23,9 +23,6 @@ public class GameManager : MonoBehaviour
 
     public PlayerGameData GameData;
 
-    public UnityAction SaveData;
-    public UnityAction LoadData;
-
     private void Awake()
     {
         if (_instance == null)
@@ -35,7 +32,7 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        SaveSystem.LoadData();
+        //LoadGame();
     }
 
     // Update is called once per frame
@@ -48,13 +45,15 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene("Level 1");
     }
-    public void SaveGame()
-    {
-        SaveData?.Invoke();
-    }
-    public void LoadGame()
-    {
-        LoadData?.Invoke();
+    //public void SaveGame()
+    //{
+    //    Debug.Log(GameData.Hp);
+    //    SaveSystem.SaveData(GameData);
+    //}
+    //public void LoadGame()
+    //{
+    //    SaveSystem.LoadData();
+    //}
     public void ButtonQuitGame()
     {
         SceneManager.LoadScene("Start Game");

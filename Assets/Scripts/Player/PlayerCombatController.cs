@@ -49,9 +49,9 @@ public class PlayerCombatController : MonoBehaviour, ISaveable
         PercentDamage = 1;
 
         // Save
-        GameManager.Instance.SaveData += Save;
+        SaveSystem.onSave += Save;
         // Load
-        GameManager.Instance.LoadData += Load;
+        SaveSystem.onLoad += Load;
     }
     private void Update()
     {
@@ -206,9 +206,11 @@ public class PlayerCombatController : MonoBehaviour, ISaveable
     public void Save()
     {
         GameManager.Instance.GameData.Hp = HP;
+        GameManager.Instance.GameData.MaxHp = MaxHP;
     }
     public void Load()
     {
+        MaxHP = GameManager.Instance.GameData.MaxHp;
         HP = GameManager.Instance.GameData.Hp;
     }
     #endregion

@@ -542,6 +542,10 @@ public class PlayerBehavior : MonoBehaviour
     }
     public void ButtonJump()
     {
+        if (canJumpStomp)
+        {
+            return;
+        }
         Jump();
     }
     public void ButtonJumpStomp()

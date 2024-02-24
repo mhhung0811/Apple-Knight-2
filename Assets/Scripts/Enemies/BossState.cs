@@ -370,18 +370,18 @@ public class BossState : MonoBehaviour
             {
                 break;
             }
-
+            Debug.Log("FireBallBoss");
             GameObject b1 = BulletManager.Instance.TakeFireBallBoss();
-            b1.transform.position = new Vector2(player.transform.position.x - 2.25f, 6);
+            b1.transform.position = new Vector2(player.transform.position.x - 2.25f, transform.position.y + 10);
 
             GameObject b2 = BulletManager.Instance.TakeFireBallBoss();
-            b2.transform.position = new Vector2(player.transform.position.x - 0.75f, 6);
+            b2.transform.position = new Vector2(player.transform.position.x - 0.75f, transform.position.y + 10);
 
             GameObject b3 = BulletManager.Instance.TakeFireBallBoss();
-            b3.transform.position = new Vector2(player.transform.position.x + 0.75f, 6);
+            b3.transform.position = new Vector2(player.transform.position.x + 0.75f, transform.position.y + 10);
 
             GameObject b4 = BulletManager.Instance.TakeFireBallBoss();
-            b4.transform.position = new Vector2(player.transform.position.x + 2.25f, 6);
+            b4.transform.position = new Vector2(player.transform.position.x + 2.25f, transform.position.y + 10);
 
             yield return new WaitForSeconds(0.5f);
         }

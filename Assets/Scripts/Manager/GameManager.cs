@@ -55,5 +55,8 @@ public class GameManager : MonoBehaviour
     public void LoadGame()
     {
         LoadData?.Invoke();
+    public void ButtonQuitGame()
+    {
+        SceneManager.LoadScene("Start Game");
     }
 }

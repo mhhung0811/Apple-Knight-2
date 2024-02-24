@@ -102,6 +102,7 @@ public class InGameManager : MonoBehaviour
     {
         IInteractable interactable = doorEndlvBoss.gameObject.GetComponent<IInteractable>();
         interactable.InteractOn();
+        StartCoroutine(Delay());
     }
 
     private IEnumerator Delay()

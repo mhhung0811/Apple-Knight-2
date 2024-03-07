@@ -51,7 +51,7 @@ TagManager:
   - name: Platform
     uniqueID: 3510594137
     locked: 0
-  - name: Player
+  - name: Character
     uniqueID: 14559189
     locked: 0
   - name: Default

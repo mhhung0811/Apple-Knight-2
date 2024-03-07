@@ -218,16 +218,17 @@ public class PlayerBehavior : MonoBehaviour
 
     private void CheckInput()
     {
+        // Comment this to enable UI move button
         // Run animation
         if (Input.GetAxisRaw("Horizontal") != 0 && isGrounded)
         {
-            //animCtrl.StartRun();
+            animCtrl.StartRun();
         }
         else
         {
-            //animCtrl.FinishRun();
+            animCtrl.FinishRun();
         }
-        //moveInputDirection = Input.GetAxisRaw("Horizontal");
+        moveInputDirection = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space))
         {

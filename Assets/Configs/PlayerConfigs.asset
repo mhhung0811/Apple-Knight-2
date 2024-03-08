@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdecca31d54700d408596d8e3816061b, type: 3}
   m_Name: PlayerConfigs
   m_EditorClassIdentifier: 
-  maxHP: 100
+  maxHP: 100000
   damage: 30
   moveSpeed: 10
   jumpForce: 16

@@ -35,7 +35,7 @@ public class BombBoss : MonoBehaviour
         {
             AudioManager.Instance.PlaySound("Explosion");
             //Animation Effect Explode
-            GameObject effectExplode = EffectManager.Instance.Take();
+            GameObject effectExplode = EffectManager.Instance.Take(0);
             effectExplode.transform.position = this.transform.position;
             Dust dust = effectExplode.GetComponent<Dust>();
             dust.StartAnimExplode();

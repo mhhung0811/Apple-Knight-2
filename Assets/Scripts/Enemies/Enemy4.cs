@@ -16,15 +16,15 @@ public class Enemy4 : BaseEnemy
     private bool isDetectPlayerLeft;
     private bool isDetectPleyerRight;
 
-    private float attackCoolDown;
-    private float attackTimeLeft;
+    public float attackCoolDown;
+    public float attackTimeLeft;
     private float attackRadius;
     private float HP;
     private float checkGroundDistance = 0.5f;
     private float checkWallDistance = 0.5f;
     private float groundCheckRadius = 0.4f;
 
-    private bool isAttack;
+    public bool isAttack;
     private bool isGroundedFlip;
     private bool isWallFlip;
     private bool isGround;
@@ -98,10 +98,10 @@ public class Enemy4 : BaseEnemy
             }
             else
             {
-                animCtrl.StartAttack();
-                CheckAttackHitBox();
-                attackTimeLeft = attackCoolDown;
-                isAttack = false;
+                animCtrl.StartAttack(facingDirection);
+                //CheckAttackHitBox();
+                //attackTimeLeft = attackCoolDown;
+                //isAttack = false;
             }
         }
         else
@@ -159,6 +159,7 @@ public class Enemy4 : BaseEnemy
     {
         if (!isDetectPleyerRight && isGround)
         {
+            animCtrl.StartWalk();
             myRb.velocity = new Vector2(enemyData.speed*facingDirection, 0);
         }
     }
@@ -171,10 +172,12 @@ public class Enemy4 : BaseEnemy
     {
         if (isDetectPleyerRight && canMove)
         {
+            animCtrl.StartWalk();
             myRb.velocity = new Vector2((enemyData.speed+2) * facingDirection, myRb.velocity.y);
         }
         else
         {
+            animCtrl.EndWalk();
             myRb.velocity = new Vector2(enemyData.speed * 0, myRb.velocity.y);
         }
     }

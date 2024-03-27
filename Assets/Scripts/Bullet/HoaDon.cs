@@ -69,7 +69,7 @@ public class HoaDon : MonoBehaviour
             collision.transform.SendMessage("IsDamaged", damage);
             AudioManager.Instance.PlaySound("Explosion");
 
-            GameObject effectExplode = EffectManager.Instance.Take();
+            GameObject effectExplode = EffectManager.Instance.Take(0);
             effectExplode.transform.position = this.transform.position;
             Dust dust = effectExplode.GetComponent<Dust>();
             dust.StartAnimExplode();

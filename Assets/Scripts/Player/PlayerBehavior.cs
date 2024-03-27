@@ -162,7 +162,7 @@ public class PlayerBehavior : MonoBehaviour
             AudioManager.Instance.PlaySound("Landing1");
             isFlying = false;
             //Animation Effect Dust
-            GameObject dust = EffectManager.Instance.Take();
+            GameObject dust = EffectManager.Instance.Take(0);
             dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
             Dust d = dust.GetComponent<Dust>();
             d.StartAnimDustLand();
@@ -264,7 +264,7 @@ public class PlayerBehavior : MonoBehaviour
         dashTimeLeft = playerData.dashTime;
         lastDash = Time.time;
         //Animation Dash
-        GameObject dust = EffectManager.Instance.Take();
+        GameObject dust = EffectManager.Instance.Take(0);
         dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
         Dust d = dust.GetComponent<Dust>();
         d.StartAnimDash();
@@ -324,7 +324,7 @@ public class PlayerBehavior : MonoBehaviour
                     StartCoroutine(playerLadder.DisableCollision());
                 }
 
-                GameObject dust = EffectManager.Instance.Take();
+                GameObject dust = EffectManager.Instance.Take(0);
                 dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
                 Dust d = dust.GetComponent<Dust>();
                 d.StartAnimJump();

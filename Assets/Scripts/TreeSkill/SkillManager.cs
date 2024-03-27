@@ -49,7 +49,7 @@ public class SkillManager : MonoBehaviour
     }
     public void DisPlayTextPoint()
     {
-        pointText.text = "Điểm kỹ năng: " + Point.ToString();
+        pointText.text = "Upgrade point: " + Point.ToString();
     }
 
     public void PressUpgradeButton()
@@ -61,7 +61,7 @@ public class SkillManager : MonoBehaviour
         else
         {
             upgradeText.gameObject.SetActive(true);
-            upgradeText.text = "Không đủ điểm để nâng cấp!";
+            upgradeText.text = "Not enough points to upgrade!";
             StartCoroutine(VisibilityTextUpgrade());
         }
         DisPlayTextPoint();
@@ -103,7 +103,7 @@ public class SkillManager : MonoBehaviour
         if(isUpgrade == true)
         {
             upgradeText.gameObject.SetActive(true);
-            upgradeText.text = "Skill này đã được học!";
+            upgradeText.text = "This skill has been upgraded!";
             StartCoroutine(VisibilityTextUpgrade());
             return;
         }
@@ -121,7 +121,7 @@ public class SkillManager : MonoBehaviour
             if(!skillPrevious)
             {
                 upgradeText.gameObject.SetActive(true);
-                upgradeText.text = "Chưa thể nâng cấp skill này!";
+                upgradeText.text = "This skill cannot be upgraded!";
                 StartCoroutine(VisibilityTextUpgrade());
             }
             else

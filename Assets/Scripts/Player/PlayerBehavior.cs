@@ -268,6 +268,7 @@ public class PlayerBehavior : MonoBehaviour
         dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
         Dust d = dust.GetComponent<Dust>();
         d.StartAnimDash();
+        d.CanFlip(facingDirection);
     }
     private void ApplyMove()
     {
@@ -408,15 +409,14 @@ public class PlayerBehavior : MonoBehaviour
             UIManager.Instance.NotEnoughMana();
             return;
         }
+        Debug.Log("Hello");
         ManaSkill -= 80;
         UIManager.Instance.SetManaUi(ManaSkill,maxManaSkill);
-        myRb.gravityScale = 0f;
         isSkilling = true;
         StartCoroutine(SpawnSentoryu());
     }
     private IEnumerator SpawnSentoryu()
     {
-        myRb.gravityScale = 0f;
         for (int i = 1; i <= 3; i++)
         {
             myRb.velocity = Vector3.zero;
@@ -475,15 +475,13 @@ public class PlayerBehavior : MonoBehaviour
         }
         ManaSkill -= 80;
         UIManager.Instance.SetManaUi(ManaSkill, maxManaSkill);
-        myRb.gravityScale = 0f;
         isSkilling = true;
         StartCoroutine(SpawnHoaCau());
     }
 
     private IEnumerator SpawnHoaCau()
     {
-        myRb.velocity = Vector3.zero;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         GameObject hoadon = BulletManager.Instance.TakeHoaDon();
         hoadon.transform.position = this.transform.position;
         HoaDon hd = hoadon.GetComponent<HoaDon>();

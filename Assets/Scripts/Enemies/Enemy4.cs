@@ -5,10 +5,13 @@ using UnityEngine;
 
 public class Enemy4 : BaseEnemy
 {
+    //private Animator anim;
+
     [SerializeField]
     private EnemyData enemyData;
-
-    private Animator anim;
+    [SerializeField]
+    private SkeletonAnimation animCtrl;
+    
     private Rigidbody2D myRb;
     private bool isDetectPlayerLeft;
     private bool isDetectPleyerRight;
@@ -42,7 +45,7 @@ public class Enemy4 : BaseEnemy
     public override void InitializedEnemy()
     {
         HP = enemyData.maxHP;
-        anim = GetComponent<Animator>();
+        
         myRb = GetComponent<Rigidbody2D>();
         isDetectPlayerLeft = isDetectPleyerRight = false;
         canMove = true;
@@ -95,7 +98,7 @@ public class Enemy4 : BaseEnemy
             }
             else
             {
-                anim.SetBool("isAttack", true);
+                animCtrl.StartAttack();
                 CheckAttackHitBox();
                 attackTimeLeft = attackCoolDown;
                 isAttack = false;
@@ -119,7 +122,6 @@ public class Enemy4 : BaseEnemy
 
     public void FinishAttack1()
     {
-        anim.SetBool("isAttack", false);
         canMove = true;
         attackTimeLeft = attackCoolDown;
     }
@@ -185,13 +187,12 @@ public class Enemy4 : BaseEnemy
     public override void IsDamaged(float damage)
     {
         HP -= damage;
-        anim.SetBool("isDamaging", true);
+        animCtrl.StartDamaged();
         myRb.AddForce(new Vector2(50, 100));
         StartCoroutine(CanStun());
     }
     public override void FinishDamaged()
     {
-        anim.SetBool("isDamaging", false);
         if (HP <= 0)
         {
             InGameManager.Instance.IncreaseExp(enemyData.exp);

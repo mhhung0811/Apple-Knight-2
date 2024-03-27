@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,7 +31,10 @@ public class InGameManager : MonoBehaviour
 
     private bool _isPauseGame;
     private int expPlayer;
+    private int score;
+    private int totalTime;
     public bool isStartLvBoss;
+
 
     [SerializeField]
     private GameObject doorStartlvBoss;
@@ -40,20 +44,26 @@ public class InGameManager : MonoBehaviour
     {
         isStartLvBoss = true;
         expPlayer = 0;
+        score = 0;
+        totalTime = 0;
+        StartCoroutine(UpdateTimeIngame());
     }
 
     void Update()
     {
+        
     }
     public void IncreaseExp(int exp)
     {
         expPlayer += exp;
+        score += 5;
         SkillManager.Instance.CanIncreasePoint(expPlayer);
         UIManager.Instance.SetExpUi(expPlayer);
+        Debug.Log(score);
     }
     public void GameOver()
     {
-        Debug.Log("gameover");
+        ButtonPause();
         UIManager.Instance.GameOver();
     }
     public bool PauseGame()
@@ -82,11 +92,15 @@ public class InGameManager : MonoBehaviour
         _isPauseGame = true;
         Time.timeScale = 1;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        totalTime = 0;
     }
+   
     public void Victory()
     {
         ButtonPause();
-        UIManager.Instance.Victory();
+        Debug.Log(totalTime);
+        Debug.Log(score);
+        UIManager.Instance.Victory(score,totalTime);
     }
     public void StartLevelBoss()
     {
@@ -109,5 +123,15 @@ public class InGameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         UIManager.Instance.HPBoss_Slider.gameObject.SetActive(false);
+    }
+    
+    private IEnumerator UpdateTimeIngame()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(1);
+            totalTime += 1;
+            Debug.Log(totalTime);
+        }
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Dust : MonoBehaviour
 {
@@ -15,6 +16,18 @@ public class Dust : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void CanFlip(int facingDirection)
+    {
+        if(facingDirection == 1)
+        {
+            this.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+        }
+        else
+        {
+            this.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+        }
     }
 
     public void StartAnimJump()

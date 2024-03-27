@@ -23,14 +23,19 @@ public class UIManager : MonoBehaviour, ISaveable
     public Image MenuImage;
 
     public Button buttonUntil;
-    public Slider HPBoss_Slider;
-    public Slider HP_Slider;
     public TextMeshProUGUI HP_Text;
-    public Slider Mana_Slider;
     public TextMeshProUGUI Mana_Text;
-    public Slider Exp_Slider;
     public TextMeshProUGUI Exp_Text;
     public TextMeshProUGUI NotEnoughMana_Text;
+    //Victory UI
+    public TextMeshProUGUI TextHighScore;
+    public TextMeshProUGUI TextScore;
+    public TextMeshProUGUI TextTime;
+
+    public Slider HPBoss_Slider;
+    public Slider Exp_Slider;
+    public Slider Mana_Slider;
+    public Slider HP_Slider;
     private void Awake()
     {
         if(_instance == null)
@@ -57,9 +62,10 @@ public class UIManager : MonoBehaviour, ISaveable
     {
         MenuGameOver.gameObject.SetActive(true);
     }
-    public void Victory()
+    public void Victory(int score, int totalTime)
     {
         MenuImage.gameObject.SetActive(true);
+        SetUIVictory(score, totalTime);
         InGameManager.Instance.ButtonPause();
     }
     public void SetHPUi(float value,float valuemax)
@@ -104,5 +110,13 @@ public class UIManager : MonoBehaviour, ISaveable
     public void Save()
     {
 
+    }
+    public void SetUIVictory(int score, int totalTime)
+    {
+        TextScore.text = score.ToString();
+        int hours = totalTime / 3600;
+        int minutes = (totalTime - hours*3600)/60;
+        int second = totalTime % 60;
+        TextTime.text = string.Format("{0:00}:{1:00}:{2:00}", hours, minutes, second);
     }
 }

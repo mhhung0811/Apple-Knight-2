@@ -5,18 +5,19 @@ public class Enemy2 : BaseEnemy
 {
     [SerializeField]
     private EnemyData enemyData;
+    [SerializeField]
+    private MageHoodedAnimation animCtrl;
 
-    private Animator anim;
     private Rigidbody2D myRb;
     private bool isDetectPlayerLeft;
     private bool isDetectPleyerRight;
 
-    private float attackCoolDown;
-    private float attackTimeLeft;
+    public float attackCoolDown;
+    public float attackTimeLeft;
     private float attackRadius;
     private float HP;
-    private bool isAttack;
-    private bool isFire;
+    public bool isAttack;
+    public bool isFire;
     private bool isStun;
 
     public Transform detectPlayer;
@@ -30,7 +31,7 @@ public class Enemy2 : BaseEnemy
     public override void InitializedEnemy()
     {
         HP = enemyData.maxHP;
-        anim = GetComponent<Animator>();
+        
         myRb = GetComponent<Rigidbody2D>();
         isDetectPlayerLeft = isDetectPleyerRight = false;
         canMove = true;
@@ -75,10 +76,7 @@ public class Enemy2 : BaseEnemy
             }
             else
             {
-                anim.SetBool("isAttack", true);
-                CheckAttackHitBox();
-                attackTimeLeft = attackCoolDown;
-                isAttack = false;
+                animCtrl.StartAttack(facingDirection);
             }
         }
 
@@ -91,14 +89,30 @@ public class Enemy2 : BaseEnemy
             }
             else
             {
-                GameObject b = BulletManager.Instance.TakeFireBall();
-                b.transform.position = this.transform.position;
-                FireBall fire = b.GetComponent<FireBall>();
-                fire.SetUp(facingDirection);
-                isFire = false;
-                attackTimeLeft = attackCoolDown;
+                animCtrl.StartCast(facingDirection);
             }
         }
+    }
+    public void Attacking()
+    {
+        GameObject slash = EffectManager.Instance.Take(1);
+        slash.transform.position = attackHitBoxPos.position;
+        Slash s = slash.GetComponent<Slash>();
+        s.StartSlash();
+        s.CanFlip(facingDirection);
+
+        CheckAttackHitBox();
+        attackTimeLeft = attackCoolDown;
+        isAttack = false;
+    }
+    public void Casting()
+    {
+        GameObject b = BulletManager.Instance.TakeFireBall();
+        b.transform.position = this.transform.position;
+        FireBall fire = b.GetComponent<FireBall>();
+        fire.SetUp(facingDirection);
+        isFire = false;
+        attackTimeLeft = attackCoolDown;
     }
     public void CheckAttackHitBox()
     {
@@ -112,7 +126,6 @@ public class Enemy2 : BaseEnemy
 
     public void FinishAttack1()
     {
-        anim.SetBool("isAttack", false);
         canMove = true;
         attackTimeLeft = attackCoolDown;
     }
@@ -153,13 +166,13 @@ public class Enemy2 : BaseEnemy
     public override void IsDamaged(float damage)
     {
         HP -= damage;
-        anim.SetBool("isDamaging", true);
+        animCtrl.StartDamaged();
         myRb.AddForce(new Vector2(50, 100));
         StartCoroutine(CanStun());
     }
     public override void FinishDamaged()
     {
-        anim.SetBool("isDamaging", false);
+        Debug.Log("bugging");
         if (HP <= 0)
         {
             InGameManager.Instance.IncreaseExp(enemyData.exp);

@@ -99,9 +99,6 @@ public class Enemy4 : BaseEnemy
             else
             {
                 animCtrl.StartAttack(facingDirection);
-                //CheckAttackHitBox();
-                //attackTimeLeft = attackCoolDown;
-                //isAttack = false;
             }
         }
         else
@@ -109,6 +106,18 @@ public class Enemy4 : BaseEnemy
             attackTimeLeft = attackCoolDown;
             canMove = true;
         }
+    }
+    public void Attaking()
+    {
+        GameObject slash = EffectManager.Instance.Take(1);
+        slash.transform.position = attackHitBoxPos.position;
+        Slash s = slash.GetComponent<Slash>();
+        s.StartSlash();
+        s.CanFlip(facingDirection);
+
+        CheckAttackHitBox();
+        attackTimeLeft = attackCoolDown;
+        isAttack = false;
     }
     public void CheckAttackHitBox()
     {

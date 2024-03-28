@@ -6,8 +6,9 @@ public class Enemy3 : BaseEnemy
 {
     [SerializeField]
     private EnemyData enemyData;
+    [SerializeField]
+    private BomberAnimation animCtrl;
 
-    private Animator anim;
     private Rigidbody2D myRb;
     private bool isDetectPlayerLeft;
     private bool isDetectPleyerRight;
@@ -33,7 +34,6 @@ public class Enemy3 : BaseEnemy
     public override void InitializedEnemy()
     {
         HP = enemyData.maxHP;
-        anim = GetComponent<Animator>();
         myRb = GetComponent<Rigidbody2D>();
         isDetectPlayerLeft = isDetectPleyerRight = false;
         canMove = true;
@@ -79,10 +79,7 @@ public class Enemy3 : BaseEnemy
             }
             else
             {
-                anim.SetBool("isAttack", true);
-                CheckAttackHitBox();
-                attackTimeLeft = attackCoolDown;
-                isAttack = false;
+                animCtrl.StartAttack(facingDirection);
             }
         }
 
@@ -97,29 +94,45 @@ public class Enemy3 : BaseEnemy
             {
                 if(player != null)
                 {
-                    GameObject b = BulletManager.Instance.TakeBomb();
-                    b.transform.position = this.transform.position;
-                    Bomb bom = b.GetComponent<Bomb>();
-                    float H, L;
-                    H = player.transform.position.y - this.transform.position.y;
-                    L = player.transform.position.x - this.transform.position.x;
-                    if(L > 0 && facingDirection == -1)
-                    {
-                        Flip();
-                        facingDirection = 1;
-                    }
-                    if(L < 0 && facingDirection == 1)
-                    {
-                        Flip();
-                        facingDirection = -1;
-                    }
-                    L = Mathf.Abs(L);
-                    bom.SetUp(H,L,facingDirection);
-                    isFire = false;
-                    attackTimeLeft = attackCoolDown;
+                    animCtrl.StartCast(facingDirection);
                 }
             }
         }
+    }
+    public void Attacking()
+    {
+        GameObject slash = EffectManager.Instance.Take(1);
+        slash.transform.position = attackHitBoxPos.position;
+        Slash s = slash.GetComponent<Slash>();
+        s.StartSlash();
+        s.CanFlip(facingDirection);
+
+        CheckAttackHitBox();
+        attackTimeLeft = attackCoolDown;
+        isAttack = false;
+    }
+    public void Casting()
+    {
+        GameObject b = BulletManager.Instance.TakeBomb();
+        b.transform.position = this.transform.position;
+        Bomb bom = b.GetComponent<Bomb>();
+        float H, L;
+        H = player.transform.position.y - this.transform.position.y;
+        L = player.transform.position.x - this.transform.position.x;
+        if (L > 0 && facingDirection == -1)
+        {
+            Flip();
+            facingDirection = 1;
+        }
+        if (L < 0 && facingDirection == 1)
+        {
+            Flip();
+            facingDirection = -1;
+        }
+        L = Mathf.Abs(L);
+        bom.SetUp(H, L, facingDirection);
+        isFire = false;
+        attackTimeLeft = attackCoolDown;
     }
     public void CheckAttackHitBox()
     {
@@ -133,7 +146,6 @@ public class Enemy3 : BaseEnemy
 
     public void FinishAttack1()
     {
-        anim.SetBool("isAttack", false);
         canMove = true;
         attackTimeLeft = attackCoolDown;
     }
@@ -145,8 +157,7 @@ public class Enemy3 : BaseEnemy
         }
     }
     public void Flip()
-    {
-       
+    {        
         transform.Rotate(0, 180, 0);
         if (isFacingLeft)
         {
@@ -182,13 +193,12 @@ public class Enemy3 : BaseEnemy
     public override void IsDamaged(float damage)
     {
         HP -= damage;
-        anim.SetBool("isDamaging", true);
+        animCtrl.StartDamaged();
         myRb.AddForce(new Vector2(50, 100));
         StartCoroutine(CanStun());
     }
     public override void FinishDamaged()
     {
-        anim.SetBool("isDamaging", false);
         if (HP <= 0)
         {
             InGameManager.Instance.IncreaseExp(enemyData.exp);

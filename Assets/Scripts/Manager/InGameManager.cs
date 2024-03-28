@@ -53,13 +53,15 @@ public class InGameManager : MonoBehaviour
     {
         
     }
-    public void IncreaseExp(int exp)
+    public void IncreaseExp(int exp,int scores = 5)
     {
         expPlayer += exp;
-        score += 5;
+        this.score += scores;
         SkillManager.Instance.CanIncreasePoint(expPlayer);
         UIManager.Instance.SetExpUi(expPlayer);
         Debug.Log(score);
+        SaveDataManager.Instance.SaveScore(score);
+        SaveDataManager.Instance.SaveExp(expPlayer);
     }
     public void GameOver()
     {
@@ -124,14 +126,18 @@ public class InGameManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         UIManager.Instance.HPBoss_Slider.gameObject.SetActive(false);
     }
-    
+
+    public void SetTotalTime(int totalTime)
+    {
+        this.totalTime = totalTime;
+    }
     private IEnumerator UpdateTimeIngame()
     {
         while(true)
         {
             yield return new WaitForSeconds(1);
             totalTime += 1;
-            Debug.Log(totalTime);
+            SaveDataManager.Instance.SaveTotalTime(totalTime);
         }
     }
 }

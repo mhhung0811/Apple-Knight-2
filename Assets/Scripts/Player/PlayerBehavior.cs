@@ -54,7 +54,6 @@ public class PlayerBehavior : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("IncreaseMana", 1f,1f);
         myRb = GetComponent<Rigidbody2D>();
         canJump = true;
         isFacingRight = true;
@@ -66,8 +65,10 @@ public class PlayerBehavior : MonoBehaviour
         canFlip = true;
         DistanceDownAnimDust = -0.5f;
         ManaEachSecond = 3;
-        HPEachSecond = 0;
+        Debug.Log(ManaEachSecond);
+        HPEachSecond = 0;   
         PercentSpeed = 1;
+        InvokeRepeating("IncreaseMana", 1f, 1f);
 
         playerLadder = GetComponent<PlayerLadder>();
     }
@@ -419,8 +420,6 @@ public class PlayerBehavior : MonoBehaviour
     {
         for (int i = 1; i <= 3; i++)
         {
-            myRb.velocity = Vector3.zero;
-
             if (i == 1)
             {
                 GameObject str1 = BulletManager.Instance.TakeSentoryu1();
@@ -603,6 +602,7 @@ public class PlayerBehavior : MonoBehaviour
     private void Skill4()
     {
         ManaEachSecond = 5;
+        Debug.Log(ManaEachSecond);
     }
     private void Skill5()
     {

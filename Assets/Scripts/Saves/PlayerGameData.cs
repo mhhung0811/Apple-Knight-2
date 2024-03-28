@@ -1,17 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
-[System.Serializable]
+
+[Serializable]
 public class PlayerGameData
 {
-    public float Hp;
-    public float MaxHp;
-    public int Mana;
-    public int Exp;
-    public Vector3 PlayerPosition;
+    public int _score;
+    public int _totalTime;
+    public int _exp;
+    public int _HP;
+    public int _Mana;
+
     public PlayerGameData()
     {
-        
+        _score = 0;
+        _totalTime = 0;
+        _exp = 0;
+        _HP = 0;
+        _Mana = 0;
     }
 }

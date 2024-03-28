@@ -91,6 +91,7 @@ public class SkillManager : MonoBehaviour
             }
         }
     }
+    
     private IEnumerator VisibilityTextUpgrade()
     {
         yield return new WaitForSeconds(0.5f);
@@ -112,6 +113,7 @@ public class SkillManager : MonoBehaviour
         {
             activeSkill.gameObject.GetComponent<SkillUp>().isUpgrade = true;
             Point--;
+            SaveDataManager.Instance.SaveSkillUpgraded(id);
             player.gameObject.GetComponent<PlayerBehavior>().UpgradeSkill(id);
             return;
         }
@@ -128,6 +130,7 @@ public class SkillManager : MonoBehaviour
             {
                 activeSkill.gameObject.GetComponent<SkillUp>().isUpgrade = true;
                 Point--;
+                SaveDataManager.Instance.SaveSkillUpgraded(id);
                 player.gameObject.GetComponent<PlayerBehavior>().UpgradeSkill(id);
                 if(id == 3|| id == 6|| id == 9)
                 {
@@ -135,5 +138,19 @@ public class SkillManager : MonoBehaviour
                 }
             }
         }
+    }
+    public void SetUpgradeSkill(int id)
+    {
+        skills[id-1].isUpgrade = true;
+        player.gameObject.GetComponent<PlayerBehavior>().UpgradeSkill(id);
+        if (id == 3 || id == 6 || id == 9)
+        {
+            UIManager.Instance.OpenButtonUntil();
+        }
+    }
+    public void SetPointUpgrade(int exp,int pointUpgraded)
+    {
+        this.Point = exp/100 - pointUpgraded;
+        DisPlayTextPoint();
     }
 }

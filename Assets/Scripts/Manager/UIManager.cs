@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour, ISaveable
+public class UIManager : MonoBehaviour
 {
     private static UIManager _instance;
     public static UIManager Instance
@@ -50,7 +50,6 @@ public class UIManager : MonoBehaviour, ISaveable
     void Start()
     {
         // Load
-        SaveSystem.onLoad += Load;
     }
 
     void Update()
@@ -103,10 +102,7 @@ public class UIManager : MonoBehaviour, ISaveable
         yield return new WaitForSeconds(0.5f);
         NotEnoughMana_Text.gameObject.SetActive(false);
     }
-    public void Load()
-    {
-        SetHPUi(GameManager.Instance.GameData.Hp, GameManager.Instance.GameData.MaxHp);
-    }
+    
     public void Save()
     {
 

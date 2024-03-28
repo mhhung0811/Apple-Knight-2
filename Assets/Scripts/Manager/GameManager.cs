@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public PlayerGameData GameData;
 
     private void Awake()
     {

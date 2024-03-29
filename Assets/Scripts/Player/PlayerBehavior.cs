@@ -163,7 +163,7 @@ public class PlayerBehavior : MonoBehaviour
             AudioManager.Instance.PlaySound("Landing1");
             isFlying = false;
             //Animation Effect Dust
-            GameObject dust = EffectManager.Instance.Take(0);
+            GameObject dust = EffectManager.Instance.Take(EFFECTTYPE.Dust);
             dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
             Dust d = dust.GetComponent<Dust>();
             d.StartAnimDustLand();

@@ -23,7 +23,8 @@ public class BossState : MonoBehaviour
         dashTimeLeft, timeDashing, 
         dodgeCoolDown, timeDodgeDown, dodgeDashTimeLeft,timeDodgeDashing;
 
-    private bool playerDetected, canFlip, canDash, canCombat, canSpawnEnemy, canDamageSkill4, canDodge, canDodgeDash, isPosInit;
+    private bool playerDetected, canFlip, canCombat, canSpawnEnemy, canDamageSkill4, canDodge, canDodgeDash, isPosInit;
+    public bool canDash;
 
     private int facingDirection;
 
@@ -33,7 +34,9 @@ public class BossState : MonoBehaviour
     private Vector2 posInit;
     private Rigidbody2D myRb;
     private GameObject player;
-    private Animator anim;
+    [SerializeField]
+    private BossMageAnimation animCtrl;
+    //private Animator anim;
     public GameObject enemy1;
     public GameObject enemy2;
 
@@ -42,7 +45,7 @@ public class BossState : MonoBehaviour
 
     void Start()
     {
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
         myRb = GetComponent<Rigidbody2D>();
         posInit = this.transform.position;
 
@@ -116,6 +119,7 @@ public class BossState : MonoBehaviour
     // Skill1 State (Xác định vị trí Pleyer, sau đó thả cầu lửa từ trên trời xuống)
     private void EnterSkill1State()
     {
+        animCtrl.StartMultiFireBall();
         StartCoroutine(SpawnFireballs());
     }
     private void UpdateSkill1State()
@@ -124,6 +128,7 @@ public class BossState : MonoBehaviour
     }
     private void ExitSkill1State()
     {
+        animCtrl.EndMultiFireBall();
     }
     // Skill2 State (Tạo ra một quả boom tại vị trí của Player và phát nổ sau đó (vd: 0.75s))
     private void EnterSkill2State()
@@ -141,6 +146,8 @@ public class BossState : MonoBehaviour
     private void EnterSkill3State()
     {
         canSpawnEnemy = true;
+        MagicEffect.PlayEffect(MAGICEFFECT.Rotate2, transform.position.x + facingDirection*2 , transform.position.y - 0.5f);
+        animCtrl.StartSpawn();
     }
     private void UpdateSkill3State()
     {
@@ -157,6 +164,7 @@ public class BossState : MonoBehaviour
     private void ExitSkill3State()
     {
         canSpawnEnemy = false;
+        animCtrl.EndSpawn();
     }
     // Skill4 State (Lướt xuống 2 góc tường, sau đó bay đâm ngang qua)
     private void EnterSkill4State()
@@ -172,12 +180,14 @@ public class BossState : MonoBehaviour
         {
             if (dashTimeLeft > 0)
             {
+                animCtrl.StartDash();
                 myRb.velocity = new Vector2((RightBot.position.x - LeftBot.position.x) / timeDashing, 0);
                 dashTimeLeft -= Time.deltaTime;
                 CheckHitBoxAttackSkill4();
             }
             else
             {
+                animCtrl.EndDash();
                 myRb.velocity = Vector2.zero;
                 canFlip = true;
                 canDash = false;
@@ -364,6 +374,7 @@ public class BossState : MonoBehaviour
     }
     private IEnumerator SpawnFireballs()
     {
+        float height = 9f;
         for(int i = 0; i < numberOfFireballs; i++)
         {
             if(player == null)
@@ -371,17 +382,21 @@ public class BossState : MonoBehaviour
                 break;
             }
             Debug.Log("FireBallBoss");
+            MagicEffect.PlayEffect(MAGICEFFECT.SpawnDown, player.transform.position.x - 3f, transform.position.y + height + 0.25f);
             GameObject b1 = BulletManager.Instance.TakeFireBallBoss();
-            b1.transform.position = new Vector2(player.transform.position.x - 2.25f, transform.position.y + 10);
+            b1.transform.position = new Vector2(player.transform.position.x - 3f, transform.position.y + height);
 
+            MagicEffect.PlayEffect(MAGICEFFECT.SpawnDown, player.transform.position.x - 1f, transform.position.y + height + 0.25f);
             GameObject b2 = BulletManager.Instance.TakeFireBallBoss();
-            b2.transform.position = new Vector2(player.transform.position.x - 0.75f, transform.position.y + 10);
+            b2.transform.position = new Vector2(player.transform.position.x - 1f, transform.position.y + height);
 
+            MagicEffect.PlayEffect(MAGICEFFECT.SpawnDown, player.transform.position.x + 1f, transform.position.y + height + 0.25f);
             GameObject b3 = BulletManager.Instance.TakeFireBallBoss();
-            b3.transform.position = new Vector2(player.transform.position.x + 0.75f, transform.position.y + 10);
+            b3.transform.position = new Vector2(player.transform.position.x + 1f, transform.position.y + height);
 
+            MagicEffect.PlayEffect(MAGICEFFECT.SpawnDown, player.transform.position.x + 3f, transform.position.y + height + 0.25f);
             GameObject b4 = BulletManager.Instance.TakeFireBallBoss();
-            b4.transform.position = new Vector2(player.transform.position.x + 2.25f, transform.position.y + 10);
+            b4.transform.position = new Vector2(player.transform.position.x + 3f, transform.position.y + height);
 
             yield return new WaitForSeconds(0.5f);
         }
@@ -396,28 +411,34 @@ public class BossState : MonoBehaviour
             {
                 break;
             }
-            GameObject b = BulletManager.Instance.TakeBombBoss();
-            b.transform.position = player.transform.position;
-            yield return new WaitForSeconds(0.75f);
+            animCtrl.StartBomb();
+            yield return new WaitForSeconds(0.05f);
         }
         SwitchState(State.Wait);
+    }
+    public void Bombing()
+    {
+        GameObject b = BulletManager.Instance.TakeBombBoss();
+        b.transform.position = player.transform.position;
     }
     private IEnumerator Teleport(Vector2 posTele, bool CanDash)
     {
         if (!isPosInit)
         {
             yield return new WaitForSeconds(1f);
-            anim.SetBool("IsPreTele", true);
+            //anim.SetBool("IsPreTele", true);
+            MagicEffect.PlayEffect(MAGICEFFECT.RotateReverse, this.transform.position.x, this.transform.position.y);
+            animCtrl.StartTele();
 
             // Tele tới đích
             yield return new WaitForSeconds(0.5f);
             this.transform.position = posInit;
-            anim.SetBool("IsTele", true);
+            animCtrl.Teleporting();
 
             // Đã tele tới đích
             yield return new WaitForSeconds(0.5f);
-            anim.SetBool("IsTele", false);
-            anim.SetBool("IsPreTele", false);
+            //anim.SetBool("IsTele", false);
+            //anim.SetBool("IsPreTele", false);
 
             SwitchState(State.Wait);
             isPosInit = true;
@@ -426,17 +447,18 @@ public class BossState : MonoBehaviour
         {
             // Chờ 1 chút rồi bắt đầu tele;
             yield return new WaitForSeconds(1f);
-            anim.SetBool("IsPreTele", true);
+            animCtrl.StartTele();
 
             // Tele tới đích
             yield return new WaitForSeconds(0.5f);
             this.transform.position = posTele;
-            anim.SetBool("IsTele", true);
+            //anim.SetBool("IsTele", true);
+            animCtrl.Teleporting();
 
             // Đã tele tới đích
             yield return new WaitForSeconds(0.5f);
-            anim.SetBool("IsTele", false);
-            anim.SetBool("IsPreTele", false);
+            //anim.SetBool("IsTele", false);
+            //anim.SetBool("IsPreTele", false);
             canDash = CanDash;
             if(canDash == false)
             {
@@ -453,11 +475,10 @@ public class BossState : MonoBehaviour
     {
         HP -= damage;
         UIManager.Instance.SetHPBossUI(HP);
-        anim.SetBool("isDamaging", true);
+        animCtrl.StartDamaged();
     }
     public void FinishDamaged()
     {
-        anim.SetBool("isDamaging", false);
         if (HP <= 0)
         {
             Destroy(this.gameObject);

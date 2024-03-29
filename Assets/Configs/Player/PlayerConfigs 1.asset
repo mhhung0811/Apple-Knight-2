@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdecca31d54700d408596d8e3816061b, type: 3}
+  m_Name: PlayerConfigs 1
+  m_EditorClassIdentifier: 
+  maxHP: 100000
+  damage: 30
+  moveSpeed: 10
+  jumpForce: 16
+  groundCheckRadius: 0.5
+  wallCheckDistance: 0.7
+  wallSlidingSpeed: 2
+  dashTime: 0.2
+  dashSpeed: 35
+  dashCoolDown: 0.25
+  jumpStompForce: 60
+  HitBoxAttack: 1.5
+  HitBoxJumpForce: 1
+  amountOfJump: 1

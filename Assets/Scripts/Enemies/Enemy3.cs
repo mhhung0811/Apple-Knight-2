@@ -101,7 +101,7 @@ public class Enemy3 : BaseEnemy
     }
     public void Attacking()
     {
-        GameObject slash = EffectManager.Instance.Take(1);
+        GameObject slash = EffectManager.Instance.Take(EFFECTTYPE.Slash);
         slash.transform.position = attackHitBoxPos.position;
         Slash s = slash.GetComponent<Slash>();
         s.StartSlash();

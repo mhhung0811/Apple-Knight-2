@@ -16,15 +16,15 @@ public class Enemy4 : BaseEnemy
     private bool isDetectPlayerLeft;
     private bool isDetectPleyerRight;
 
-    public float attackCoolDown;
-    public float attackTimeLeft;
+    private float attackCoolDown;
+    private float attackTimeLeft;
     private float attackRadius;
     private float HP;
     private float checkGroundDistance = 0.5f;
     private float checkWallDistance = 0.5f;
     private float groundCheckRadius = 0.4f;
 
-    public bool isAttack;
+    private bool isAttack;
     private bool isGroundedFlip;
     private bool isWallFlip;
     private bool isGround;
@@ -109,11 +109,16 @@ public class Enemy4 : BaseEnemy
     }
     public void Attaking()
     {
-        GameObject slash = EffectManager.Instance.Take(1);
-        slash.transform.position = attackHitBoxPos.position;
-        Slash s = slash.GetComponent<Slash>();
-        s.StartSlash();
-        s.CanFlip(facingDirection);
+        //GameObject slash = EffectManager.Instance.Take(1);
+        //slash.transform.position = attackHitBoxPos.position;
+        //Slash s = slash.GetComponent<Slash>();
+        //s.StartSlash();
+        //s.CanFlip(facingDirection);
+
+        GameObject eff = EffectManager.Instance.Take(EFFECTTYPE.Slash);
+        eff.transform.position = attackHitBoxPos.position;
+        SpawnDown e = eff.GetComponent<SpawnDown>();
+        e.StartSpawn();
 
         CheckAttackHitBox();
         attackTimeLeft = attackCoolDown;

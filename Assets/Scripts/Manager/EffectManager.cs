@@ -30,6 +30,11 @@ public class EffectManager : MonoBehaviour
     private GameObject slashEffectPrefabs;
     private int slashEffectPrepare;
 
+    // 2 is Magic Effect
+    private Queue<GameObject> activeMagicEffect;
+    [SerializeField]
+    private GameObject magicEffectPrefabs;
+    private int magicEffectPrepare;
     private void Awake()
     {
         if(_instance == null)
@@ -46,9 +51,13 @@ public class EffectManager : MonoBehaviour
         activeEffectDust = new Queue<GameObject>();
         effectDustPrepare = 3;
         activeSlashEffect = new Queue<GameObject>();
-        slashEffectPrepare = 10;
-        Prepare(0);
-        Prepare(1);
+        slashEffectPrepare = 15;
+        activeMagicEffect = new Queue<GameObject>();
+        magicEffectPrepare = 10;
+
+        Prepare(EFFECTTYPE.Dust);
+        Prepare(EFFECTTYPE.Slash);
+        Prepare(EFFECTTYPE.MagicEffect);
     }
 
     void Update()
@@ -56,11 +65,11 @@ public class EffectManager : MonoBehaviour
         
     }
 
-    public void Prepare(int obj)
+    public void Prepare(EFFECTTYPE type)
     {
-        switch (obj)
+        switch (type)
         {
-            case 0:
+            case EFFECTTYPE.Dust:
                 for (int i = 0; i < effectDustPrepare; i++)
                 {
                     GameObject effect = Instantiate(effectDustPrefabs, transform);
@@ -68,7 +77,7 @@ public class EffectManager : MonoBehaviour
                     activeEffectDust.Enqueue(effect);
                 }
                 break;
-            case 1:
+            case EFFECTTYPE.Slash:
                 for (int i = 0; i < slashEffectPrepare; i++)
                 {
                     GameObject effect = Instantiate(slashEffectPrefabs, transform);
@@ -76,28 +85,44 @@ public class EffectManager : MonoBehaviour
                     activeSlashEffect.Enqueue(effect);
                 }
                 break;
+            case EFFECTTYPE.MagicEffect:
+                for (int i = 0; i < magicEffectPrepare; i++)
+                {
+                    GameObject effect = Instantiate(magicEffectPrefabs, transform);
+                    effect.gameObject.SetActive(false);
+                    activeMagicEffect.Enqueue(effect);
+                }
+                break;
         }
     }
 
-    public GameObject Take(int obj)
+    public GameObject Take(EFFECTTYPE type)
     {
         GameObject effect = null;
-        switch (obj)
+        switch (type)
         {
-            case 0:
+            case EFFECTTYPE.Dust:
                 if (activeEffectDust.Count <= 0)
                 {
-                    Prepare(obj);
+                    Prepare(EFFECTTYPE.Dust);
                 }
                 effect = this.activeEffectDust.Dequeue();
                 effect.gameObject.SetActive(true);
                 break;
-            case 1:
+            case EFFECTTYPE.Slash:
                 if (activeSlashEffect.Count <= 0)
                 {
-                    Prepare(obj);
+                    Prepare(EFFECTTYPE.Slash);
                 }
                 effect = this.activeSlashEffect.Dequeue();
+                effect.gameObject.SetActive(true);
+                break;
+            case EFFECTTYPE.MagicEffect:
+                if (activeMagicEffect.Count <= 0)
+                {
+                    Prepare(EFFECTTYPE.MagicEffect);
+                }
+                effect = this.activeMagicEffect.Dequeue();
                 effect.gameObject.SetActive(true);
                 break;
         }
@@ -115,6 +140,11 @@ public class EffectManager : MonoBehaviour
         if (effect.TryGetComponent<Slash>(out Slash slash))
         {
             this.activeSlashEffect.Enqueue(effect);
+            effect.SetActive(false);
+        }
+        if (effect.TryGetComponent<MagicEffect>(out MagicEffect magic))
+        {
+            this.activeMagicEffect.Enqueue(effect);
             effect.SetActive(false);
         }
     }

@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectDustPrefabs: {fileID: 4023963015248624006, guid: 58bb3e7a9e51dc9468776e367c95fe26, type: 3}
   slashEffectPrefabs: {fileID: 7260709667773577975, guid: cb8a3a0b90ad81f40a9603d2e3125779, type: 3}
+  magicEffectPrefabs: {fileID: 721846768927517838, guid: 16bdf34b32087154baa8ca30a44e91d2, type: 3}

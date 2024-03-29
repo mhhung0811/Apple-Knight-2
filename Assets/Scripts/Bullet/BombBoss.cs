@@ -35,10 +35,11 @@ public class BombBoss : MonoBehaviour
         {
             AudioManager.Instance.PlaySound("Explosion");
             //Animation Effect Explode
-            GameObject effectExplode = EffectManager.Instance.Take(0);
-            effectExplode.transform.position = this.transform.position;
-            Dust dust = effectExplode.GetComponent<Dust>();
-            dust.StartAnimExplode();
+            //GameObject effectExplode = EffectManager.Instance.Take(0);
+            //effectExplode.transform.position = this.transform.position;
+            //Dust dust = effectExplode.GetComponent<Dust>();
+            //dust.StartAnimExplode();
+            MagicEffect.PlayEffect(MAGICEFFECT.EnergyExplode, transform.position.x, transform.position.y);
             CheckHitBoxExplode();
             BulletManager.Instance.ReturnBombBoss(this.gameObject);
         }

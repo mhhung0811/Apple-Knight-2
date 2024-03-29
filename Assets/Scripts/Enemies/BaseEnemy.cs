@@ -9,6 +9,7 @@ public class BaseEnemy : MonoBehaviour
     protected bool canMove;// Di chuyen
     protected bool isDetectInHitBox;
     protected float facingDirection;
+    protected int id;
     void Start()
     {
         
@@ -17,6 +18,10 @@ public class BaseEnemy : MonoBehaviour
     void Update()
     {
         
+    }
+    public virtual void SetID(int id)
+    {
+        this.id = id;
     }
     public virtual void InitializedEnemy() 
     {

@@ -37,6 +37,7 @@ public class PlayerCombatController : MonoBehaviour
     private float MaxHP;
     private float HPEachSecond;
 
+
     private void Start()
     {
         myRb = GetComponent<Rigidbody2D>();
@@ -59,6 +60,11 @@ public class PlayerCombatController : MonoBehaviour
         CheckCombarInput();
         CheckAttack();
     }
+    public void SetHP(int HP)
+    {
+        this.HP = HP;
+        UIManager.Instance.SetHPUi(HP, MaxHP);
+    }
     public void HoiHP(float hPEachSecond)
     {
         HPEachSecond = hPEachSecond;
@@ -73,16 +79,17 @@ public class PlayerCombatController : MonoBehaviour
             HP = MaxHP;
         }
         UIManager.Instance.SetHPUi(HP, MaxHP);
+        SaveDataManager.Instance.SaveHP((int)HP);
     }
     public void TangHP(float maxHp)
     {
         MaxHP = maxHp;
-        HP += 50;
         if(HP > MaxHP)
         {
             HP = MaxHP;
         }
         UIManager.Instance.SetHPUi(HP, MaxHP);
+        SaveDataManager.Instance.SaveHP((int)HP);
     }
     private void CheckCombarInput()
     {
@@ -169,6 +176,7 @@ public class PlayerCombatController : MonoBehaviour
             myRb.velocity = new Vector2(myRb.velocity.x, -knockback);
         }
         UIManager.Instance.SetHPUi(HP,MaxHP);
+        SaveDataManager.Instance.SaveHP((int)HP);
         Die();
     }
 
@@ -198,6 +206,4 @@ public class PlayerCombatController : MonoBehaviour
             //lastInputTime = Time.time;
         }
     }
-
-    
 }

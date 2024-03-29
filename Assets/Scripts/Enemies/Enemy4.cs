@@ -212,6 +212,7 @@ public class Enemy4 : BaseEnemy
     {
         if (HP <= 0)
         {
+            SaveDataManager.Instance.SaveEnemyInGameData(id);
             InGameManager.Instance.IncreaseExp(enemyData.exp);
             Destroy(this.gameObject);
         }

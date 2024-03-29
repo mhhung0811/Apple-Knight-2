@@ -65,7 +65,6 @@ public class PlayerBehavior : MonoBehaviour
         canFlip = true;
         DistanceDownAnimDust = -0.5f;
         ManaEachSecond = 3;
-        Debug.Log(ManaEachSecond);
         HPEachSecond = 0;   
         PercentSpeed = 1;
         InvokeRepeating("IncreaseMana", 1f, 1f);
@@ -107,7 +106,15 @@ public class PlayerBehavior : MonoBehaviour
         ApplyMove();
         CheckSurroundings();
     }
-
+    public void SetPosition(Vector3 pos)
+    {
+        this.transform.position = pos;
+    }
+    public void SetMana(int mana)
+    {
+        ManaSkill = mana;
+        UIManager.Instance.SetManaUi(ManaSkill, maxManaSkill);
+    }
     private void IncreaseMana()
     {
         if(ManaSkill < maxManaSkill)
@@ -118,7 +125,9 @@ public class PlayerBehavior : MonoBehaviour
                 ManaSkill = maxManaSkill;
             }
             UIManager.Instance.SetManaUi(ManaSkill,maxManaSkill);
+            SaveDataManager.Instance.SaveMana((int)ManaSkill);
         }
+        SaveDataManager.Instance.SavePosition(this.transform.position);
     }
 
     private void CheckMoveDirection()

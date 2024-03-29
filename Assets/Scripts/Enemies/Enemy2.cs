@@ -175,6 +175,7 @@ public class Enemy2 : BaseEnemy
         Debug.Log("bugging");
         if (HP <= 0)
         {
+            SaveDataManager.Instance.SaveEnemyInGameData(id);
             InGameManager.Instance.IncreaseExp(enemyData.exp);
             Destroy(this.gameObject);
         }

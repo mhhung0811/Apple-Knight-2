@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveDataManager : MonoBehaviour
 {
@@ -19,10 +21,16 @@ public class SaveDataManager : MonoBehaviour
 
     private PlayerGameData _data;
     private TreeSkillData _skillData;
+    private OptionPlayData _playModeData;
+    private EnemyInGameData _enemyIGData;
+    private HighScoreData _highScoreData;
     private bool isLoad;
+
+    [SerializeField]
+    private GameObject Player;
     private void Awake()
     {
-        if(_instance == null)
+        if (_instance == null)
             _instance = this;
         else
             Destroy(this.gameObject);
@@ -30,14 +38,11 @@ public class SaveDataManager : MonoBehaviour
     void Start()
     {
         isLoad = true;
-        //StartCoroutine(Loadata());
-       // LoadPlayerGameData();
-        //LoadTreeSkillData();
     }
 
     void Update()
     {
-        if(isLoad)
+        if (isLoad)
         {
             StartCoroutine(Loadata());
         }
@@ -45,12 +50,29 @@ public class SaveDataManager : MonoBehaviour
     public IEnumerator Loadata()
     {
         isLoad = false;
-        yield return new WaitForSeconds(0.1f);
-        LoadPlayerGameData();
-        //yield return new WaitForSeconds(01f);
-        LoadTreeSkillData();
+        if (PlayerPrefs.HasKey("CONTINUE"))
+        {
+            //Kiểm tra người dùng có ấn vô nút Play continue không
+            string save = PlayerPrefs.GetString("CONTINUE");
+            Debug.Log(save);
+            _playModeData = JsonUtility.FromJson<OptionPlayData>(save);
+
+            Scene currentScene = SceneManager.GetActiveScene();
+
+            if (_playModeData._isContinue == true && currentScene.name == "Level1Test")
+            {
+                yield return new WaitForSeconds(0.1f);
+                LoadPlayerGameData();
+                LoadTreeSkillData();
+                LoadEnemyIngame();
+                SaveOptionPlay(false);
+            }
+        }
+
+        LoadHighScore();
+
     }
-    
+
 
     public void LoadPlayerGameData()
     {
@@ -65,14 +87,21 @@ public class SaveDataManager : MonoBehaviour
             InGameManager.Instance.IncreaseExp(_data._exp, _data._score);
             // totalTime
             InGameManager.Instance.SetTotalTime(_data._totalTime);
+
+            if (Player != null)
+            {
+                Player.GetComponent<PlayerBehavior>().SetMana(_data._Mana);
+                Player.GetComponent<PlayerBehavior>().SetPosition(_data._Position);
+                Player.GetComponent<PlayerCombatController>().SetHP(_data._HP);
+            }
         }
     }
     public void SaveScore(int newScore)
     {
         _data ??= new PlayerGameData();
-        _data._score = newScore; 
+        _data._score = newScore;
 
-        PlayerPrefs.SetString(key: "DATA",value: JsonUtility.ToJson(_data));
+        PlayerPrefs.SetString(key: "DATA", value: JsonUtility.ToJson(_data));
         PlayerPrefs.Save();
     }
 
@@ -111,6 +140,14 @@ public class SaveDataManager : MonoBehaviour
         PlayerPrefs.SetString(key: "DATA", value: JsonUtility.ToJson(_data));
         PlayerPrefs.Save();
     }
+    public void SavePosition(Vector3 newPosition)
+    {
+        _data ??= new PlayerGameData();
+        _data._Position = newPosition;
+
+        PlayerPrefs.SetString(key: "DATA", value: JsonUtility.ToJson(_data));
+        PlayerPrefs.Save();
+    }
 
     //Tree Skill Save
     public void LoadTreeSkillData()
@@ -138,5 +175,86 @@ public class SaveDataManager : MonoBehaviour
         PlayerPrefs.SetString(key: "SKILL_DATA", value: JsonUtility.ToJson(_skillData));
         PlayerPrefs.Save();
     }
-   
+    // Load and Save play new or continue
+    public void SaveOptionPlay(bool newIsContinue)
+    {
+        _playModeData ??= new OptionPlayData();
+        _playModeData._isContinue = newIsContinue;
+
+        PlayerPrefs.SetString(key: "CONTINUE", value: JsonUtility.ToJson(_playModeData));
+        PlayerPrefs.Save();
+    }
+    // Load and save Enemy
+    public void LoadEnemyIngame()
+    {
+        if (PlayerPrefs.HasKey("ENEMY"))
+        {
+            string save = PlayerPrefs.GetString("ENEMY");
+            Debug.Log(save);
+
+            _enemyIGData = JsonUtility.FromJson<EnemyInGameData>(save);
+            for(int i = 0; i < _enemyIGData._enemy.Count; i++)
+            {
+                EnemyManager.Instance.SetAactiveEnemyDie(_enemyIGData._enemy[i]);
+            }
+        }
+    }
+    public void SaveEnemyInGameData(int idEnemy)
+    {
+        _enemyIGData ??= new EnemyInGameData();
+        _enemyIGData._enemy.Add(idEnemy);
+
+        PlayerPrefs.SetString(key: "ENEMY", value: JsonUtility.ToJson(_enemyIGData));
+        PlayerPrefs.Save();
+    }
+    //Load and Save highScore
+    public void LoadHighScore()
+    {
+        if (PlayerPrefs.HasKey("HIGH_SCORE"))
+        {
+            string save = PlayerPrefs.GetString("HIGH_SCORE");
+            Debug.Log(save);
+
+            _highScoreData = JsonUtility.FromJson<HighScoreData>(save);
+            InGameManager.Instance.SetHighScore(_highScoreData._highScore);
+        }
+    }
+    public void SaveHighScore(int newHighScore)
+    {
+        _highScoreData ??= new HighScoreData();
+        _highScoreData._highScore = newHighScore;
+
+        PlayerPrefs.SetString(key: "HIGH_SCORE",value: JsonUtility.ToJson(_highScoreData));
+        PlayerPrefs.Save();
+    }
+}
+
+[Serializable]
+public class OptionPlayData
+{
+    public bool _isContinue;
+    public OptionPlayData()
+    {
+        _isContinue = false;
+    }
+}
+
+[Serializable]
+public class EnemyInGameData
+{
+    public List<int> _enemy;
+    public EnemyInGameData()
+    {
+        _enemy = new List<int>();
+    }
+}
+
+[Serializable]
+public class HighScoreData
+{
+    public int _highScore;
+    public HighScoreData()
+    {
+        _highScore = 0;
+    }
 }

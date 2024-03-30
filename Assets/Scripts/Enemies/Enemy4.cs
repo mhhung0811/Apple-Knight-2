@@ -109,16 +109,16 @@ public class Enemy4 : BaseEnemy
     }
     public void Attaking()
     {
-        //GameObject slash = EffectManager.Instance.Take(1);
-        //slash.transform.position = attackHitBoxPos.position;
-        //Slash s = slash.GetComponent<Slash>();
-        //s.StartSlash();
-        //s.CanFlip(facingDirection);
+        GameObject slash = EffectManager.Instance.Take(EFFECTTYPE.Slash);
+        slash.transform.position = attackHitBoxPos.position;
+        Slash s = slash.GetComponent<Slash>();
+        s.StartSlash();
+        s.CanFlip(facingDirection);
 
-        GameObject eff = EffectManager.Instance.Take(EFFECTTYPE.Slash);
-        eff.transform.position = attackHitBoxPos.position;
-        SpawnDown e = eff.GetComponent<SpawnDown>();
-        e.StartSpawn();
+        //GameObject eff = EffectManager.Instance.Take(EFFECTTYPE.Slash);
+        //eff.transform.position = attackHitBoxPos.position;
+        //SpawnDown e = eff.GetComponent<SpawnDown>();
+        //e.StartSpawn();
 
         CheckAttackHitBox();
         attackTimeLeft = attackCoolDown;
@@ -207,15 +207,22 @@ public class Enemy4 : BaseEnemy
         animCtrl.StartDamaged();
         myRb.AddForce(new Vector2(50, 100));
         StartCoroutine(CanStun());
-    }
-    public override void FinishDamaged()
-    {
         if (HP <= 0)
         {
             SaveDataManager.Instance.SaveEnemyInGameData(id);
             InGameManager.Instance.IncreaseExp(enemyData.exp);
             Destroy(this.gameObject);
         }
+    }
+    public override void FinishDamaged()
+    {
+        //Debug.Log("bugggggg");
+        //if (HP <= 0)
+        //{
+        //    SaveDataManager.Instance.SaveEnemyInGameData(id);
+        //    InGameManager.Instance.IncreaseExp(enemyData.exp);
+        //    Destroy(this.gameObject);
+        //}
     }
     private IEnumerator CanStun()
     {

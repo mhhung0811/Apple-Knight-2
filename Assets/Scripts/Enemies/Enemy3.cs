@@ -196,15 +196,21 @@ public class Enemy3 : BaseEnemy
         animCtrl.StartDamaged();
         myRb.AddForce(new Vector2(50, 100));
         StartCoroutine(CanStun());
-    }
-    public override void FinishDamaged()
-    {
         if (HP <= 0)
         {
             SaveDataManager.Instance.SaveEnemyInGameData(id);
             InGameManager.Instance.IncreaseExp(enemyData.exp);
             Destroy(this.gameObject);
         }
+    }
+    public override void FinishDamaged()
+    {
+        //if (HP <= 0)
+        //{
+        //    SaveDataManager.Instance.SaveEnemyInGameData(id);
+        //    InGameManager.Instance.IncreaseExp(enemyData.exp);
+        //    Destroy(this.gameObject);
+        //}
     }
     private IEnumerator CanStun()
     {

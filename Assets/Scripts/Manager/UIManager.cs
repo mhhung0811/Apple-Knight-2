@@ -84,9 +84,10 @@ public class UIManager : MonoBehaviour
         Exp_Slider.value = exp % 100;
         Exp_Text.text = "Lv." + (exp / (int)100).ToString();
     }
-    public void SetHPBossUI(float value)
+    public void SetHPBossUI(float value,float max)
     {
         HPBoss_Slider.value = value;
+        HPBoss_Slider.maxValue = max;
     }
     public void NotEnoughMana()
     {

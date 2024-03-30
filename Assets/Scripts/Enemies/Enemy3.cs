@@ -117,6 +117,9 @@ public class Enemy3 : BaseEnemy
         b.transform.position = this.transform.position;
         Bomb bom = b.GetComponent<Bomb>();
         float H, L;
+
+        if (player == null)
+            return;
         H = player.transform.position.y - this.transform.position.y;
         L = player.transform.position.x - this.transform.position.x;
         if (L > 0 && facingDirection == -1)
@@ -130,9 +133,13 @@ public class Enemy3 : BaseEnemy
             facingDirection = -1;
         }
         L = Mathf.Abs(L);
-        bom.SetUp(H, L, facingDirection);
-        isFire = false;
-        attackTimeLeft = attackCoolDown;
+        if(bom != null)
+        {
+
+            bom.SetUp(H, L, facingDirection);
+            isFire = false;
+            attackTimeLeft = attackCoolDown;
+        }
     }
     public void CheckAttackHitBox()
     {

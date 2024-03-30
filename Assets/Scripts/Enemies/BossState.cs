@@ -17,7 +17,7 @@ public class BossState : MonoBehaviour
     private State currentState;
 
     [SerializeField]
-    private float playerDetectionRange, checkDodgeRange, HP;
+    private float playerDetectionRange, checkDodgeRange, HP, maxHP;
 
     private float numberOfFireballs, numberOfBomb,
         dashTimeLeft, timeDashing, 
@@ -49,7 +49,8 @@ public class BossState : MonoBehaviour
         myRb = GetComponent<Rigidbody2D>();
         posInit = this.transform.position;
 
-        HP = 600;
+        HP = 1000;
+        maxHP = 1000;
         facingDirection = 1;
         playerDetectionRange = 20;
         numberOfFireballs = 4;
@@ -57,7 +58,7 @@ public class BossState : MonoBehaviour
         checkDodgeRange = 2.5f;
         timeDashing = dashTimeLeft = 1f;
 
-        timeDodgeDown = 0; dodgeCoolDown = 15f;
+        timeDodgeDown = 0; dodgeCoolDown = 5f;
         dodgeDashTimeLeft = timeDodgeDashing = 0.1f;
 
         canFlip = true;
@@ -202,7 +203,7 @@ public class BossState : MonoBehaviour
     // Wait State (Chờ giữa các trạng thái)
     private void EnterWaitState()
     {
-        StartCoroutine(Wait(2f));
+        StartCoroutine(Wait(1f));
     }
     private void UpdateWaitState()
     {
@@ -474,7 +475,7 @@ public class BossState : MonoBehaviour
     public void IsDamaged(float damage)
     {
         HP -= damage;
-        UIManager.Instance.SetHPBossUI(HP);
+        UIManager.Instance.SetHPBossUI(HP, maxHP);
         animCtrl.StartDamaged();
     }
     public void FinishDamaged()

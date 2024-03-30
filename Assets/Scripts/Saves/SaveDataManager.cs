@@ -59,17 +59,23 @@ public class SaveDataManager : MonoBehaviour
 
             Scene currentScene = SceneManager.GetActiveScene();
 
-            if (_playModeData._isContinue == true && currentScene.name == "Level1Test")
+            if (_playModeData._isContinue == true && currentScene.name == "Level 1")
             {
                 yield return new WaitForSeconds(0.1f);
                 LoadPlayerGameData();
                 LoadTreeSkillData();
                 LoadEnemyIngame();
-                SaveOptionPlay(false);
+                //SaveOptionPlay(false);
+            }
+            if(currentScene.name == "Level 1")
+            {
+                LoadHighScore();
+                if(_playModeData._isContinue == false)
+                {
+                    GameManager.Instance.DeleteKey();
+                }
             }
         }
-
-        LoadHighScore();
 
     }
 

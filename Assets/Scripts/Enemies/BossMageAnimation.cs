@@ -25,6 +25,7 @@ public class BossMageAnimation : MonoBehaviour
     }
     public void EndMultiFireBall()
     {
+        anim = GetComponent<Animator>();
         anim.SetBool("isFireBall", false);
     }
 

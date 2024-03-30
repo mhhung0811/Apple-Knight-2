@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
             _instance = this;
         else
             Destroy(this.gameObject);
+        Application.targetFrameRate = 60;
+
     }
     void Start()
     {
@@ -39,12 +41,12 @@ public class GameManager : MonoBehaviour
     public void ContinueGame()
     {
         SaveDataManager.Instance.SaveOptionPlay(true);
-        SceneManager.LoadScene("Level1Test");
+        SceneManager.LoadScene("Level 1");
     }
     public void StartGame()
     {
         SaveDataManager.Instance.SaveOptionPlay(false);
-        SceneManager.LoadScene("Level1Test");
+        SceneManager.LoadScene("Level 1");
     }
     public void ButtonQuitGame()
     {

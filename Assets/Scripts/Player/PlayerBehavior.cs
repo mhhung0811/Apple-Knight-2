@@ -230,15 +230,15 @@ public class PlayerBehavior : MonoBehaviour
     {
         // Comment this to enable UI move button
         // Run animation
-        if (Input.GetAxisRaw("Horizontal") != 0 && isGrounded)
-        {
-            animCtrl.StartRun();
-        }
-        else
-        {
-            animCtrl.FinishRun();
-        }
-        moveInputDirection = Input.GetAxisRaw("Horizontal");
+        //if (Input.GetAxisRaw("Horizontal") != 0 && isGrounded)
+        //{
+        //    animCtrl.StartRun();
+        //}
+        //else
+        //{
+        //    animCtrl.FinishRun();
+        //}
+        //moveInputDirection = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -269,16 +269,27 @@ public class PlayerBehavior : MonoBehaviour
     }
     private void AttemptToDash()
     {
-        AudioManager.Instance.PlaySound("Jump");
-        isDashing = true;
-        dashTimeLeft = playerData.dashTime;
-        lastDash = Time.time;
-        //Animation Dash
-        GameObject dust = EffectManager.Instance.Take(0);
-        dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
-        Dust d = dust.GetComponent<Dust>();
-        d.StartAnimDash();
-        d.CanFlip(facingDirection);
+        if(ManaSkill >= 10)
+        {
+            AudioManager.Instance.PlaySound("Jump");
+            isDashing = true;
+            dashTimeLeft = playerData.dashTime;
+            lastDash = Time.time;
+            //Animation Dash
+            GameObject dust = EffectManager.Instance.Take(0);
+            dust.transform.position = new Vector2(transform.position.x, transform.position.y + DistanceDownAnimDust);
+            Dust d = dust.GetComponent<Dust>();
+            d.StartAnimDash();
+            d.CanFlip(facingDirection);
+
+            ManaSkill -= 10;
+            UIManager.Instance.SetManaUi(ManaSkill, maxManaSkill);
+        }
+        else
+        {
+            UIManager.Instance.NotEnoughMana();
+            return;
+        }
     }
     private void ApplyMove()
     {

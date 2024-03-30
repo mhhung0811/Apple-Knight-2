@@ -24,7 +24,7 @@ public class EnemyManager : MonoBehaviour
     }
 
     [SerializeField]
-    private List<GameObject> flyingBats;
+    private List<GameObject> enemy;
     void Start()
     {
         LoadEnemy();
@@ -36,14 +36,14 @@ public class EnemyManager : MonoBehaviour
     }
     public void LoadEnemy()
     {
-        int lengthFlyingBat = flyingBats.Count;
+        int lengthFlyingBat = enemy.Count;
         for(int i = 0;i < lengthFlyingBat; i++)
         {
-            flyingBats[i].GetComponent<BatMonster>().SetID(i);
+            enemy[i].GetComponent<BaseEnemy>().SetID(i);
         }
     }
     public void SetAactiveEnemyDie(int id)
     {
-        flyingBats[id].SetActive(false);
+        enemy[id].SetActive(false);
     }
 }

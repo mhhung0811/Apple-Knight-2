@@ -44,5 +44,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b95322c68c47dc740937f5f522f80a17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP_Silder: {fileID: 0}
-  HP_Text: {fileID: 0}

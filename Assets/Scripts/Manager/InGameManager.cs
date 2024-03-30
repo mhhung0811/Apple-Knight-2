@@ -32,6 +32,7 @@ public class InGameManager : MonoBehaviour
     private bool _isPauseGame;
     private int expPlayer;
     private int score;
+    private int highScore;
     private int totalTime;
     public bool isStartLvBoss;
 
@@ -45,6 +46,7 @@ public class InGameManager : MonoBehaviour
         isStartLvBoss = true;
         expPlayer = 0;
         score = 0;
+        highScore = 0;
         totalTime = 0;
         StartCoroutine(UpdateTimeIngame());
     }
@@ -67,6 +69,7 @@ public class InGameManager : MonoBehaviour
     {
         ButtonPause();
         UIManager.Instance.GameOver();
+        GameManager.Instance.DeleteKey();
     }
     public bool PauseGame()
     {
@@ -100,9 +103,14 @@ public class InGameManager : MonoBehaviour
     public void Victory()
     {
         ButtonPause();
-        Debug.Log(totalTime);
-        Debug.Log(score);
-        UIManager.Instance.Victory(score,totalTime);
+        if(score >= highScore)
+        {
+            highScore = score;
+            SaveDataManager.Instance.SaveHighScore(highScore);
+            Debug.Log("Save highSocer");
+        }
+        UIManager.Instance.Victory(score,totalTime,highScore);
+        GameManager.Instance.DeleteKey();
     }
     public void StartLevelBoss()
     {
@@ -130,6 +138,10 @@ public class InGameManager : MonoBehaviour
     public void SetTotalTime(int totalTime)
     {
         this.totalTime = totalTime;
+    }
+    public void SetHighScore(int highScore)
+    {
+        this.highScore = highScore;
     }
     private IEnumerator UpdateTimeIngame()
     {

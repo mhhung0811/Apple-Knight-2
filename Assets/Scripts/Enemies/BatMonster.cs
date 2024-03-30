@@ -22,6 +22,7 @@ public class BatMonster : BaseEnemy
     {
         InitializedEnemy();
     }
+
     public override void InitializedEnemy()
     {
         HP = enemyData.maxHP;
@@ -47,6 +48,7 @@ public class BatMonster : BaseEnemy
         {
             return;
         }
+
         Move();
     }
 
@@ -104,6 +106,7 @@ public class BatMonster : BaseEnemy
         if (HP <= 0)
         {
             InGameManager.Instance.IncreaseExp(enemyData.exp);
+            SaveDataManager.Instance.SaveEnemyInGameData(id);
             Destroy(this.gameObject);
         }
     }
@@ -124,6 +127,7 @@ public class BatMonster : BaseEnemy
         yield return new WaitForSeconds(0.2f);
         if(player!=null)
         {
+            SaveDataManager.Instance.SaveEnemyInGameData(id);
             player.GetComponent<PlayerCombatController>().TakeDamage(enemyData.damage, this.gameObject, 0f);
             Destroy(this.gameObject);
         }

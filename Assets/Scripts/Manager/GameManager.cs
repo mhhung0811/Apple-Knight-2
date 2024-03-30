@@ -21,7 +21,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     private void Awake()
     {
         if (_instance == null)
@@ -31,38 +30,40 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        //LoadGame();
-    }
 
-    // Update is called once per frame
+    }
     void Update()
     {
         
     }
-
+    public void ContinueGame()
+    {
+        SaveDataManager.Instance.SaveOptionPlay(true);
+        SceneManager.LoadScene("Level1Test");
+    }
     public void StartGame()
     {
-        SceneManager.LoadScene("Level 1");
+        SaveDataManager.Instance.SaveOptionPlay(false);
+        SceneManager.LoadScene("Level1Test");
     }
-    //public void SaveGame()
-    //{
-    //    Debug.Log(GameData.Hp);
-    //    SaveSystem.SaveData(GameData);
-    //}
-    //public void LoadGame()
-    //{
-    //    SaveSystem.LoadData();
-    //}
-    // public void SaveGame()
-    // {
-    //     SaveData?.Invoke();
-    // }
-    // public void LoadGame()
-    // {
-    //     LoadData?.Invoke();
-    // }
     public void ButtonQuitGame()
     {
         SceneManager.LoadScene("Start Game");
+    }
+    public void DeleteKey()
+    {
+        if (PlayerPrefs.HasKey("HIGH_SCORE"))
+        {
+            string dataHighScore = PlayerPrefs.GetString("HIGH_SCORE");
+
+            PlayerPrefs.DeleteAll();
+
+            PlayerPrefs.SetString(key: "HIGH_SCORE",value: dataHighScore);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            PlayerPrefs.DeleteAll();
+        }
     }
 }

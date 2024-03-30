@@ -61,10 +61,10 @@ public class UIManager : MonoBehaviour
     {
         MenuGameOver.gameObject.SetActive(true);
     }
-    public void Victory(int score, int totalTime)
+    public void Victory(int score, int totalTime, int highScore)
     {
         MenuImage.gameObject.SetActive(true);
-        SetUIVictory(score, totalTime);
+        SetUIVictory(score, totalTime, highScore);
         InGameManager.Instance.ButtonPause();
     }
     public void SetHPUi(float value,float valuemax)
@@ -107,9 +107,10 @@ public class UIManager : MonoBehaviour
     {
 
     }
-    public void SetUIVictory(int score, int totalTime)
+    public void SetUIVictory(int score, int totalTime,int highScore)
     {
         TextScore.text = score.ToString();
+        TextHighScore.text = highScore.ToString();
         int hours = totalTime / 3600;
         int minutes = (totalTime - hours*3600)/60;
         int second = totalTime % 60;

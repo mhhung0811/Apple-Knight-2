@@ -11,7 +11,7 @@ Apple knight is a 2D platformer action game project building in Unity C# and aim
 - Save system for your ingame progression
 
 ### Installation
-[Releases · mhhung0811/Apple-Knight-2](https://github.com/mhhung0811/Apple-Knight-2/releases)
+Android: [Releases · mhhung0811/Apple-Knight-2](https://github.com/mhhung0811/Apple-Knight-2/releases)
 
 ### License
 This project is licensed under the MIT License - see the [LICENSE](/LICENSE) file for details.
